@@ -11,7 +11,7 @@ This repository contains all the services of the data providers
 ```
 ├── asset_extractor
 	Docker environment for asser extraction tooling. Frontend with NodeJS for input asset, media file and Python for script execution
-│   copies the tools from:
+    copies the tools from:
 		https://github.com/GAIA-X4PLC-AAD/provider-tools.git
 		https://github.com/GAIA-X4PLC-AAD/OpenValidator.git
 ├── extended_search
