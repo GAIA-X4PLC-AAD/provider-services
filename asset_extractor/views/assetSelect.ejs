@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Search Result</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <h1>extract archive from Asset</h1>
+    <form id="dataForm" action="/submit" method="post" enctype="multipart/form-data">
+
+        <label for="did">DID:</label>
+        <input type="text" name="did" placeholder="Enter your DID" required>
+        <br>
+        <br>
+        <!-- Asset file path (fixed input) -->
+        <div>
+            <label for="assetFile">Asset file path:</label>
+            <input type="file" id="assetFile" name="assetFile" accept=".xodr,.xosc" placeholder="Select an Asset file" required />
+        </div>
+        <br>
+        <br>
+        <!-- Dropdown for media types -->
+        <div id="mediaType">
+
+        <!-- Add media input button -->
+        <button type="button" id="addMediaBtn">Add Media Input</button>
+        </div>
+        <br>
+        <br>
+        <!-- Media file inputs container -->
+        <div id="mediaContainer"></div>
+
+        <!-- Submit button -->
+        <div>
+            <button id="sbtButton" type="submit">Submit</button>
+        </div>
+
+    </form>
+    
+    <script src="assetSelectGUI.js"></script>
+    <script src="sendData.js"></script>
+</body>
+</html>

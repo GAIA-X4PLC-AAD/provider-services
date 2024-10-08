@@ -1,0 +1,10 @@
+/*scripts dropdown style*/
+select:required:invalid {
+    color: #666;
+}
+option[value=""][disabled] {
+    display: none;
+}
+option {
+    color: #000;
+}

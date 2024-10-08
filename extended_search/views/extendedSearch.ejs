@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Search Result</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <h1>Extended Search</h1>
+
+    <div id="jsonContent" data-json='<%= JSON.stringify(jsonData) %>'></div>
+
+    <!--<form id="searchForm" action="/searchSubmit" method="post" enctype="multipart/form-data">       -->
+    <form id="searchForm" action="/searchSubmit" method="post" enctype="application/x-www-form-urlencoded">
+     
+
+        <div id="scriptChoice"></div>
+
+        <!-- Container for input fields -->
+        <div id="inputFieldsContainer"></div>
+
+        <!--send back to server-->
+        <div>
+        <button id="sbtButton" type="submit"> Search </button>
+        </div>
+    </form>
+
+    <br/><br/>   
+    <pre><div id="resultContainer"></div></pre>
+    
+    <script src="search.js"></script>
+    <script src="sendData.js"></script>
+</body>
+</html>
