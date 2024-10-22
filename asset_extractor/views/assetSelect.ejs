@@ -8,7 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <h1>extract archive from Asset</h1>
+    <h1>extract data from Asset</h1>
     <form id="dataForm" action="/submit" method="post" enctype="multipart/form-data">
 
         <label for="did">DID:</label>
@@ -17,8 +17,8 @@
         <br>
         <!-- Asset file path (fixed input) -->
         <div>
-            <label for="assetFile">Asset file path:</label>
-            <input type="file" id="assetFile" name="assetFile" accept=".xodr,.xosc" placeholder="Select an Asset file" required />
+            <label for="Asset">Asset file path:</label>
+            <input type="file" id="Asset" name="Asset" accept=".xodr,.xosc" placeholder="Select an Asset file" required />
         </div>
         <br>
         <br>
@@ -37,8 +37,13 @@
         <div>
             <button id="sbtButton" type="submit">Submit</button>
         </div>
-
     </form>
+
+    <!--Download "button" : anchor tag with the download attribute -->
+    <a href="/download" download="asset.zip">
+        <button type="button">Download Asset ZIP</button>
+    </a>
+
     
     <script src="assetSelectGUI.js"></script>
     <script src="sendData.js"></script>

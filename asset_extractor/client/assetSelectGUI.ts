@@ -29,10 +29,14 @@ function creatMediaTypeSelect (mediaTypeDiv : HTMLElement, mediaTypes : MediaTyp
 async function createGUI() {
     try {
         const mediaTypes: MediaType[] = [
-            { value: 'document', text: 'Document', type: '.txt,.pdf' },
-            { value: 'image', text: 'Image', type: '.png,.jpg' },
-            { value: 'routing', text: 'Routing', type: '.geojson' },
-            { value: 'video', text: 'Video', type: '.mp4' },
+            { value: 'Document', text: 'Document', type: '.txt,.pdf' },
+            { value: 'License', text: 'License', type: '.txt,.pdf,.md' },
+            { value: 'Metadata', text: 'Metadata', type: '.json' },
+            { value: 'Service', text: 'Service', type: '.bjson' },
+            { value: 'Validation', text: 'Validation', type: '.xqar,.xml,.json' },
+            { value: 'Image', text: 'Image', type: '.png,.jpg' },
+            { value: 'Routing', text: 'Routing', type: '.geojson' },
+            { value: 'Video', text: 'Video', type: '.mp4' },
             { value: '3DPreview', text: '3DPreview', type: '.geojson' }
         ];
         
@@ -54,26 +58,18 @@ async function createGUI() {
         
             const mediaFileInput = document.createElement('input');
             mediaFileInput.type = 'file';
-            mediaFileInput.name = `${mediaType.value}File`;
+            mediaFileInput.name = `${mediaType.value}`;
             mediaFileInput.accept = mediaType.type;
             mediaFileInput.required = true;
             mediaDiv.appendChild(mediaFileInput);
-        
-            var br = document.createElement("br");
-            mediaDiv.appendChild(br);
-            const mediaFileDescription = document.createElement('textarea');
-            //mediaFileDescription.type = 'text';
-            mediaFileDescription.setAttribute("cols", "50");
-            mediaFileDescription.setAttribute("rows", "5");
-            mediaFileDescription.placeholder = 'Describe the media file';
-            mediaFileDescription.name = `${mediaType.value}FileDescription`; //array of (MediaType)FileDescription
-            mediaFileDescription.maxLength = 250;
-            mediaDiv.appendChild(mediaFileDescription);
 
             //remove button
             const removeButton = document.createElement('button');
             removeButton.textContent = 'Remove';
             mediaDiv.appendChild(removeButton);
+            mediaDiv.appendChild(document.createElement("br"));
+            mediaDiv.appendChild(document.createElement("br"));
+
             // Add the new media input section to the container
             mediaContainer.appendChild(mediaDiv);
             removeButton.addEventListener('click', function() {
