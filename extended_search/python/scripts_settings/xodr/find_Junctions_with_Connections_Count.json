@@ -1,0 +1,10 @@
+{
+    "find_Junctions_with_Connections_Count":{
+        "connections_count":
+        {
+            "@type": "number",
+            "@description":"count of connections in the junction",
+            "@min":"0"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "find_Roads_with_Type_Length_Lanes":{
+        "name_of_road_type": {
+            "@type": "text",
+            "@description":"the road type"
+        },
+        "name_of_lane_type": {
+            "@type": "text",
+            "@description":"the lane type"
+        },
+        "lanes_minimum_count": {
+            "@type": "number",
+            "@description":"minimum lanes count",
+            "@min":"0"
+        },
+        "lane_minimum_length": {
+            "@type": "number",
+            "@description":"minimum lane length",
+            "@min":"0"
+        }
+    }
+}

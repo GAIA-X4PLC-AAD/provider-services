@@ -1,0 +1,17 @@
+{
+    "find_Roads_with_Signals_Sub_Types_Value":{
+        "signal_type":
+        {
+            "@type": "number",
+            "@description":"the type of the signal"
+        },
+        "signal_subtype":{
+            "@type": "number",
+            "@description":"the sub type of signal"
+        },
+        "signal_value": {
+            "@type": "number",
+            "@description":"the value of the signal"
+        }
+    }
+}

@@ -9,12 +9,11 @@
 </head>
 <body>
     <h1>Extended Search</h1>
-
     <div id="jsonContent" data-json='<%= JSON.stringify(jsonData) %>'></div>
 
     <!--<form id="searchForm" action="/searchSubmit" method="post" enctype="multipart/form-data">       -->
     <form id="searchForm" action="/searchSubmit" method="post" enctype="application/x-www-form-urlencoded">
-     
+        <h2> Settings </h2>
 
         <div id="scriptChoice"></div>
 
@@ -22,13 +21,12 @@
         <div id="inputFieldsContainer"></div>
 
         <!--send back to server-->
-        <div>
         <button id="sbtButton" type="submit"> Search </button>
-        </div>
     </form>
 
-    <br/><br/>   
-    <pre><div id="resultContainer"></div></pre>
+    <div id="outputDiv">
+        <h2> Output </h2>
+    </div>
     
     <script src="search.js"></script>
     <script src="sendData.js"></script>

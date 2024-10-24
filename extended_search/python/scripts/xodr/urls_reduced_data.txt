@@ -1,0 +1,4 @@
+https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/001_A9_Eching_MinimumSample/ODR-3DM/services/A9_Eching_MinimumSample_offset.bjson
+https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/002_MarktplatzGrafing/ODR-3DM/services/MarktplatzGrafing_offset.bjson
+https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/003_A39_TestfeldNiedersachsen_CremlingenLoop/ODR-3DM/services/A39_TestfeldNiedersachsen_CremlingenLoop_offset.bjson
+https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/006_EnvitedLoop_StuttgartVaihingen/ODR-3DM/services/2024-04-22_1700_Gaia_X_EnvitedLoop_ODR_CRG_Prio1%2B2%2B3_offset.bjson

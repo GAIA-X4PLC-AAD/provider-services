@@ -9,7 +9,7 @@ npm install
 npm start
 
 3. Open a client (on a browser open): 
-http://localhost:3000/serverSearch
+http://localhost:3000/search
 
 
 
@@ -17,5 +17,5 @@ http://localhost:3000/serverSearch
 
 Doeckerize:
 
-1. docker build --no-cache -t asset-extractor .
-2. docker run -p 3000:3000 asset-extractor
+1. docker build --no-cache -t extended-search .
+2. docker run -p 3000:3000 extended-search

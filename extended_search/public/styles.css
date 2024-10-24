@@ -1,10 +1,73 @@
-/*scripts dropdown style*/
-select:required:invalid {
-    color: #666;
-}
-option[value=""][disabled] {
-    display: none;
-}
-option {
-    color: #000;
-}
+body {
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    width: 35%;
+    margin: 0 auto; /* Center the body horizontally */
+  }
+  h1, h2 {
+    font-family: "Roboto", Arial, sans-serif;
+    font-weight: 500;
+    color: #000099;
+  }
+  h2 {
+    font-size: 20px;
+  }
+
+  label {
+    font-family: "Roboto", Arial, sans-serif;
+  }
+
+  select, option{
+    background-color: white;
+  }
+  
+  form {
+    border: 0.5px solid black; 
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f0f0f0; /* light gray background */
+  }
+
+  #outputDiv{
+    border: 1px solid black;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f0f0f0; /* light gray background */
+  }
+
+  #resultContainer {
+    border: 1px solid black;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: white;
+  }
+  
+  #scriptChoice, #inputFieldsContainer {
+    display: grid;
+    grid-template-columns: 50% 1fr; /* Two columns: labels in the first, inputs in the second */
+    grid-template-rows: auto auto; /* Two rows: one for DID, one for Asset */
+    gap: 10px;
+    max-width: 70%
+  }
+
+  input {
+    padding: 5px;
+  }
+
+  button {
+    background-color: #000099;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    /*float: right;*/
+    margin-left: auto;
+    display: block;
+    width: 90px; 
+    height: 35px; 
+    border-radius: 5px; 
+  }
+  
+  

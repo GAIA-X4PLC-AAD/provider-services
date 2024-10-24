@@ -1,5 +1,12 @@
 async function fetchData() {
     try {
+        //just create result container inside the output division for the results to be listed there (need a parent div for result container to implement css fronnt end properly)
+        const outputDiv = document.getElementById('outputDiv');
+        const resultContainer = document.createElement('div');
+        resultContainer.id = "resultContainer";
+        outputDiv?.appendChild(resultContainer);
+        
+        
         const jsonContent = document.getElementById("jsonContent");
         const jsonElement = document.getElementById('scriptChoice');
         if (jsonContent) {
@@ -10,9 +17,12 @@ async function fetchData() {
                 const dropdownMenu = document.createElement('select');
                 dropdownMenu.name = 'selectedScript';
                 dropdownMenu.required = true;
+                const dropdownMenulabel = document.createElement('label');
+                dropdownMenulabel.textContent = "Select a Script";
+                jsonElement?.appendChild(dropdownMenulabel);
 
                 const placeholderOption = document.createElement('option');
-                placeholderOption.text = "select a script";
+                placeholderOption.text = "Select";
                 placeholderOption.value = "";    
                 placeholderOption.disabled = true;
                 placeholderOption.selected = true;                   
@@ -53,9 +63,7 @@ async function fetchData() {
                                 input.name = attribute.replace(/ /g,"_");//replace the white spaces of the attribs here to get it back on server with white spaces as in the json file!; //populate here with the name of the attribute to get it on server                            
 
                                 //append them
-                                inputFieldsContainer.appendChild(document.createElement("br"));
                                 inputFieldsContainer.appendChild(label);
-                                inputFieldsContainer.appendChild(document.createElement("br"));
                                 inputFieldsContainer.appendChild(input);
                             });
                         }

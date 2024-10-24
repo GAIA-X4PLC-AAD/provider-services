@@ -2,42 +2,38 @@ const form = document.getElementById('searchForm');
 
 if (form) {
     form.onsubmit = async (event) => {
-        event.preventDefault();
-        // Convert FormData to URLSearchParams
-        const formData = new FormData(form as HTMLFormElement);
-        const urlEncodedData = new URLSearchParams();
+      event.preventDefault();
+      // Convert FormData to URLSearchParams
+      const formData = new FormData(form as HTMLFormElement);
+      const urlEncodedData = new URLSearchParams();
 
-        // Append each field from FormData into URLSearchParams
-        formData.forEach((value, key) => {
-            urlEncodedData.append(key, value as string);
-        });
-        
-        // Send the form data to the server
-        let response = await fetch('/searchSubmit', {
-            method: 'POST',
-            //body: new FormData(form as HTMLFormElement)
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded', // Explicitly set the Content-Type header
-            },
-            body: urlEncodedData.toString() // Send URL-encoded form data
-        });
+      // Append each field from FormData into URLSearchParams
+      formData.forEach((value, key) => {
+          urlEncodedData.append(key, value as string);
+      });
+      
+      // Send the form data to the server
+      let response = await fetch('/searchSubmit', {
+        method: 'POST',
+        //body: new FormData(form as HTMLFormElement)
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded', // Explicitly set the Content-Type header
+        },
+        body: urlEncodedData.toString() // Send URL-encoded form data
+      });
 
-       // response from server
-       let responseData = await response.json();
-       let result = responseData.result;
+      // response from server
+      let responseData = await response.json();
+      let result = responseData.result;
 
-        // Call the function to display the JSON object
-        //displayResults(result);
-        const resultContainer = document.getElementById('resultContainer');
-        if (resultContainer) {
+      // Call the function to display the JSON object
+      //displayResults(result);
+      const resultContainer = document.getElementById('resultContainer');
+      if (resultContainer) {
         // Clear the previous results
         resultContainer.innerHTML = "";
-        resultContainer.style.whiteSpace = "pre"; 
-        resultContainer.style.float = 'left';
-        resultContainer.style.clear = 'both';
-        resultContainer.style.margin = '1em 0';
         resultContainer.textContent = `  ${JSON.stringify(result, null, 2)}`; 
-        }
+      }
     }   
 }
 
