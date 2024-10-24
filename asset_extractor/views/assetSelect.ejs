@@ -1,51 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <title>Search Result</title>
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-</head>
-<body>
-    <h1>extract data from Asset</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Asset extraction</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <h1>Asset Extractor</h1>
     <form id="dataForm" action="/submit" method="post" enctype="multipart/form-data">
+      <div id = "AssetDiv">
+        <p>Asset</p>
+        <!-- DID Input (Spanning the first column) -->
+        <label for="did">DID</label>
+        <input class="DID_input" type="text" name="did" placeholder="Enter your DID" required/>
 
-        <label for="did">DID:</label>
-        <input type="text" name="did" placeholder="Enter your DID" required>
-        <br>
-        <br>
-        <!-- Asset file path (fixed input) -->
-        <div>
-            <label for="Asset">Asset file path:</label>
-            <input type="file" id="Asset" name="Asset" accept=".xodr,.xosc" placeholder="Select an Asset file" required />
-        </div>
-        <br>
-        <br>
-        <!-- Dropdown for media types -->
-        <div id="mediaType">
+        <!-- Asset file input (Spanning both columns) -->
+        <label for="Asset">Asset</label>
+        <input type="file" id="Asset" name="Asset" accept=".xodr,.xosc" placeholder="Select an Asset file" required/>
+      </div>
+      <div id = "MediaDiv">
+        <p>Media / Data</p>
+        <!-- Dropdown for media types (Spanning the first column) -->
+        <div id="mediaType"></div>
 
-        <!-- Add media input button -->
-        <button type="button" id="addMediaBtn">Add Media Input</button>
-        </div>
-        <br>
-        <br>
-        <!-- Media file inputs container -->
-        <div id="mediaContainer"></div>
-
-        <!-- Submit button -->
-        <div>
-            <button id="sbtButton" type="submit">Submit</button>
-        </div>
+        <!-- Media file inputs container (Spanning both columns) -->
+        <div id="mediaContainer"></div>    
+      </div>
+      
+      <!-- Submit button (Full width) --> 
+      <button id="sbtButton" type="submit" >Submit</button>
     </form>
 
-    <!--Download "button" : anchor tag with the download attribute -->
+    <!-- Download "button" : anchor tag with the download attribute (Full width) -->
     <a href="/download" download="asset.zip">
-        <button type="button">Download Asset ZIP</button>
+      <button type="button">Download Asset ZIP</button>
     </a>
 
-    
     <script src="assetSelectGUI.js"></script>
     <script src="sendData.js"></script>
-</body>
+  </body>
 </html>

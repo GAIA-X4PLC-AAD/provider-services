@@ -1,10 +1,107 @@
-/*scripts dropdown style*/
-select:required:invalid {
-    color: #666;
-}
-option[value=""][disabled] {
-    display: none;
-}
-option {
-    color: #000;
-}
+.DID_input {
+    width: 60%;
+  }
+  body {
+    width : fit-content;
+    border: 2px solid black; /* Border */
+    padding: 25px; /* Padding inside the div */
+    border-radius: 5px; /* Rounded corners */
+    margin: 5px;
+  }
+  body,
+  input,
+  button {
+    font-family: "Roboto", Arial, sans-serif;
+    font-size: 14px;
+  }
+  
+  h1 {
+    font-family: "Roboto", Arial, sans-serif;
+    font-weight: 500;
+    color: blue;
+  }
+  
+  form {
+    display: grid;
+    /*grid-template-columns: 1fr 6fr; /* First column is 1 fraction, second is 6 fractions */
+    gap: 15px;
+    align-items: stretch;
+    justify-items: left;
+    max-width: 30%;
+  }
+  
+  /* paragraphs span across both columns */
+  form p {
+    grid-column: 1 / -1;
+    font-size: 16px;
+    margin: 0;
+    padding: 10px 0;
+    color: blue;
+    text-align: left;
+    width: 100%;
+  }
+  
+  #AssetDiv {
+    display: grid;
+    grid-template-columns: 1fr 3fr; /* Two columns: labels in the first, inputs in the second */
+    grid-template-rows: auto auto; /* Two rows: one for DID, one for Asset */
+    gap: 10px; /* Space between grid items */
+  }
+  
+  #AssetDiv, #MediaDiv {
+    background-color: rgb(245, 243, 243); /* Gray background */
+    border: 2px solid black; /* Border */
+    padding: 25px; /* Padding inside the div */
+    border-radius: 5px; /* Rounded corners */
+    margin-bottom: 5px; /* Space between divs */
+    
+    height: 70%; /* Ensures the divs fill the space they are in */
+    width : 100%;
+  }
+  
+  .media-input {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto; /* Label, input, and remove button */
+    align-items: center;
+    margin-bottom: 10px;
+    width : 100%;
+  }
+  
+  .media-input button {
+    background-color: lightcoral; /* Set the remove button background color to rosa */
+    color: white; /* Make the text color white for better contrast */
+    border: none; /* Remove the border */
+    border-radius: 8px; /* Optionally, round the corners */
+    padding: 5px 10px; /* Add some padding for better appearance */
+  }
+
+  input[type=file]::file-selector-button {
+    border-radius: 8px;
+    background-color: blue;
+    color: white
+  }
+  
+  /* Submit button alignment */
+  #sbtButton {
+    grid-column: 1 / -1; /* Span the submit button container across all columns */
+    text-align: right;
+    justify-self: end;
+    background-color: blue;
+    color: white;
+    border-radius: 8px;
+  }
+  
+  /* Make the anchor take up 70% of the page width */
+  a {
+    display: block;
+    max-width: 30%;
+    margin-top: 10px; /* Add some space above the download link */
+    text-align: right; /* Align download button to the right */
+  }
+  
+  a button {
+    max-width: 100%;
+    background-color: blue;
+    color: white;
+    border-radius: 8px;
+  }

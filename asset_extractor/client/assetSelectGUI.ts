@@ -41,57 +41,56 @@ async function createGUI() {
         ];
         
         const mediaContainer = document.getElementById('mediaContainer') as HTMLElement;
-        const addMediaBtn = document.getElementById('addMediaBtn') as HTMLButtonElement;
         const mediaTypeDiv = document.getElementById('mediaType') as HTMLElement;
-        const mediaDropdownMenu = creatMediaTypeSelect(mediaTypeDiv,mediaTypes);
-        
+        const mediaDropdownMenu = creatMediaTypeSelect(mediaTypeDiv,mediaTypes);    
         
         // Function to add a new media file input based on selected media type
-        function addMediaInput(mediaType: MediaType) {
+        function addMediaInput(mediaType : MediaType) {
             const mediaDiv = document.createElement('div');
-            mediaDiv.className = 'media-input';
-        
-            // Input for media file
+            mediaDiv.className = 'media-input'; // Apply the grid class
+            
+            // Label
             const mediaFileLabel = document.createElement('label');
-            mediaFileLabel.textContent = `${mediaType.text} file: `;
+            mediaFileLabel.textContent = `${mediaType.text}`;
             mediaDiv.appendChild(mediaFileLabel);
-        
+            
+            // Input
             const mediaFileInput = document.createElement('input');
             mediaFileInput.type = 'file';
             mediaFileInput.name = `${mediaType.value}`;
             mediaFileInput.accept = mediaType.type;
             mediaFileInput.required = true;
             mediaDiv.appendChild(mediaFileInput);
-
-            //remove button
+            
+            // Remove button
             const removeButton = document.createElement('button');
-            removeButton.textContent = 'Remove';
+            removeButton.textContent = 'x';
             mediaDiv.appendChild(removeButton);
-            mediaDiv.appendChild(document.createElement("br"));
-            mediaDiv.appendChild(document.createElement("br"));
-
-            // Add the new media input section to the container
+            
+            // Add the new media input to the container
             mediaContainer.appendChild(mediaDiv);
+            
+            // Remove functionality
             removeButton.addEventListener('click', function() {
-            mediaContainer.removeChild(mediaDiv);
+                mediaContainer.removeChild(mediaDiv);
             });
         }
         
-        // Event listener for the Add Media button
-        addMediaBtn.addEventListener('click', () => {
-            
-            const selectedValue = mediaDropdownMenu.value;//mediaTypeDiv.getElementsByTagName('select')[0].value;
+        // Trigger addMediaInput when a media type is selected
+        mediaDropdownMenu.addEventListener('change', () => {
+            const selectedValue = mediaDropdownMenu.value;
+
             if (!selectedValue) {
                 alert('Please select a media type.');
                 return;
             }
-        
+
             // Find the selected media type in the mediaTypes array
             const selectedMediaType = mediaTypes.find(media => media.value === selectedValue);
             if (selectedMediaType) {
                 addMediaInput(selectedMediaType);
             }
-        });    
+        });
     } catch (error) {
         console.error('Error creating GUI:', error);
     }
