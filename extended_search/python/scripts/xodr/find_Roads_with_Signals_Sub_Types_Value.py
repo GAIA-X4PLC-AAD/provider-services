@@ -32,16 +32,10 @@ def find_Roads_with_Signals_SubTypes_Value(root):
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) #access the helpers scripts in the parent dir
 import io_functions as io
 import githubConnect
-
-# read Bjson
-#url1 = 'https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/001_A9_Eching_MinimumSample/ODR-3DM/services/A9_Eching_MinimumSample_offset.bjson'
-#url2 = 'https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/002_MarktplatzGrafing/ODR-3DM/services/MarktplatzGrafing_offset.bjson'
-#url3 = 'https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/003_A39_TestfeldNiedersachsen_CremlingenLoop/ODR-3DM/services/A39_TestfeldNiedersachsen_CremlingenLoop_offset.bjson'
-#url4 = 'https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/006_EnvitedLoop_StuttgartVaihingen/ODR-3DM/services/2024-04-22_1700_Gaia_X_EnvitedLoop_ODR_CRG_Prio1%2B2%2B3_offset.bjson'
-#urls = [url1,url2,url3,url4]
+import urllib.parse 
 
 def search_url(url):
-    bjson_name = os.path.basename(url)
+    bjson_name = urllib.parse.unquote(os.path.basename(url)) # converts URL-encoded characters back to their original form.
     binary_data = githubConnect.get_github_bjson(url)
     data = io.read_json_binary(binary_data)
     root = io.json_to_xml(data)
@@ -57,10 +51,7 @@ with open('/app/python/scripts/xodr/urls_reduced_data.txt') as f:
     for line in f:
         res = search_url(line.strip())
         logs = logs | res
-#for url in urls:
-#   res = search_url(url)
-#   logs = logs | res
   
 pyData = {'result':logs} # Print the data in stringified json format so that we can easily parse it in Node.js        
-stringifiedNodeJsData = json.dumps(pyData) #stringifiedNodeJsData is <str>   #dumps (NOT dump) to write out json like string to be passed to print (stdou) // serialize python object to json
+stringifiedNodeJsData = json.dumps(pyData, ensure_ascii=False) #stringifiedNodeJsData is <str>   #dumps (NOT dump) to write out json like string to be passed to print (stdou) // serialize python object to json
 print(stringifiedNodeJsData)

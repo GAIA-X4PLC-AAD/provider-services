@@ -4,9 +4,9 @@ body {
     padding: 20px;
     width: 35%;
     margin: 0 auto; /* Center the body horizontally */
+    font-family: "Roboto", Arial, sans-serif;
   }
   h1, h2 {
-    font-family: "Roboto", Arial, sans-serif;
     font-weight: 500;
     color: #000099;
   }
@@ -14,10 +14,22 @@ body {
     font-size: 20px;
   }
 
-  label {
-    font-family: "Roboto", Arial, sans-serif;
+  #resultContainer .match-count {
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+  #resultContainer .bold-p {
+    font-weight: bold;
+    word-break: break-all; /* for long file names with special characters; Forces words to break at the edge */
+    overflow-wrap: break-word; /* Allows breaking if they exceed the container */
+    margin-bottom: -1em;
   }
 
+  #resultContainer .log-text {
+    padding-left: 20px;
+    margin-bottom:-1em;
+  }
+  
   select, option{
     background-color: white;
   }
@@ -29,30 +41,28 @@ body {
     background-color: #f0f0f0; /* light gray background */
   }
 
-  #outputDiv{
+  #outputDiv, #resultContainer{
     border: 1px solid black;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 5px;
-    background-color: #f0f0f0; /* light gray background */
+    font-size: small;
   }
 
+  #outputDiv{
+    background-color: #f0f0f0; /* light gray background */
+  }
   #resultContainer {
-    border: 1px solid black;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
     background-color: white;
   }
   
   #scriptChoice, #inputFieldsContainer {
     display: grid;
-    grid-template-columns: 50% 1fr; /* Two columns: labels in the first, inputs in the second */
-    grid-template-rows: auto auto; /* Two rows: one for DID, one for Asset */
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto auto;
     gap: 10px;
-    max-width: 70%
+    max-width: 80%;
   }
-
   input {
     padding: 5px;
   }
@@ -60,14 +70,12 @@ body {
   button {
     background-color: #000099;
     color: white;
-    padding: 10px;
+    /* padding: 10px; */
     cursor: pointer;
-    /*float: right;*/
+    /* float: right; */
     margin-left: auto;
     display: block;
-    width: 90px; 
-    height: 35px; 
-    border-radius: 5px; 
+    width: 75px;
+    height: 30px;
+    border-radius: 8px;
   }
-  
-  

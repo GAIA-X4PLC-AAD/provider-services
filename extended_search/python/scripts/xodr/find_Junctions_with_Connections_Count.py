@@ -35,9 +35,10 @@ def get_junction_unique_connectios_count(root , junction):
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))) #access the helpers scripts in the parent dir
 import io_functions as io
 import githubConnect
+import urllib.parse 
 
 def search_url(url):
-    bjson_name = os.path.basename(url)
+    bjson_name = urllib.parse.unquote(os.path.basename(url)) # converts URL-encoded characters back to their original form.
     binary_data = githubConnect.get_github_bjson(url)
     data = io.read_json_binary(binary_data)
     root = io.json_to_xml(data)
@@ -55,6 +56,6 @@ with open('/app/python/scripts/xodr/urls_reduced_data.txt') as f:
         logs = logs | res
   
 pyData = {'result':logs} # Print the data in stringified json format so that we can easily parse it in Node.js        
-stringifiedNodeJsData = json.dumps(pyData) #stringifiedNodeJsData is <str>   #dumps (NOT dump) to write out json like string to be passed to print (stdou) // serialize python object to json
+stringifiedNodeJsData = json.dumps(pyData, ensure_ascii=False) #stringifiedNodeJsData is <str>   #dumps (NOT dump) to write out json like string to be passed to print (stdou) // serialize python object to json
 print(stringifiedNodeJsData)
 
