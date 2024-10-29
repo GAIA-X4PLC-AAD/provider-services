@@ -13,15 +13,21 @@ if (form) {
 
         const responseData = await response.json();  // Extract the JSON response
 
-        // Process response from server
-        if (response.ok) {
+        // Process response from server        
         const result = responseData.result;
-        alert(result);
-        } else {
-        // Extract error message from the response if available
-        let errorMessage = responseData.error || 'Failed to upload files';
-        alert(errorMessage);
-        }
-    };
+        const resultContainer = document.getElementById('resultContainer');
+        if (resultContainer) {          
+            resultContainer.innerHTML = ""; // clear previous results
+            if (response.ok) {
+                //alert(result);
+                resultContainer.innerHTML = `<p class="log-text">${result}</p>`;
+            } else {
+                // Extract error message from the response if available
+                let errorMessage = responseData.error || 'Failed to upload files';
+                //alert(errorMessage);
+                resultContainer.innerHTML = errorMessage;
+            }
+        };
+    }
 }
 

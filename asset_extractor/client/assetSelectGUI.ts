@@ -5,6 +5,12 @@ interface MediaType {
 }
 
 function creatMediaTypeSelect (mediaTypeDiv : HTMLElement, mediaTypes : MediaType[]){
+    
+    const mediaFileLabel = document.createElement('label');
+    mediaFileLabel.textContent = "Add data file";
+    mediaFileLabel.id = 'mediaFileLabel';
+    mediaTypeDiv?.appendChild(mediaFileLabel);
+
     const mediaDropdownMenu = document.createElement('select');
     mediaDropdownMenu.id = 'mediaTypeSelect';
     mediaDropdownMenu.required = false;
@@ -40,6 +46,12 @@ async function createGUI() {
             { value: '3DPreview', text: '3DPreview', type: '.geojson' }
         ];
         
+        //just create result container inside the output division for the results to be listed there (need a parent div for result container to implement css fronnt end properly)
+        const outputDiv = document.getElementById('outputDiv');
+        const resultContainer = document.createElement('div');
+        resultContainer.id = "resultContainer";
+        outputDiv?.appendChild(resultContainer);
+
         const mediaContainer = document.getElementById('mediaContainer') as HTMLElement;
         const mediaTypeDiv = document.getElementById('mediaType') as HTMLElement;
         const mediaDropdownMenu = creatMediaTypeSelect(mediaTypeDiv,mediaTypes);    
@@ -90,6 +102,9 @@ async function createGUI() {
             if (selectedMediaType) {
                 addMediaInput(selectedMediaType);
             }
+
+            // reset the dropdown to the placeholder option so that clicking the same option again fires the "change" event
+            mediaDropdownMenu.value = "";
         });
     } catch (error) {
         console.error('Error creating GUI:', error);
