@@ -1,21 +1,12 @@
-extract an archive from asset and another inputs from user
+# Description
+Extract an archive from an asset and another user inputs by calling a pipeline of all the tools of the data providers starting from the tool https://github.com/GAIA-X4PLC-AAD/provider-tools/tree/main/asset_extraction and depending on the type of asset entered.
 
-TO RUN:
+# Motivation
+Automatic process to generate an asset archive from Asset file and another media files.
 
-1. Install the necessary dependencies (including both regular and dev dependencies):
-npm install
+# Build docker image
+    docker build --no-cache -t asset-extractor .    
 
-2.  build the server and client code and start the production server:
-npm start
-
-3. Open a client (on a browser open): 
-http://localhost:3000/serverSearch
-
-
-
---------------------------------------------------
-
-Doeckerize:
-
-1. docker build --no-cache -t asset-extractor .
-2. docker run -p 3000:3000 asset-extractor
+# How to run
+    1. docker run -p 3000:3000 asset-extractor
+    2. Open a client (on a browser open): http://localhost:3000/assetSelect

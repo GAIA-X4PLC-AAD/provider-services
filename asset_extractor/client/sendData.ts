@@ -11,9 +11,8 @@ if (form) {
         body: formData
         });
 
-        const responseData = await response.json();  // Extract the JSON response
-
-        // Process response from server        
+        // Extract the JSON response
+        const responseData = await response.json();    
         const result = responseData.result;
         const resultContainer = document.getElementById('resultContainer');
         if (resultContainer) {          
