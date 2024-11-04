@@ -29,5 +29,7 @@ The need for efficient, flexible and focused open drive data exploration.
     docker build --no-cache -t extended-search .    
 
 # How to run
-    1. docker run -p 3000:3000 extended-search
-    2. Open a client (on a browser open): http://localhost:3000/search
+1. run docker container:
+    docker run -p 3000:3000 extended-search
+2. Open a client (on a browser open): 
+    http://localhost:3000/search
