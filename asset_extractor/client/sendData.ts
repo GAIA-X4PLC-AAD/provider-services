@@ -7,26 +7,37 @@ if (form) {
         
         // Send the form data to the server
         let response = await fetch('/submit', {
-        method: 'POST',
-        body: formData
+            method: 'POST',
+            body: formData
         });
 
         // Extract the JSON response
         const responseData = await response.json();    
-        const result = responseData.result;
+        const uploadResult = responseData.result;
         const resultContainer = document.getElementById('resultContainer');
-        if (resultContainer) {          
+        
+        if (resultContainer) {
             resultContainer.innerHTML = ""; // clear previous results
             if (response.ok) {
-                //alert(result);
-                resultContainer.innerHTML = `<p class="log-text">${result}</p>`;
+                resultContainer.innerHTML = `<p class="log-text">${uploadResult}</p>`;
+                
+                // Start listening to the /stream endpoint for real-time updates
+                const eventSource = new EventSource('/stream');
+
+                eventSource.onmessage = (event) => {
+                    const logMessage = event.data;
+                    resultContainer.innerHTML += `<p class="log-text">${logMessage}</p>`;
+                };
+
+                eventSource.onerror = () => {
+                    console.error("SSE connection error.");
+                    eventSource.close();
+                };
             } else {
                 // Extract error message from the response if available
                 let errorMessage = responseData.error || 'Failed to upload files';
-                //alert(errorMessage);
-                resultContainer.innerHTML = errorMessage;
+                resultContainer.innerHTML = `<p class="log-text error">${errorMessage}</p>`;
             }
-        };
-    }
+        }
+    };
 }
-

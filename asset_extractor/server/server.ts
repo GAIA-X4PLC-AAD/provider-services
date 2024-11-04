@@ -1,15 +1,17 @@
-import express, { Express, Request} from 'express';
-import * as path from 'path';
-import * as fs from 'fs';
+import express, { Express, Request, Response } from 'express';
+import {join, resolve} from 'path';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
-import multer from 'multer';
 
+
+//import { callPythonScript, setClients } from './pyCaller';
 import { callPythonScript } from './pyCaller';
+import { uploadDir, upload, processFile, updateJsonFile, findFile } from './assetExtractionUtils';
+
 
 dotenv.config();
 const app: Express = express();
-const uploadDir = '/app/uploads'
+//const uploadDir = '/app/uploads'
 
 app.use(helmet());
 
@@ -25,114 +27,12 @@ app.set('views', 'views/'); // '/app/views/'
 app.use(express.static('dist/client/')); // '/app/dist/client' //DON'T change this(to serve ts on client side)
 app.use(express.static('public/')); // '/app/public/'
 
-app.get('/', function(req, res) {
+app.get('/', function(req:Request, res:Response) {
   res.render('assetSelect');
 });
-
-// File filter for multer
-const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  const fieldName = file.fieldname; // E.g., 'assetFile', 'imageFile', etc.
-  const fileExtension = path.extname(file.originalname).toLowerCase();
-  const allowedFileExtensions: Record<string, string[]> = {
-    'Asset'   : ['.xodr', '.xosc'],
-    'Document': ['.txt', '.pdf'],
-    'License'     : ['.txt', '.pdf', '.md'],
-    'Metadata'    : ['.json'],
-    'Service'     : ['.bjson'],
-    'Validation'  : ['.xqar','.xml','.json'],
-    'Image'   : ['.png', '.jpg'],
-    'Routing' : ['.geojson'],
-    'Video'   : ['.mp4'],
-    '3DPreview'   : ['.geojson']
-  };
-
-  // Check if the uploaded file's extension matches the allowed extensions
-  if (allowedFileExtensions[fieldName]?.includes(fileExtension)) {
-    cb(null, true);  // File is accepted
-  } else {
-    console.error(`Unrecognized file type for ${file.originalname}. Expected ${allowedFileExtensions[fieldName]?.join(', ')}`);
-    var error : any = new Error(`Invalid file type for ${fieldName}: ${fileExtension}`); 
-    error.status = 400; // set a status code for the error
-    cb(error, false);  // Reject file  
-  }
-};
-
-// Multer storage configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    //const uploadDir = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-      cb(null, file.originalname);
-  }
-});
-
-// Set up multer middleware with file size limit and file filter
-const upload = multer({
-  storage,
-  //limits: { fileSize: 2000000 }, // 2 MB file size limit
-  fileFilter
-}).fields([
-  { name: 'Asset' },
-  { name: 'Document' },
-  { name: 'License' },
-  { name: 'Metadata' },
-  { name: 'Service' },
-  { name: 'Validation' },
-  { name: 'Image' },
-  { name: 'Routing' },
-  { name: 'Video' },
-  { name: '3DPreview' }
-]);
-
-// Route to render the form page
-app.get('/', (req, res) => {
-  res.render('assetSelect');
-});
-
-const processFile = (file: Express.Multer.File, did? : string) => {
-  if(typeof did !== 'undefined')
-    return {filename: file.originalname, type: file.fieldname, did : did};
-  else
-    return {filename: file.originalname, type: file.fieldname};
-};
-
-//handle reading, merging, and writing to the JSON file
-const updateJsonFile = (filePath: string, newData: Array<{ filename: string, type: string }>, res: any) => {
-  let existingFilesData: Array<{ filename: string, size: number, type: string }> = [];
-
-  // Check if JSON file exists and parse existing data
-  if (fs.existsSync(filePath)) {
-    try {
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      existingFilesData = JSON.parse(fileContent); // Parse existing file data
-    } catch (err) {
-      console.error('Error reading JSON file:', err);
-      res.status(500).send('Error reading existing file data');
-      return false;  // Early exit if error occurs
-    }
-  }
-
-  //existing data + new data
-  const updatedFileData = [...existingFilesData, ...newData];
-
-  // Write the updated data back to the JSON file
-  fs.writeFile(filePath, JSON.stringify(updatedFileData, null, 2), (err: any) => {
-    if (err) {
-      console.error('Error writing JSON file:', err);
-      res.status(500).send('Error saving file data');
-      return false;  // Early exit if error occurs
-    }
-  })
-  return true; // Indicate success
-};
 
 // Route to handle form submission and file uploads
-app.post('/submit', async (req, res) => {
+app.post('/submit', async (req:Request, res:Response) => {
   upload(req, res, function (err : any) {
   if (err) {
     // Capture multer errors and send them to the client
@@ -158,15 +58,9 @@ app.post('/submit', async (req, res) => {
     });
   }
 
-  const jsonFilePath = path.join(uploadDir, 'uploadedFiles.json');
+  const jsonFilePath = join(uploadDir, 'uploadedFiles.json');
   // Use the utility function to update the JSON file
   const success = updateJsonFile(jsonFilePath, filesData, res);
-  //format_selector/main.py ../../upload/{assetname}.{ext} -config ../../configs -out ../../output
-  callPythonScript()
-  .catch((error: any) => {
-      console.error('Error in Python script:', error);
-      res.status(500).json({ error: error.message });
-  });
   
   if (success) {
     res.status(200).json({ result: 'Files successfully uploaded and metadata saved' });
@@ -175,17 +69,56 @@ app.post('/submit', async (req, res) => {
   });
 });
 
-async function findFile(directory: string, filename: string) {
-  const entries = await fs.promises.readdir(directory, { recursive: true, withFileTypes: true })
-  for (let entry of entries) {
-    if (entry.isFile() && entry.name == filename) {
-      return path.join(entry.path, entry.name); 
-    }
-  }
-  return null; //file not found
-}
+app.get('/stream', (req:Request, res:Response) => {
+  // Set up headers for SSE
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders();
 
-app.get('/download', async (req, res,) => { //async since an await is called within
+  // Call the Python script and pass `res` so it can write data directly
+  callPythonScript(res)
+    .then(() => {
+      res.end(); // End the stream after script execution
+    })
+    .catch((error: any) => {
+      console.error('Error in Python script:', error);
+      res.write(`data: Error: ${error.message}\n\n`);
+      res.end();
+    });
+
+  // If the client disconnects, end stream
+  req.on('close', () => {
+    res.end();
+  });
+});
+
+/*
+const clients: { [id: string]: ServerResponse } = {};
+
+// Initialize `clients` in `pyCaller.ts`
+setClients(clients);
+//log stream to the frontend
+app.get('/stream', (req, res) => {
+ // Cast `res` to `ServerResponse` so we can use `write`
+ //const clientRes = res as unknown as ServerResponse;
+ const clientRes = ServerResponse
+ clientRes.setHeader('Content-Type', 'text/event-stream');
+ clientRes.setHeader('Cache-Control', 'no-cache');
+ clientRes.setHeader('Connection', 'keep-alive');
+ clientRes.flushHeaders();
+  // Hold open the connection for updates
+  const clientId = Date.now();
+  clients[clientId] = res;
+
+  req.on('close', () => {
+    delete clients[clientId];
+  });
+});
+
+*/
+
+app.get('/download', async (req: Request, res: Response) => { //async since an await is called within
   try {  
   //const filePath =   // path to the asset zip inside Docker
   const outputDir = '/app/output/';
@@ -194,7 +127,7 @@ app.get('/download', async (req, res,) => { //async since an await is called wit
     return res.status(404).send('asset.zip not found');
   }
 
-  res.download(path.resolve(assetZipPath), 'asset.zip', (err) => {
+  res.download(resolve(assetZipPath), 'asset.zip', (err: Error) => {
     if (err) {
       console.error('Error downloading the file:', err);
       res.status(500).send('Error downloading the file.');

@@ -3,25 +3,18 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Check if a script exists
-function checkFileExists(scriptPath: string): boolean {
-  try {
-    fs.accessSync(scriptPath, fs.constants.F_OK);
-    return true;
-  } catch (err) {
-    return false;
-  }
-}
+import {checkFileExists, createFolder} from './assetExtractionUtils'; 
 
 // Install Python requirements from each folder
-function installRequirementsSync(pythonPath: string, baseDir: string): void {
+function installRequirementsSync(pythonPath: string, baseDir: string, res: any): void {
   const folders = fs.readdirSync(baseDir);
 
   folders.forEach((folder : any) => {
     const reqPath = path.join(baseDir, folder, 'requirements.txt');
     if (checkFileExists(reqPath)) {
-      console.log(`Installing dependencies from ${reqPath}...`);
+      res.write(`data:Installing dependencies from ${reqPath}...\n\n`);
       runPythonSync(pythonPath, ['-m', 'pip', 'install', '-r', reqPath]);
-      console.log(`Dependencies from ${reqPath} installed.`);
+      res.write(`data:Dependencies from ${reqPath} installed.\n\n`);
     }
   });
 }
@@ -39,18 +32,19 @@ function runPythonSync(pythonPath: string, args: string[]): void {
     }
   }
 
-// Run a Python script asynchronously with Promises
-function runPythonAsync(pythonPath: string, scriptPath: string, args: string[]): Promise<void> {
+function runPythonAsync(pythonPath: string, scriptPath: string, args: string[], res: any): Promise<void> {
   return new Promise((resolve, reject) => {
     args.unshift(scriptPath);
     const py = spawn(pythonPath, args, { stdio: 'pipe' });
 
     py.stdout.on('data', (data: any) => {
       console.log(`Output: ${data}`);
+      //res.write(`data: ${data.toString().trim()}\n\n`);
+      res.write(`data: Output: ${data.toString().trim()}\n\n`);
     });
 
     py.stderr.on('data', (data: any) => {
-      console.error(`Error: ${data}`);
+      res.write(`data: Error: ${data.toString().trim()}\n\n`);
     });
 
     py.on('close', (code: number) => {
@@ -63,47 +57,49 @@ function runPythonAsync(pythonPath: string, scriptPath: string, args: string[]):
   });
 }
 
-// Call Python scripts sequentially
-export async function callPythonScript(): Promise<void> {
+export async function callPythonScript(res: any): Promise<void> {
   try {
+    // Send the initial message
+    res.write(`data: Cloning git repo...\n\n`);
+
     // Run the gitRepoPuller.py to clone the repo synchronously
     const pythonPath = '/app/python/venv/bin/python3';
     const gitToolsCloner = '/app/python/git_tools_cloner.py';
-    console.log('Cloning git repo...');
     runPythonSync(pythonPath, [gitToolsCloner]);
-    console.log('Repo cloned successfully.');
+
+    // Send a message after cloning
+    res.write(`data: Repo cloned successfully.\n\n`);
 
     const mainScriptPath = '/app/python/tools/asset_extraction/main.py';
     const toolsDir = '/app/python/tools';
-    // Install requirements in all folders after cloning synchronously
-    console.log('Installing Python requirements...');
-    installRequirementsSync(pythonPath, toolsDir);
+    res.write(`data: Installing Python requirements...\n\n`);
+    installRequirementsSync(pythonPath, toolsDir, res);
 
-    // Check if main.py exists after cloning
     if (!checkFileExists(mainScriptPath)) {
       throw new Error('main.py script not found after cloning.');
     }
 
-    // Arguments for main.py
     const uploadedAssetDir = '/app/uploads/';
-    const files : string[]  = fs.readdirSync(uploadedAssetDir);
+    const files: string[] = fs.readdirSync(uploadedAssetDir);
     const xodrFiles = files.filter(file => path.extname(file) === '.xodr' || path.extname(file) === '.xosc');
     const uploadedAssetFile = path.join(uploadedAssetDir, xodrFiles[0]);
     
     const configPath = '/app/python/tools/configs';
     const outputPath = '/app/output';
-    if (!fs.existsSync(outputPath)) {
-      fs.mkdirSync(outputPath, { recursive: true });
-    }
+    createFolder(outputPath);
     const mainArgs = [uploadedAssetFile, '-config', configPath, '-out', outputPath];
 
-    // Run main.py asynchronously with Promises
-    console.log('Running main.py...');
-    await runPythonAsync(pythonPath, mainScriptPath, mainArgs);
-    console.log('main.py executed successfully.');
+    // Send a message before running main.py
+    res.write(`data: Running main.py...\n\n`);
 
-  } catch (error) {
+    await runPythonAsync(pythonPath, mainScriptPath, mainArgs, res);
+
+    // Send a final success message
+    //res.write(`data: main.py executed successfully.\n\n`);
+
+ } catch (error) {
     console.error('Error:', error);
     throw error;
   }
 }
+

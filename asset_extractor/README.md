@@ -29,5 +29,7 @@ Automatic process to generate an asset archive from Asset file and another media
     docker build --no-cache -t asset-extractor .    
 
 # How to run
-    1. docker run -p 3000:3000 asset-extractor
-    2. Open a client (on a browser open): http://localhost:3000/
+1. run docker container:
+    docker run -p 3000:3000 asset-extractor
+2. Open a client (on a browser open): 
+    http://localhost:3000/
