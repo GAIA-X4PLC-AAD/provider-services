@@ -6,7 +6,8 @@ import dotenv from 'dotenv';
 
 //import { callPythonScript, setClients } from './pyCaller';
 import { callPythonScript } from './pyCaller';
-import { uploadDir, upload, processFile, updateJsonFile, findFile } from './assetExtractionUtils';
+import {processFile, updateJsonFile, findFile } from './assetExtractionUtils';
+import { uploadDir, upload } from './multerUtils';
 
 
 dotenv.config();
@@ -48,7 +49,7 @@ app.post('/submit', async (req:Request, res:Response) => {
   // Loop through all the file fields
   for (const fieldName in files) {
     files[fieldName].forEach((file, index) => {
-      if(fieldName != 'Asset'){
+      if(fieldName != 'AssetData'){
         filesData.push(processFile(file));  
       }
       else{
@@ -69,54 +70,30 @@ app.post('/submit', async (req:Request, res:Response) => {
   });
 });
 
-app.get('/stream', (req:Request, res:Response) => {
+app.get('/pythonCall', (req:Request, res:Response) => {
   // Set up headers for SSE
   res.setHeader('Content-Type', 'text/event-stream');
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
-  // Call the Python script and pass `res` so it can write data directly
-  callPythonScript(res)
-    .then(() => {
-      res.end(); // End the stream after script execution
-    })
-    .catch((error: any) => {
-      console.error('Error in Python script:', error);
-      res.write(`data: Error: ${error.message}\n\n`);
-      res.end();
-    });
+  callPythonScript(res)    
+  .then(() => {
+    // Send a custom event or message indicating the stream is complete
+    res.write(`data:END_SSE_CONNECTION\n\n`);
+    res.end(); // End the stream after script execution
+  })
+  .catch((error: any) => {
+    console.error('Error in Python script:', error);
+    res.write(`data: Error: ${error.message}\n\n`);
+    res.end();
+  });
 
   // If the client disconnects, end stream
   req.on('close', () => {
     res.end();
   });
 });
-
-/*
-const clients: { [id: string]: ServerResponse } = {};
-
-// Initialize `clients` in `pyCaller.ts`
-setClients(clients);
-//log stream to the frontend
-app.get('/stream', (req, res) => {
- // Cast `res` to `ServerResponse` so we can use `write`
- //const clientRes = res as unknown as ServerResponse;
- const clientRes = ServerResponse
- clientRes.setHeader('Content-Type', 'text/event-stream');
- clientRes.setHeader('Cache-Control', 'no-cache');
- clientRes.setHeader('Connection', 'keep-alive');
- clientRes.flushHeaders();
-  // Hold open the connection for updates
-  const clientId = Date.now();
-  clients[clientId] = res;
-
-  req.on('close', () => {
-    delete clients[clientId];
-  });
-});
-
-*/
 
 app.get('/download', async (req: Request, res: Response) => { //async since an await is called within
   try {  

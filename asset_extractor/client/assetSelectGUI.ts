@@ -36,7 +36,7 @@ async function createGUI() {
     try {
         const mediaTypes: MediaType[] = [
             { value: 'Document', text: 'Document', type: '.txt,.pdf' },
-            { value: 'License', text: 'License', type: '.txt,.pdf,.md' },
+            { value: 'License', text: 'License', type: '' }, // LICENSE is extension-less
             { value: 'Metadata', text: 'Metadata', type: '.json' },
             { value: 'Service', text: 'Service', type: '.bjson' },
             { value: 'Validation', text: 'Validation', type: '.xqar,.xml,.json' },
