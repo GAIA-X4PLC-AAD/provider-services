@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import Ajv from 'ajv';
+import { argv } from 'node:process';
 
 import { callPythonScript } from './pyCaller';
 
@@ -83,6 +84,17 @@ app.post('/searchSubmit', async (req, res) => {
         attribs[key] = req.body[key];    
     }
   };
+
+  //search data
+  const dataUrls = argv.slice(2); // Skip the first two default args
+  if (dataUrls.length === 0) {
+    console.error('No data URLs provided. Pass them as arguments.');
+    res.status(500).json({ error: 'No data URLs provided. Pass them as arguments.' });
+  } else {
+    //add  data to be search to attribs
+    attribs["dataUrls"] = dataUrls;
+  }
+
   callPythonScript(path.join(folderName,scriptName), attribs)
   .then((result: any) => {
       res.json({ message: 'search result received successfully', result: result || [] });

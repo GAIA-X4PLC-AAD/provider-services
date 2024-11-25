@@ -25,7 +25,7 @@ export async function callPythonScript(scriptSubPath:string, attribs: any): Prom
 
     const py : ChildProcessWithoutNullStreams = spawn(pythonPath, [scriptPath], { stdio: "pipe" });
 
-    // Write the stringified JSON data to the stdin of the Python script
+    // write the stringified JSON data to the stdin of the Python script
     const stringifiedData = JSON.stringify(attribs);
     py.stdin.write(stringifiedData);
     py.stdin.end();

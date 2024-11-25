@@ -30,6 +30,13 @@ The need for efficient, flexible and focused open drive data exploration.
 
 # How to run
 1. run docker container:
-    docker run -p 3000:3000 extended-search
+    docker run -p 3000:3000 extended-search <bjsonUrl1> <bjsonUrl2> ... <bjsonUrlN>
+    bjsonUrls are passed as positional parameters and separated by spaces.
+    Example:
+    ```
+    docker run -p 3000:3000 extended-search https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/001_A9_Eching_MinimumSample/ODR-3DM/services/A9_Eching_MinimumSample_offset.bjson https://github.com/GAIA-X4PLC-AAD/map-and-scenario-data/blob/FB_FormatSelector/data/002_MarktplatzGrafing/ODR-3DM/services/MarktplatzGrafing_offset.bjsonrSample/ODR-3DM/services/AnotherSample.bjson
+    ```
+
+
 2. Open a client (on a browser open): 
     http://localhost:3000/search

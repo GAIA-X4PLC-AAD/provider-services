@@ -11,6 +11,8 @@ except json.JSONDecodeError as err:
 signal_type = nodeJsData['signal_type']
 signal_subtype = nodeJsData['signal_subtype']
 signal_value = nodeJsData['signal_value']
+data_Urls = list(nodeJsData['dataUrls'])
+
 ################ search functions ########################
 def find_Roads_with_Signals_SubTypes_Value(root):
     log = list()
@@ -47,11 +49,16 @@ def search_url(url):
     return res
         
 logs = {}
+'''
 with open('/app/python/scripts/xodr/urls_reduced_data.txt') as f:
     for line in f:
         res = search_url(line.strip())
         logs = logs | res
-  
+'''
+for url in data_Urls:
+    res = search_url(url)#.strip())
+    logs = logs | res
+
 pyData = {'result':logs} # Print the data in stringified json format so that we can easily parse it in Node.js        
 stringifiedNodeJsData = json.dumps(pyData, ensure_ascii=False) #stringifiedNodeJsData is <str>   #dumps (NOT dump) to write out json like string to be passed to print (stdou) // serialize python object to json
 print(stringifiedNodeJsData)

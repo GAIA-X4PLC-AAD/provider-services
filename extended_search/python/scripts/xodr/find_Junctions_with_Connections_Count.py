@@ -8,6 +8,7 @@ except json.JSONDecodeError as err:
     sys.exit(1)
 
 connections_count = int(nodeJsData['connections_count'])
+data_Urls = list(nodeJsData['dataUrls'])
 ################ search functions ########################
 def find_Junctions_with_connections_count(root):
     log = list()
@@ -50,10 +51,13 @@ def search_url(url):
     return res
         
 logs = {}
-with open('/app/python/scripts/xodr/urls_reduced_data.txt') as f:
-    for line in f:
-        res = search_url(line.strip())
-        logs = logs | res
+#with open('/app/python/scripts/xodr/urls_reduced_data.txt') as f:
+#    for line in f:
+#        res = search_url(line.strip())
+#        logs = logs | res
+for url in data_Urls:
+    res = search_url(url)#.strip())
+    logs = logs | res
   
 pyData = {'result':logs} # Print the data in stringified json format so that we can easily parse it in Node.js        
 stringifiedNodeJsData = json.dumps(pyData, ensure_ascii=False) #stringifiedNodeJsData is <str>   #dumps (NOT dump) to write out json like string to be passed to print (stdou) // serialize python object to json
