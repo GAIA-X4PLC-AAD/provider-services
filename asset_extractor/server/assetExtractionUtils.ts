@@ -23,34 +23,44 @@ export const processFile = (file: Express.Multer.File, did? : string) => {
     return {filename: file.originalname, type: file.fieldname};
 };
 
-//handle reading, merging, and writing to the JSON file
-export const updateJsonFile = (filePath: string, newData: Array<{ filename: string, type: string }>, res: any) => {
-  let existingFilesData: Array<{ filename: string, size: number, type: string }> = [];
-
-  // Check if JSON file exists and parse existing data
-  if (fs.existsSync(filePath)) {
-    try {
-      const fileContent = fs.readFileSync(filePath, 'utf8');
-      existingFilesData = JSON.parse(fileContent); // Parse existing file data
-    } catch (err) {
-      console.error('Error reading JSON file:', err);
-      res.status(500).send('Error reading existing file data');
-      return false;  // Early exit if error occurs
-    }
+export function openJsonFile(filePath : string) : any
+{
+  if (!fs.existsSync(filePath)) {
+    // Return an empty array instead of throwing an error if the file doesn't exist
+    return [];
   }
 
-  //existing data + new data
-  const updatedFileData = [...existingFilesData, ...newData];
+  try {
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      return JSON.parse(fileContent);
+  } catch (err : any) {
+      throw new Error(`Error reading or parsing JSON file: ${err.message}`);
+  }
+}
+//handle reading, merging, and writing to the JSON file
+export const updateJsonFile = (filePath: string, newData: Array<{ filename: string, type: string }>, res: any) => {
+  try {
+    let existingFilesData: Array<{ filename: string, size: number, type: string }> = [];
+     // get existing data or an empty array if file does not exist
+    existingFilesData = openJsonFile(filePath);
+  
+    //existing data + new data
+    const updatedFileData = [...existingFilesData, ...newData];
 
-  // Write the updated data back to the JSON file
-  fs.writeFile(filePath, JSON.stringify(updatedFileData, null, 2), (err: any) => {
-    if (err) {
-      console.error('Error writing JSON file:', err);
-      res.status(500).send('Error saving file data');
-      return false;  // Early exit if error occurs
-    }
-  })
-  return true; // Indicate success
+    // Write the updated data back to the JSON file
+    fs.writeFile(filePath, JSON.stringify(updatedFileData, null, 2), (err: any) => {
+      if (err) {
+        console.error('Error writing JSON file:', err);
+        res.status(500).send('Error saving file data');
+        return false;  // Early exit if error occurs
+      }
+    })
+  } catch (err : any) {
+    console.error('Error reading or parsing JSON file:', err.message);
+    // Handle the error, e.g., log, notify the user, or return an error response
+    return false
+  }
+    return true; // success
 };
   
 export async function findFile (directory: string, filename: string) {
@@ -74,3 +84,11 @@ export function checkFileExists(scriptPath: string): boolean {
         return false;
     }
 }
+
+//--------------------------------sdCreationWizard--------------------------------------//
+export const sharedStoragePath = "/app/storage/";
+
+export const writeFile = (filePath: string, fileContent: string): any => {
+  fs.writeFileSync (filePath, fileContent);
+};
+

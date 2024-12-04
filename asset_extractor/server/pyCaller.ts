@@ -1,13 +1,15 @@
 import { spawnSync, spawn } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
+import dotenv from 'dotenv';
 
 import {checkFileExists, createFolder, sendMsgEvent} from './assetExtractionUtils'; 
 
-const pythonPath = '/app/python/venv/bin/python3';
+export const pythonPath = '/app/python/venv/bin/python3';
 
 // Run a Python command synchronously
-function runPython(pythonPath: string, args: string[], res: any, getSTDIO: Boolean = false): void {
+export function runPython(pythonPath: string, args: string[]): void {
+  dotenv.config({path: path.resolve(__dirname+'../.env')});
   const py = spawnSync(pythonPath, args, { stdio: 'inherit' });
 
   if (py.error) {
@@ -18,7 +20,7 @@ function runPython(pythonPath: string, args: string[], res: any, getSTDIO: Boole
   }
 }
 
-function runPythonAsync(pythonPath: string, args: string[],  res: any): Promise<void> {
+export function runPythonAsync(pythonPath: string, args: string[],  res: any): Promise<void> {
   return new Promise((resolve, reject) => {
     const py = spawn(pythonPath, args, { stdio: 'pipe' });
 
@@ -50,19 +52,19 @@ function runPythonAsync(pythonPath: string, args: string[],  res: any): Promise<
 }
 
 //clone provider tools Repo
-function cloneGitTools(res: any, gitToolsCloner: string){
+export function cloneGitTools(res: any, gitToolsCloner: string){
    // Send the initial message
    sendMsgEvent(res, `Cloning git repo...`);
 
    //clone
-   runPython(pythonPath, [gitToolsCloner],res);
+   runPython(pythonPath, [gitToolsCloner]);
    //runPythonAsync(pythonPath, [gitToolsCloner],res);
    // Send a message after cloning
    sendMsgEvent(res, `Repo cloned successfully.`);
 }
 
 // Install Python requirements from each folder
-function installRequirements(pythonPath: string, baseDir: string, res: any): void {
+export function installRequirements(pythonPath: string, baseDir: string, res: any): void {
   sendMsgEvent(res, `Installing Python requirements...`);
   const folders = fs.readdirSync(baseDir);
   
@@ -72,7 +74,7 @@ function installRequirements(pythonPath: string, baseDir: string, res: any): voi
       sendMsgEvent(res, `Installing dependencies from ${reqPath}...`);
       
       //install
-      runPython(pythonPath, ['-m', 'pip', 'install', '-r', reqPath],res);
+      runPython(pythonPath, ['-m', 'pip', 'install', '-r', reqPath]);
       //runPythonAsync(pythonPath, ['-m', 'pip', 'install', '-r', reqPath],res);
       sendMsgEvent(res, `Dependencies from ${reqPath} were successfully installed.`);
     }
@@ -84,7 +86,7 @@ export async function callPythonScript(res: any): Promise<void> {
    
     // Run the gitRepoPuller.py to clone the repo synchronously
     const gitToolsCloner = '/app/python/git_tools_cloner.py';
-    cloneGitTools(res, gitToolsCloner);
+    //cloneGitTools(res, gitToolsCloner);
 
     const mainScriptPath = '/app/python/tools/asset_extraction/main.py';
     if (!checkFileExists(mainScriptPath)) {
@@ -109,8 +111,13 @@ export async function callPythonScript(res: any): Promise<void> {
     const mainArgs = [uploadedAssetFile, '-config', configPath, '-out', outputPath];
     mainArgs.unshift(mainScriptPath);
     sendMsgEvent(res, `Running main.py...`);
-    //runPython(pythonPath, mainArgs, res, true);
     await runPythonAsync(pythonPath, mainArgs, res);
+    /*
+    await runPythonAsync(pythonPath, 
+      ['/app/python/tools/wizard-caller/main.py','/app/python/tools/wizard-caller/domainMetadata.json',
+        '-shacl', "/app/python/tools/wizard-caller/domainMetadata.ttl",
+        '-out', "/app/python/tools/wizard-caller/domainMetadata_updated.json"], res);
+    */    
     sendMsgEvent(res, `main.py executed successfully.`);
 
  } catch (error) {

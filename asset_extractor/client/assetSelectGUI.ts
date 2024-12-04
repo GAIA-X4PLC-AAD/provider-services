@@ -34,6 +34,12 @@ function creatMediaTypeSelect (mediaTypeDiv : HTMLElement, mediaTypes : MediaTyp
 }
 async function createGUI() {
     try {
+        const wizardButton = document.getElementById('wizard');
+        wizardButton?.addEventListener('click', function () {
+          const sdWizardUrl = 'http://localhost:80/upload'; //sd creation wizard on port 80--see docker-compose.yml
+          window.open(sdWizardUrl, '_blank');
+        });
+        
         const mediaTypes: MediaType[] = [
             { value: 'Document', text: 'Document', type: '.txt,.pdf' },
             { value: 'License', text: 'License', type: '' }, // LICENSE is extension-less

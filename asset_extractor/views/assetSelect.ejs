@@ -16,13 +16,15 @@
     <form id="dataForm" action="/submit" method="post" enctype="multipart/form-data">
       <div id = "AssetDiv">
         <p>Asset</p>
-        <!-- DID Input (Spanning the first column) -->
+
         <label for="did">DID</label>
         <input class="DID_input" type="text" name="did" placeholder="Enter your DID" required/>
 
-        <!-- Asset file input (Spanning both columns) -->
         <label for="Asset">Add Asset file</label>
         <input type="file" id="AssetData" name="AssetData" accept=".xodr,.xosc" placeholder="Select an Asset file" required/>
+
+       
+        <button id="wizard" type="button">SD-Creation-Wizard</button>
       </div>
       <div id = "MediaDiv">
         <p>Media / Data</p>
@@ -33,7 +35,6 @@
         <div id="mediaContainer"></div>    
       </div>
       
-      <!-- Submit button (Full width) --> 
       <button id="sbtButton" type="submit" >Submit</button>
     </form>
 
