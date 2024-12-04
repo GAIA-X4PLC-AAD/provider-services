@@ -74,68 +74,6 @@ app.post('/submit', async (req:Request, res:Response) => {
 
   });
 });
-/*
-app.get('/sendFiles', async (req:Request, res:Response) => {
-  try {
-    const jsonFilePath = resolve('/app/storage/domainMetadata.json');
-    const shaclFilePath = resolve('/app/storage/domainMetadata.ttl');
-
-    const jsonStream = createReadStream(jsonFilePath);
-    console.log(jsonStream)
-    const ttlStream = createReadStream(shaclFilePath);
-    console.log(ttlStream)
-    res.writeHead(200, {
-      'Content-Type': 'multipart/mixed; boundary="myboundary"',
-    });
-  
-    res.write('--myboundary\r\n');
-    res.write('Content-Type: application/json\r\n\r\n');
-    jsonStream.pipe(res, { end: false });
-    console.log(res)
-  
-    res.write('\r\n--myboundary\r\n');
-    res.write('Content-Type: application/x-turtle\r\n\r\n');
-    ttlStream.pipe(res, { end: false });
-    console.log(res)
-
-    res.end('\r\n--myboundary--');
-  } catch (err) {
-    console.error('Error:', err);
-    res.status(500).send('Error retrieving files');
-  }
-});
-*/
-app.get('/sendFiles/jsonFile', async (req: Request, res: Response) => {
-  try {
-      const jsonFilePath = join(assetExtractionUtils.sharedStoragePath, 'domainMetadata.json');
-
-      // Check if files exist
-      if (!assetExtractionUtils.checkFileExists(jsonFilePath)) {
-          return res.status(404).send('json metadata file not found');
-      }
-      const jsonData = assetExtractionUtils.openJsonFile(jsonFilePath);
-      res.json(jsonData);
-  } catch (error) {
-      console.error('Error sending files:', error);
-      res.status(500).send('Internal Server Error');
-  }
-});
-app.get('/sendFiles/shaclFile', async (req: Request, res: Response) => {
-  try {
-      const shaclFilePath = join(assetExtractionUtils.sharedStoragePath, 'domainMetadata.ttl');
-
-      // Check if files exist
-      if (!assetExtractionUtils.checkFileExists(shaclFilePath)) {
-          return res.status(404).send('schacl file not found');
-      }
-      res.set('Content-Type', 'application/x-turtle');
-      res.sendFile(shaclFilePath);
-
-  } catch (error) {
-      console.error('Error sending files:', error);
-      res.status(500).send('Internal Server Error');
-  }
-});
 
 let jsonLDFilePath : string = ''; // jsonLD path comes posted from python; 
 let combinedJsonPath: string = ''; 
@@ -209,9 +147,9 @@ app.route('/processCombinedJsonFile')
     }
 
     try{
-    //write the enhanced json to the passed location from wizard_caller py
-    assetExtractionUtils.writeFile(combinedJsonPath,  JSON.stringify(jsonContent, null, 2));
-    res.status(200).json({ message: 'combined json file was received successfully'});
+      //write the enhanced json to the passed location from wizard_caller py
+      assetExtractionUtils.writeFile(combinedJsonPath,  JSON.stringify(jsonContent, null, 2));
+      res.status(200).json({ message: 'combined json file was received successfully'});
     } catch (err) {
       console.error('Error writing combined JSON:', err);
       res.status(500).json({error: 'Internal Server Error', message: 'Failed to write the combined JSON'});
@@ -244,52 +182,6 @@ app.get('/pythonCall', async (req:Request, res:Response) => {
     res.write(`data: Error: ${error.message}\n\n`);
     res.end();
   });
-  
-  //TEST
-  /*
-  try {
-    const pythonPath = '/app/python/venv/bin/python3';
-    // Run the gitRepoPuller.py to clone the repo synchronously
-    const gitToolsCloner = '/app/python/git_tools_cloner.py';
-    //cloneGitTools(res, gitToolsCloner);
-
-    const mainScriptPath = '/app/python/tools/asset_extraction/main.py';
-    if (!assetExtractionUtils.checkFileExists(mainScriptPath)) {
-      throw new Error('main.py script not found after cloning.');
-    }
-
-    // Install Python requirements
-    const toolsDir = '/app/python/tools';
-    //installRequirements(pythonPath, toolsDir, res);
-
-    //run the main.py that runs whole py pipeline
-    const uploadedAssetDir = '/app/uploads/';
-    const files: string[] = fs.readdirSync(uploadedAssetDir);
-    const xodrFiles = files.filter(file => path.extname(file) === '.xodr' || path.extname(file) === '.xosc');
-    const uploadedAssetFile = path.join(uploadedAssetDir, xodrFiles[0]);
-    
-    const configPath = '/app/python/tools/configs';
-    const outputPath = '/app/output';
-    assetExtractionUtils.createFolder(outputPath);
-    
-    const mainArgs = [uploadedAssetFile, '-config', configPath, '-out', outputPath];
-    mainArgs.unshift(mainScriptPath);
-    assetExtractionUtils.sendMsgEvent(res, `Running main.py...`);
-    await runPythonAsync(pythonPath, mainArgs, res);
-    
-    const pythonPath = '/app/python/venv/bin/python3';
-    runPython (pythonPath, ['-m', 'pip', 'install', '-r', "/app/python/tools/wizard-caller/requirements.txt"],res);
-    const wizardCallerPath = '/app/python/tools/wizard-caller/main.py';
-    assetExtractionUtils.sendMsgEvent(res, `Running wizard caller .py...`);
-    const mainArgs = [wizardCallerPath, "/app/storage/domainMetadata.json", '-shacl', "/app/storage/domainMetadata.ttl", '-out', "/app/storage/domainMetadata_edited.json"];
-    await runPythonAsync(pythonPath, mainArgs, res);
-    assetExtractionUtils.sendMsgEvent(res, `main.py executed successfully.`);
-
- } catch (error) {
-    console.error('Error:', error);
-    throw error;
-  } 
-  */
   
   // If the client disconnects, end stream
   req.on('close', () => {
