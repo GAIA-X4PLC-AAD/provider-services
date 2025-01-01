@@ -4,10 +4,18 @@ import * as fs from 'fs';
 //Multer Configuration
 import { Express } from 'express'
 
-export function sendMsgEvent( res : any, msg: string, multiLines: Boolean = false){
-  console.log(msg); //Debug
+export function sendMsgEvent( res : any, msg: any, multiLines: Boolean = false){
+  console.log(msg.toString()); //Debug
   if(!multiLines)
-    res.write(`data:${msg}\n\n`);
+    res.write(`data:${msg.toString()}\n\n`);
+  else {
+    const lines = msg.toString().split('\n');
+    lines.forEach((line: string) => {
+      if (line.trim()) {
+        res.write(`data:${line}\n\n`);
+      }
+    });
+  }
 }
 
 export function createFolder(dirPath: string){

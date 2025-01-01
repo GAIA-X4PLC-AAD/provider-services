@@ -26,18 +26,13 @@ export function runPythonAsync(pythonPath: string, args: string[],  res: any): P
 
     if (py.stdout) {
       py.stdout.on('data', (data: any) => {
-        const lines = data.toString().split('\n');
-        lines.forEach((line: string) => {
-          if (line.trim()) {
-            sendMsgEvent(res, line);
-          }
-        });
+        sendMsgEvent(res, data, true);
       });
     }
 
-    if (py.stderr) {
+    if (py.stderr) { // logging in tools py scripts outputs to sys.stderr!
       py.stderr.on('data', (data: any) => {
-        sendMsgEvent(res, `Error: ${data.toString()}`);
+        sendMsgEvent(res, data, true);
       });
     }
 
@@ -52,19 +47,16 @@ export function runPythonAsync(pythonPath: string, args: string[],  res: any): P
 }
 
 //clone provider tools Repo
-export function cloneGitTools(res: any, gitToolsCloner: string){
-   // Send the initial message
-   sendMsgEvent(res, `Cloning git repo...`);
-
-   //clone
-   runPython(pythonPath, [gitToolsCloner]);
-   //runPythonAsync(pythonPath, [gitToolsCloner],res);
-   // Send a message after cloning
-   sendMsgEvent(res, `Repo cloned successfully.`);
+export function cloneGitTools(res: any, gitToolsCloner: string): void {
+  // Send the initial message
+  sendMsgEvent(res, `Cloning tools from GitHub...`);
+  runPython(pythonPath, [gitToolsCloner]);
+  // Send a message after cloning
+  sendMsgEvent(res, `Tools successfully cloned.`);
 }
 
 // Install Python requirements from each folder
-export function installRequirements(pythonPath: string, baseDir: string, res: any): void {
+export function installRequirements( res: any, pythonPath: string, baseDir: string): void {
   sendMsgEvent(res, `Installing Python requirements...`);
   const folders = fs.readdirSync(baseDir);
   
@@ -83,21 +75,23 @@ export function installRequirements(pythonPath: string, baseDir: string, res: an
 
 export async function callPythonScript(res: any): Promise<void> {
   try {
-   
-    // Run the gitRepoPuller.py to clone the repo synchronously
-    const gitToolsCloner = '/app/python/git_tools_cloner.py';
-    //cloneGitTools(res, gitToolsCloner);
-
     const mainScriptPath = '/app/python/tools/asset_extraction/main.py';
-    if (!checkFileExists(mainScriptPath)) {
-      throw new Error('main.py script not found after cloning.');
-    }
-
-    // Install Python requirements
     const toolsDir = '/app/python/tools';
-    installRequirements(pythonPath, toolsDir, res);
 
- 
+    //clone git tools and install requiremens only if not already done!
+    if (fs.existsSync(toolsDir) && fs.readdirSync(toolsDir).length > 0) {
+      sendMsgEvent(res, `Tools already exist in ${toolsDir}. Skipping Git pull.`);
+    } else {
+      // Run the gitRepoPuller.py to clone the repo synchronously
+      const gitToolsCloner = '/app/python/git_tools_cloner.py';
+      cloneGitTools(res, gitToolsCloner);
+
+      if (!checkFileExists(mainScriptPath)) {
+        throw new Error('main.py script not found after cloning.');
+      }
+      // Install Python requirements
+      installRequirements(res, pythonPath, toolsDir);
+    }
 
     //run the main.py that runs whole py pipeline
     const uploadedAssetDir = '/app/uploads/';
@@ -111,15 +105,8 @@ export async function callPythonScript(res: any): Promise<void> {
     const mainArgs = [uploadedAssetFile, '-config', configPath, '-out', outputPath];
     mainArgs.unshift(mainScriptPath);
     sendMsgEvent(res, `Running main.py...`);
-    await runPythonAsync(pythonPath, mainArgs, res);
-    /*
-    await runPythonAsync(pythonPath, 
-      ['/app/python/tools/wizard-caller/main.py','/app/python/tools/wizard-caller/domainMetadata.json',
-        '-shacl', "/app/python/tools/wizard-caller/domainMetadata.ttl",
-        '-out', "/app/python/tools/wizard-caller/domainMetadata_updated.json"], res);
-    */    
+    await runPythonAsync(pythonPath, mainArgs, res); 
     sendMsgEvent(res, `main.py executed successfully.`);
-
  } catch (error) {
     console.error('Error:', error);
     throw error;

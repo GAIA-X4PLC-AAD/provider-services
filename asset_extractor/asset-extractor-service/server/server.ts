@@ -163,7 +163,7 @@ app.route('/processCombinedJsonFile')
     }
   });
 
-
+//let pythonProcessesDone : true = false;
 app.get('/pythonCall', async (req:Request, res:Response) => {
   // Set up headers for SSE
   res.setHeader('Content-Type', 'text/event-stream');
@@ -171,11 +171,13 @@ app.get('/pythonCall', async (req:Request, res:Response) => {
   res.setHeader('Connection', 'keep-alive');
   res.flushHeaders();
 
+  res.write(`data: Cloning provider tools from Git ...\n\n`);
   callPythonScript(res)    
   .then(() => {
     // Send a custom event or message indicating the stream is complete
     res.write(`data:END_SSE_CONNECTION\n\n`);
     res.end(); // End the stream after script execution
+
   })
   .catch((error: any) => {
     console.error('Error in Python script:', error);

@@ -7,11 +7,23 @@ body {
   font-family: "Roboto", Arial, sans-serif;
 }
 
+#downloadButton {
+  display: block;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 0;
+}
+
 button, input[type=file]::file-selector-button {
   background-color:  #000099;
   color: white;
   border-radius: 8px;
   cursor: pointer;
+}
+
+#downloadButton:disabled { /* #downloadButton when disabled! */
+  background-color: #cccccc; /* override the background color */
+  cursor: not-allowed; 
 }
 
 h1 {
@@ -74,12 +86,6 @@ input[type="file"] {
 #sbtButton {
   grid-column: 1 / -1; /*submit button  across all columns */
   justify-self: end;
-}
-
-a {
-  display: block;
-  margin-top: 10px;
-  text-align: right; 
 }
 
 #outputDiv, #resultContainer{

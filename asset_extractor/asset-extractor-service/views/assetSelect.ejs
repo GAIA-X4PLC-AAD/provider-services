@@ -23,8 +23,6 @@
         <label for="Asset">Add Asset file</label>
         <input type="file" id="AssetData" name="AssetData" accept=".xodr,.xosc" placeholder="Select an Asset file" required/>
 
-       
-        <button id="wizard" type="button">SD-Creation-Wizard</button>
       </div>
       <div id = "MediaDiv">
         <p>Media / Data</p>
@@ -42,11 +40,8 @@
       <h2> Log </h2>
     </div>
 
-    <!-- Download "button" : anchor tag with the download attribute (Full width) -->
-    <a href="/download" download="asset.zip">
-      <button type="button">Download Asset ZIP</button>
-    </a>
-
+    <button type="button" id="downloadButton" disabled>Download Asset ZIP</button>
+    
     <script src="assetSelectGUI.js"></script>
     <script src="sendData.js"></script>
   </body>
