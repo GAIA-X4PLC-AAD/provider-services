@@ -1,0 +1,31 @@
+services:
+  sd-creation-wizard:
+    container_name: sd-creation-wizard
+    build:
+      context: ./sd-creation-wizard-frontend  
+      dockerfile: Dockerfile      
+    ports:
+      - '80:80'
+    #network_mode: host
+    depends_on:
+      - asset-extractor
+    environment:
+      - "API_URL=http://sd-creation-wizard-api:8080" #  http://127.0.0.1:8080 #points frontend to API in the Docker network(by exhanging API_URL in env.templat.js)
+
+  sd-creation-wizard-api:
+    container_name: sd-creation-wizard-api
+    build:
+      context: ./sd-creation-wizard-api 
+      dockerfile: Dockerfile 
+    ports:
+      - '8080:8080'
+
+  asset-extractor:
+    container_name: asset-extractor
+    build:
+      context: ./asset-extractor-service
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./asset-extractor-service/.env
