@@ -1,0 +1,53 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "HospitalShape",
+            "targetClassPrefix": "ex",
+            "targetClassName": "hospital",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "Person"
+                    },
+                    "order": 4
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "telephone"
+                    },
+                    "order": 3
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "address"
+                    },
+                    "order": 2
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "name"
+                    },
+                    "order": 1
+                }
+            ]
+        }
+    ]
+}

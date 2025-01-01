@@ -1,0 +1,108 @@
+@prefix HD-Map: <https://example.org/hdmap/> .
+@prefix General: <https://example.org/general/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+HD-Map:HDMapShape a sh:NodeShape ;
+    sh:property [ 
+            skos:example "0.1" ;
+            sh:datatype xsd:float ;
+            sh:description "accuracy of lane modell 2d"@en ;
+            sh:maxCount "1"^^xsd:unsignedInt ;
+            sh:message "Validation of accuracy_lane_model_2d failed!"@en ;
+            sh:minCount "0"^^xsd:unsignedInt ;
+            sh:name "accuracy_lane_model_2d"@en ;
+            sh:path HD-Map:HD-Map_quality_accuracy_lane_model_2d ],
+        [   
+            skos:example "0.1" ;
+            sh:datatype xsd:float ;
+            sh:description "accuracy lane modell height"@en ;
+            sh:maxCount "1"^^xsd:unsignedInt ;
+            sh:message "Validation of accuracy_lane_model_height failed!"@en ;
+            sh:minCount "0"^^xsd:unsignedInt ;
+            sh:name "accuracy_lane_model_height"@en ;
+            sh:path HD-Map:HD-Map_quality_accuracy_lane_model_height ],
+        [
+            sh:node General:BasicAttributesShape ;
+            sh:description "Reference to a Basic Description Shape"@en ;
+            sh:maxCount 1 ;
+            sh:message "Validation of Basic Description failed!"@en ;
+            sh:minCount 1 ;
+            sh:name "Basic Description"@en ;
+            sh:path General:BasicAttributes  ] ;
+    sh:targetClass HD-Map:HDMap .
+
+General:BasicAttributesShape a sh:NodeShape ;
+    sh:property [ 
+        skos:example "1.5" ;
+        sh:datatype xsd:string ;
+        sh:description "nan"@en ;
+        sh:maxCount "1"^^xsd:unsignedInt ;
+        sh:message "Validation of format_version failed!"@en ;
+        sh:minCount "1"^^xsd:unsignedInt ;
+        sh:name "format_version"@en ;
+        sh:path General:General_format_format_version  ] ,
+    [
+        sh:node General:BoundingBoxShape ;
+        sh:description "Bounding box with lat/lon values in WGS84"@en ;
+        sh:maxCount 1 ;
+        sh:message "Validation of bounding failed!"@en ;
+        sh:minCount 1 ;
+        sh:name "bounding"@en ;
+        sh:path General:General_position_bounding 
+    ] ;
+    sh:targetClass General:BasicAttributes .
+	   
+General:BoundingBoxShape a sh:NodeShape ;
+    sh:property [
+        sh:datatype xsd:float ;
+        sh:path General:xMin ;
+    ] ,
+    [
+        sh:datatype xsd:float ;
+        sh:path General:yMin ;
+    ] ,
+    [
+        sh:datatype xsd:float ;
+        sh:path General:xMax ;
+    ] ,
+	[   
+		sh:node General:LinkShape ;
+		sh:path General:licence_link ;
+	] ,
+    [
+        sh:datatype xsd:float ;
+        sh:path General:yMax ;
+    ] ;
+    sh:targetClass General:BoundingBox .
+	
+
+	
+General:LinkShape a sh:NodeShape ;
+    sh:property [
+        sh:datatype xsd:float ;
+        sh:path General:xMax ;
+    ] ,
+	[ 
+		sh:node General:OtherShape ;
+		sh:path General:other ;
+	] ,
+    [
+        sh:datatype xsd:float ;
+        sh:path General:yMax ;
+    ] ;
+    sh:targetClass General:Link .
+	
+
+General:OtherShape a sh:NodeShape ;
+    sh:property [
+        sh:datatype xsd:float ;
+        sh:path General:xMax ;
+    ] ,
+    [
+        sh:datatype xsd:float ;
+        sh:path General:yMax ;
+    ] ;
+    sh:targetClass General:Other .
+	

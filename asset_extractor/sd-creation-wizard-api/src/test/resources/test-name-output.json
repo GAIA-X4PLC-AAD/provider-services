@@ -1,0 +1,46 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "AddressShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "address",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "postalCode"
+                    },
+                    "name": "postal code"
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "locality"
+                    },
+                    "name": "locality"
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "streetAddress"
+                    },
+                    "name": "street address"
+                }
+            ]
+        }
+    ]
+}

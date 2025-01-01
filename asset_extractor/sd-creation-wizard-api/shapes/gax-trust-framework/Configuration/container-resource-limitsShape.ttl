@@ -1,0 +1,279 @@
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ContainerResourceLimitsShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a structured object of type gax-trust-framework:CPU)'" ;
+            sh:description "CPU requirements" ;
+            sh:maxCount 1 ;
+            sh:name "cpu req" ;
+            sh:node gax-validation:CPUShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:cpuReq ],
+        [ skos:example "'Configuration Example'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-core:name ],
+        [ skos:example "'Configuration Example for this European platform'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path gax-core:description ],
+        [ skos:example "'2'" ;
+            sh:datatype xsd:integer ;
+            sh:description "limit to the number of cores used by container" ;
+            sh:maxCount 1 ;
+            sh:name "number of cores limit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:numberOfCoresLimit ],
+        [ skos:example "'(a structured object of type gax-trust-framework:Memory)'" ;
+            sh:description "container memory requirements" ;
+            sh:maxCount 1 ;
+            sh:name "memory req" ;
+            sh:node gax-validation:MemoryShape ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:memoryReq ],
+        [ skos:example "'(a structured object of type gax-trust-framework:Memory)'" ;
+            sh:description "container memory limit" ;
+            sh:maxCount 1 ;
+            sh:name "memory limit" ;
+            sh:node gax-validation:MemoryShape ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:memoryLimit ],
+        [ skos:example "'(a structured object of type gax-trust-framework:GPU)'" ;
+            sh:description "number of GPUs" ;
+            sh:maxCount 1 ;
+            sh:name "gpu req" ;
+            sh:node gax-validation:GPUShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:gpuReq ],
+        [ skos:example "'1', '2'" ;
+            sh:datatype xsd:integer ;
+            sh:description "GPU number limit" ;
+            sh:maxCount 1 ;
+            sh:name "gpu limit" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:gpuLimit ],
+        [ skos:example "'false', 'true'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "indicates whether container is of confidential nature" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "is confidential" ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:isConfidential ],
+        [ skos:example "'AMD SEV', 'AMD SEV-ES', 'AMD SEV-SNP', 'ARM TrustZone', 'ARM RME', 'Huawei Qingtian', 'Intel SGX1', 'Intel SGX2', 'Intel TDX'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more particular CC technologies used by this flavor" ;
+            sh:maxCount 1 ;
+            sh:name "confidential computing technology" ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:confidentialComputingTechnology ],
+        [ skos:example "'https://attestation.service.endpoint'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "indicates whether confidential container has an associated attestation service" ;
+            sh:maxCount 1 ;
+            sh:name "attestation service u r i" ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:attestationServiceURI ] ;
+    sh:targetClass gax-trust-framework:ContainerResourceLimits .
+
+gax-validation:CPUShape a sh:NodeShape ;
+    sh:property [ skos:example "'x86', 'x86-64', 'RISC-V', 'Generic'" ;
+            sh:datatype xsd:string ;
+            sh:description "Basic CPU architecture." ;
+            sh:in ( "x86" "x86-64" "RISC-V" "Generic" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "cpu architecture" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:cpuArchitecture ],
+        [ skos:example "'Skylake-Server-v4', 'Icelake-Server-v4', 'Cascadelake-Server-v4', 'EPYC-Milan-v1', 'EPYC-Rome-v2'" ;
+            sh:datatype xsd:string ;
+            sh:description "CPU instruction set generation. Determines basic feature set and migration compatibility." ;
+            sh:in ( "Skylake-Server-v4" "Icelake-Server-v4" "Cascadelake-Server-v4" "EPYC-Milan-v1" "EPYC-Rome-v2" ) ;
+            sh:maxCount 1 ;
+            sh:name "cpu generation" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:cpuGeneration ],
+        [ skos:example "'fpu', 'vme', 'de', 'pse', 'sse', 'sse2', 'ht', 'vmx', 'smx', 'sse4_1', 'sse4_2', 'avx', '3dnowprefetch', 'ibrs_enhanced', 'ept_ad', 'sgx', 'sgx_lc', 'md_clear', 'arch_capabilities', '...'" ;
+            sh:datatype xsd:string ;
+            sh:description "CPU flags as documented by lscpu and defined in https://github.com/torvalds/linux/blob/master/tools/arch/x86/include/asm/cpufeatures.h ." ;
+            sh:name "cpu flag" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:cpuFlag ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is simultaneous multithreading (SMT) or hyper threading (HT) active in this CPU? Default False." ;
+            sh:maxCount 1 ;
+            sh:name "smt is enabled" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:smtIsEnabled ],
+        [ skos:example "'1', '2', '4'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of CPU Sockets" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of sockets" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:numberOfSockets ],
+        [ skos:example "'4', '6', '8', '12', '24'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of Cores of the CPU" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of cores" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:numberOfCores ],
+        [ skos:example "'8', '12', '24'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of Threads of the CPU" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of threads" ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:numberOfThreads ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=3.0 and measure:unit=GHz'" ;
+            sh:description "Frequency of the CPU" ;
+            sh:maxCount 1 ;
+            sh:name "base frequency" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:baseFrequency ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=4.0 and measure:unit=GHz'" ;
+            sh:description "Boost frequency of the CPU" ;
+            sh:maxCount 1 ;
+            sh:name "boost frequency" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:boostFrequency ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=38 and measure:unit=MB'" ;
+            sh:description "Last Level Cache size of the CPU" ;
+            sh:maxCount 1 ;
+            sh:name "last level cache size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 10 ;
+            sh:path gax-trust-framework:lastLevelCacheSize ],
+        [ skos:example "'FCLGA3647'" ;
+            sh:datatype xsd:string ;
+            sh:description "Socket the CPU fits into." ;
+            sh:maxCount 1 ;
+            sh:name "socket" ;
+            sh:order 11 ;
+            sh:path gax-trust-framework:socket ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=100 and measure:unit=W'" ;
+            sh:description "CPU Thermal Design Power - ref : https://en.wikipedia.org/wiki/Thermal_design_power" ;
+            sh:maxCount 1 ;
+            sh:name "tdp" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 12 ;
+            sh:path gax-trust-framework:tdp ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "a dimensionless value larger or equal to 1.0 describing the default maximum number of workloads scheduled on this CPU simultaneously" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "default overbooking ratio" ;
+            sh:order 13 ;
+            sh:path gax-trust-framework:defaultOverbookingRatio ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "several dimensionless values larger or equal to 1.0 describing the available scheduler settings for the numer of simultaneously scheduled workloads on this CPU" ;
+            sh:minInclusive 1.0 ;
+            sh:name "supported overbooking ratio" ;
+            sh:order 14 ;
+            sh:path gax-trust-framework:supportedOverbookingRatio ] ;
+    sh:targetClass gax-trust-framework:CPU .
+
+gax-validation:GPUShape a sh:NodeShape ;
+    sh:property [ skos:example "'Fermi', 'Kepler', 'Gen9'" ;
+            sh:datatype xsd:string ;
+            sh:description "GPU generation." ;
+            sh:maxCount 1 ;
+            sh:name "gpu generation" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:gpuGeneration ],
+        [ skos:example "'a structure object of type Memory'" ;
+            sh:description "Memory of the GPU" ;
+            sh:maxCount 1 ;
+            sh:name "memory" ;
+            sh:node gax-validation:MemoryShape ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:memory ],
+        [ skos:example "'PCIe Gen4: 64GB/s'" ;
+            sh:datatype xsd:string ;
+            sh:description "Interconnection of the GPU" ;
+            sh:maxCount 1 ;
+            sh:name "connection" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:connection ] ;
+    sh:targetClass gax-trust-framework:GPU .
+
+gax-validation:MemoryShape a sh:NodeShape ;
+    sh:property [ skos:example "'a structure object of type measure, e.g. measure:value=24 and measure:unit=GB'" ;
+            sh:description "Memory of the GPU" ;
+            sh:maxCount 1 ;
+            sh:name "size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:size ],
+        [ skos:example "'DDR4', 'DDR5', 'GDDR5', 'GDDR6'" ;
+            sh:datatype xsd:string ;
+            sh:description "Memory class" ;
+            sh:maxCount 1 ;
+            sh:name "memclass" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:memclass ],
+        [ skos:example "'1R RDIMM', '2R RDIMM', '4R LRDIMM', '8R LRDIMM'" ;
+            sh:datatype xsd:string ;
+            sh:description "DIMM Type" ;
+            sh:maxCount 1 ;
+            sh:name "rank" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:rank ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "a dimensionless value larger or equal to 1.0 describing the default overbooking ratio on this memory" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "default overbooking ratio" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:defaultOverbookingRatio ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "several dimensionless values larger or equal to 1.0 describing the available overbooking ratios on this memory" ;
+            sh:minInclusive 1.0 ;
+            sh:name "supported overbooking ratio" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:supportedOverbookingRatio ] ;
+    sh:targetClass gax-trust-framework:Memory .
+
+gax-validation:MeasureShape a sh:NodeShape ;
+    sh:property [ skos:example "'100'" ;
+            sh:datatype xsd:float ;
+            sh:description "The value of this measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:name "value" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:value ],
+        [ skos:example "'Gbps', 'Euro'" ;
+            sh:datatype xsd:string ;
+            sh:description "The unit of this measurement" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:unit ] ;
+    sh:targetClass gax-trust-framework:Measure .
+

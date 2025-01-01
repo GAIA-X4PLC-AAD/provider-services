@@ -1,0 +1,48 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:PhysicalConnectivityShape a sh:NodeShape ;
+    sh:property [ skos:example "'single mode fibre or copper cable, laser, mobile network or satellite'" ;
+            sh:datatype xsd:string ;
+            sh:description "type of access medium: wired medium access or wireless medium access" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " circuit type" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:CircuitType ],
+        [ skos:example "'optical cable interface SR '" ;
+            sh:datatype xsd:string ;
+            sh:description "for the chosen circuit type, one should know the interface type in case the interoperability is required" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " interface type" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:InterfaceType ],
+        [ skos:example "'Physical:DE:EQIX:FR2:0G:0FM102:PP102:14'" ;
+            sh:datatype xsd:string ;
+            sh:description "defined via interconnection point identifier of the source" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " source access point" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:SourceAccessPoint ],
+        [ skos:example "'Physical:DE:DE-CIX:FR4:1G:0FM102:PP102:24'" ;
+            sh:datatype xsd:string ;
+            sh:description "defined via interconnection point identifier of the destination" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " destination access point" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:DestinationAccessPoint ],
+        [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "" ;
+            sh:maxCount 1 ;
+            sh:name " instantiation requirements" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:InstantiationRequirements ] ;
+    sh:targetClass gax-trust-framework:PhysicalConnectivity .
+

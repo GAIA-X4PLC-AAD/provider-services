@@ -1,0 +1,59 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "xsd",
+            "url": "http://www.w3.org/2001/XMLSchema#"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "age"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "integer"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "birthDate"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "date"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "givenName"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    }
+                }
+            ]
+        }
+    ]
+}

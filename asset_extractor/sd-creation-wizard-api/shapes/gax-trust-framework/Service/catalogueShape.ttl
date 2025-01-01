@@ -1,0 +1,204 @@
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:CatalogueShape a sh:NodeShape ;
+    sh:property [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "A route used to synchronize catalogues and retrieve the list of Verifiable Credentials (issuer, id)." ;
+            sh:minCount 1 ;
+            sh:name "get verifiable credentials i ds" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:getVerifiableCredentialsIDs ],
+        [ skos:example "'(reference to endpoint)'" ;
+            sh:description "Endpoint through which the Service Offering can be accessed" ;
+            sh:name "endpoint" ;
+            sh:node gax-validation:EndpointShape ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:endpoint ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "Id of Resource (self-descrription) related to the service and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 10 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "'(reference to data center)'" ;
+            sh:description "list of data center IDs where service is hosted and can be instantiated" ;
+            sh:name "hosted on" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 11 ;
+            sh:path gax-trust-framework:hostedOn ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "Id of Participant (self-descrription) providing this service offering." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "provided by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:providedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "Id of Resource (self-descrription) related to the service and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-core:aggregationOf ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "a resolvable link to the service offering self-description related to the service and that can exist independently of it." ;
+            sh:name "depends on" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-core:dependsOn ],
+        [ skos:example "'GenericServiceName'" ;
+            sh:datatype xsd:string ;
+            sh:description "human readable name of the service offering" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "a resolvable link to the Terms and Conditions applying to that service." ;
+            sh:minCount 1 ;
+            sh:name "terms and conditions" ;
+            sh:node gax-validation:TermsAndConditionsShape ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:termsAndConditions ],
+        [ skos:example "' '" ;
+            sh:datatype xsd:string ;
+            sh:description "One or more policies expressed using a DSL (e.g., Rego or ODRL)" ;
+            sh:minCount 1 ;
+            sh:name "policy" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:policy ],
+        [ skos:example "'GDPR2016', 'LGPD2019'" ;
+            sh:datatype xsd:string ;
+            sh:description "One or more data protection regimes from the list available below" ;
+            sh:name "data protection regime" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:dataProtectionRegime ],
+        [ skos:example "' '" ;
+            sh:description "One or more  methods to export data out of the service" ;
+            sh:minCount 1 ;
+            sh:name "data account export" ;
+            sh:node gax-validation:DataAccountExportShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:dataAccountExport ],
+        [ skos:example "'An ML service for training, deploying and improving image classifiers.'" ;
+            sh:datatype xsd:string ;
+            sh:description "A description in natural language" ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 6 ;
+            sh:path dct:description ],
+        [ skos:example "'ML', 'Classification'" ;
+            sh:datatype xsd:string ;
+            sh:description "Keywords that describe / tag the service." ;
+            sh:name "keyword" ;
+            sh:order 7 ;
+            sh:path dcat:keyword ],
+        [ skos:example "'Hybrid', 'gax:PrivateProvisioning'" ;
+            sh:datatype xsd:string ;
+            sh:description "Provision type of the service" ;
+            sh:maxCount 1 ;
+            sh:name "provision type" ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:provisionType ] ;
+    sh:targetClass gax-trust-framework:Catalogue .
+
+gax-validation:DataAccountExportShape a sh:NodeShape ;
+    sh:property [ skos:example "'API', 'email', 'webform', 'unregisteredLetter'" ;
+            sh:datatype xsd:string ;
+            sh:description "the mean to request data retrieval: API, email, webform, unregisteredLetter, registeredLetter, supportCenter." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "request type" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:requestType ],
+        [ skos:example "'digital', 'physical'" ;
+            sh:datatype xsd:string ;
+            sh:description "type of data support: digital, physical." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "access type" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:accessType ],
+        [ skos:example "'application/gzip', 'text/csv'" ;
+            sh:datatype xsd:string ;
+            sh:description "type of Media Types (formerly known as MIME types) as defined by the IANA." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "format type" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:formatType ] ;
+    sh:targetClass gax-trust-framework:DataAccountExport .
+
+gax-validation:EndpointShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://gaia-x.eu/'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "The URL of the endpoint where it can be accessed" ;
+            sh:name "end point u r l" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:endPointURL ],
+        [ skos:example "'(reference to standard'" ;
+            sh:description "Provides information about applied standards." ;
+            sh:name "standard conformity" ;
+            sh:node gax-validation:StandardShape ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:standardConformity ],
+        [ skos:example "'https://gaia-x.eu/'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "The Description (e.g. openAPI Description) of the endpoint" ;
+            sh:name "endpoint description" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:endpointDescription ] ;
+    sh:targetClass gax-trust-framework:Endpoint .
+
+gax-validation:StandardShape a sh:NodeShape ;
+    sh:property [ skos:example "'ISO10303-242:2014'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the standard." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "title" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:title ],
+        [ skos:example "'https://www.iso.org/standard'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "Provides a link to schemas or details about applied standards." ;
+            sh:minCount 1 ;
+            sh:name "standard reference" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:standardReference ],
+        [ skos:example "'International Organization for Standardization'" ;
+            sh:datatype xsd:string ;
+            sh:description "Publisher of the standard." ;
+            sh:maxCount 1 ;
+            sh:name "publisher" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:publisher ] ;
+    sh:targetClass gax-trust-framework:Standard .
+
+gax-validation:TermsAndConditionsShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "a resolvable link to document" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "content" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:content ],
+        [ skos:example "'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" ;
+            sh:datatype xsd:string ;
+            sh:description "sha256 hash of the above document." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "hash" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:hash ] ;
+    sh:targetClass gax-trust-framework:TermsAndConditions .
+

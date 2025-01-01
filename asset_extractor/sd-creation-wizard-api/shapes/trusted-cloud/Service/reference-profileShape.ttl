@@ -1,0 +1,101 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ReferenceProfileShape a sh:NodeShape ;
+    sh:property [ skos:example "'AMCE GmbH'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of reference customer who is using the service?" ;
+            sh:maxCount 1 ;
+            sh:name "customer name" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:customerName ],
+        [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "Description of usage of service by this customer." ;
+            sh:maxCount 1 ;
+            sh:name "usage" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:usage ],
+        [ skos:example "'(Jane Mustermann, jane.mustermann@acme.com, +49 030 123456789)'" ;
+            sh:description "Contact person of this reference." ;
+            sh:maxCount 1 ;
+            sh:name "contact" ;
+            sh:node gax-validation:AgentShape ;
+            sh:order 3 ;
+            sh:path trusted-cloud:contact ],
+        [ skos:example "'www.my-customer.com'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "URL of the customer." ;
+            sh:maxCount 1 ;
+            sh:name "url" ;
+            sh:order 4 ;
+            sh:path trusted-cloud:url ] ;
+    sh:targetClass trusted-cloud:ReferenceProfile .
+
+gax-validation:AgentShape a sh:NodeShape ;
+    sh:property [ skos:example "'+49 030 12324567'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:tel property specifies a telefon number." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "tel" ;
+            sh:order 6 ;
+            sh:path vcard:tel ],
+        [ skos:example "'+49 030 12324567'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:image property specifies an image a person." ;
+            sh:maxCount 1 ;
+            sh:name "image" ;
+            sh:order 7 ;
+            sh:path vcard:image ],
+        [ skos:example "'(ACME street 1, 12345 city, Germany)'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:address property specifies the address of a person." ;
+            sh:maxCount 1 ;
+            sh:name "address" ;
+            sh:order 8 ;
+            sh:path vcard:address ],
+        [ skos:example "'example-given-name'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:given-name property specifies the given name part of a persons name." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "given-name" ;
+            sh:order 1 ;
+            sh:path vcard:given-name ],
+        [ skos:example "'example-family-name'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:family-name property specifies the family name part of a persons name." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "family-name" ;
+            sh:order 2 ;
+            sh:path vcard:family-name ],
+        [ skos:example "'example-nickname'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:nickname property specifies the nickname of a person." ;
+            sh:maxCount 1 ;
+            sh:name "nickname" ;
+            sh:order 3 ;
+            sh:path vcard:nickname ],
+        [ skos:example "'example-nickname'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:position property specifies the position of a person." ;
+            sh:maxCount 1 ;
+            sh:name "position" ;
+            sh:order 4 ;
+            sh:path vcard:position ],
+        [ skos:example "'example-Email'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "The v:email property specifies an email address." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "email" ;
+            sh:order 5 ;
+            sh:path vcard:email ] ;
+    sh:targetClass vcard:Agent .
+

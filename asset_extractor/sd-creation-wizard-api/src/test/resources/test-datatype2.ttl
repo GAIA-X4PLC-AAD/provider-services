@@ -1,0 +1,10 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:AppleShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Apple ;
+    sh:property [
+        sh:path ex:apple ;
+        sh:datatype ex:fruit ;
+    ] .

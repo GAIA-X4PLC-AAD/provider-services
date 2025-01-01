@@ -1,0 +1,148 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:InstantiatedVirtualResourceShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "One or more participants maintaining the resource in operational condition." ;
+            sh:minCount 1 ;
+            sh:name "maintained by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:maintainedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more policies expressed using a DSL (e.g., Rego or ODRL) (access control, throttling, usage, retention, …)" ;
+            sh:minCount 1 ;
+            sh:name "policy" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:policy ],
+        [ skos:example "'Example Resource'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of resource." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'Example Resource placed somewhere in Europe'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of resource." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path dct:description ],
+        [ skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+            sh:description "Resources related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "a resource where the instance of this virtual resource is being executed on." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "hosted on" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:hostedOn ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "A virtual resource (normally a software resource) this process is an instance of." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "instance of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:instanceOf ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "One or more participants with contractual relation with the resource." ;
+            sh:minCount 1 ;
+            sh:name "tenant owned by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:tenantOwnedBy ],
+        [ skos:example "'PD-SAP', 'PLME-SAP'" ;
+            sh:description "One or more Service Access Points which can be an endpoint as a mean to access and interact with the resource" ;
+            sh:in ( "PD-SAP" "PLME-SAP" ) ;
+            sh:minCount 1 ;
+            sh:name "service access point" ;
+            sh:node gax-validation:ServiceAccessPointShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:serviceAccessPoint ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "The copyright owner(s), given as a Gaia-X Participant or as some other agent, possibly also a person outside of Gaia-X. A copyright owner is a person or organization, that has the right to exploit the resource. Copyright owner does not necessary refer to the author of the resource, who is a natural person and may differ from copyright owner. A simple name string can be referenced as a blank node whose foaf:name attribute has that string value." ;
+            sh:minCount 1 ;
+            sh:name "copyright owned by" ;
+            sh:node gax-validation:AgentShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:copyrightOwnedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more SPDX licenses identifiers or URL to license document" ;
+            sh:minCount 1 ;
+            sh:name "license" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:license ] ;
+    sh:targetClass gax-trust-framework:InstantiatedVirtualResource .
+
+gax-validation:AgentShape a sh:NodeShape ;
+    sh:property [ skos:example "'example-name'" ;
+            sh:datatype xsd:string ;
+            sh:description "A name for some thing. Use vcard:Agent and its more comprehensive naming facilities when you need more expressiveness." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path foaf:name ] ;
+    sh:targetClass foaf:Agent .
+
+gax-validation:ServiceAccessPointShape a sh:NodeShape ;
+    sh:property [ skos:example "'accesspointABC'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the access point" ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "Host of the access point" ;
+            sh:name "host" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:host ],
+        [ skos:example "'TCP', 'UDP'" ;
+            sh:datatype xsd:string ;
+            sh:description "Protocol of the access point" ;
+            sh:name "protocol" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:protocol ],
+        [ skos:example "'1.2'" ;
+            sh:datatype xsd:string ;
+            sh:description "Version of the access point" ;
+            sh:name "version" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:version ],
+        [ skos:example "'8888'" ;
+            sh:datatype xsd:string ;
+            sh:description "Port of the access point" ;
+            sh:name "port" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:port ],
+        [ skos:example "'https://gaia-x.eu/openAPIdoc'" ;
+            sh:datatype xsd:string ;
+            sh:description "URL of the OpenAPI documentation" ;
+            sh:name "open a p i" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:openAPI ] ;
+    sh:targetClass gax-trust-framework:ServiceAccessPoint .
+

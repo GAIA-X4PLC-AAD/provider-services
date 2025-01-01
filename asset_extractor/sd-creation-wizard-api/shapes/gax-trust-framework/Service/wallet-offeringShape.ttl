@@ -1,0 +1,7 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+gax-validation:WalletOfferingShape a sh:NodeShape ;
+    sh:targetClass gax-trust-framework:WalletOffering .
+

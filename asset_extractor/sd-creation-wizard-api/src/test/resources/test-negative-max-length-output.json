@@ -1,0 +1,37 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "givenName"
+                    },
+                    "validations": [
+                        {
+                            "key": "maxLength",
+                            "value": -8
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

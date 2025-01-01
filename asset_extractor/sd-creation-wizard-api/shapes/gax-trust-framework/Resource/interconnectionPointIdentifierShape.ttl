@@ -1,0 +1,86 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:InterconnectionPointIdentifierShape a sh:NodeShape ;
+    sh:property [ skos:example "'Equinix FR2 - Frankfurt, North', 'Datacenter Leipzig Lindenau (RZW) ', 'Equinix AM1/AM2 - Amsterdam, Luttenbergweg'" ;
+            sh:datatype xsd:string ;
+            sh:description "the name or Id of datacenter where the service can be accessed" ;
+            sh:maxCount 1 ;
+            sh:name "data center name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:dataCenterName ],
+        [ skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+            sh:description "Resources related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ],
+        [ skos:example "'0G', '1st ', '2nd'" ;
+            sh:datatype xsd:string ;
+            sh:description "the floor number of datacenter where the service can be accessed" ;
+            sh:maxCount 1 ;
+            sh:name "data center floor" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:dataCenterFloor ],
+        [ skos:example "'0FM102'" ;
+            sh:datatype xsd:string ;
+            sh:description "the Id of datacenter rack number where the service can be accessed" ;
+            sh:maxCount 1 ;
+            sh:name " data center rack number" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:DataCenterRackNumber ],
+        [ skos:example "'PP102'" ;
+            sh:datatype xsd:string ;
+            sh:description "the Id of datacenter patch panel where the service can be accessed" ;
+            sh:maxCount 1 ;
+            sh:name "data center patch panel" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:dataCenterPatchPanel ],
+        [ skos:example "'14', '16', '25'" ;
+            sh:datatype xsd:string ;
+            sh:description "the port number on the patch panel where the service can be accessed" ;
+            sh:maxCount 1 ;
+            sh:name "data center port number" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:dataCenterPortNumber ],
+        [ skos:example "'00:00:5e:00:53:af'" ;
+            sh:datatype xsd:string ;
+            sh:description "the mac address required for L2 connectivity setup" ;
+            sh:maxCount 1 ;
+            sh:name "mac address" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:macAddress ],
+        [ skos:example "'18.125.10.15'" ;
+            sh:datatype xsd:string ;
+            sh:description "the IP address required for L3 connectivity setup" ;
+            sh:maxCount 1 ;
+            sh:name " i p address" ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:IPAddress ],
+        [ skos:example "'Example Resource'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of resource." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'Example Resource placed somewhere in Europe'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of resource." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path dct:description ] ;
+    sh:targetClass gax-trust-framework:InterconnectionPointIdentifier .
+

@@ -1,0 +1,33 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ProviderShape a sh:NodeShape ;
+    sh:property [ skos:example "'DID to Verifiable credential of legal information of the provider.'" ;
+            sh:description "Legal information of provider." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "legal information" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path trusted-cloud:legalInformation ],
+        [ skos:example "'(DID to Verifiable credential of company profile of the organization)'" ;
+            sh:description "Details on experience / knowledge of the company in the cloud service business." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "company profile" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path trusted-cloud:companyProfile ],
+        [ skos:example "'(DID to Verifiable credential of auditability profile of the organization'" ;
+            sh:description "Details on auditability possibilities of the organization." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "auditability profile" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path trusted-cloud:auditabilityProfile ] ;
+    sh:targetClass trusted-cloud:Provider .
+

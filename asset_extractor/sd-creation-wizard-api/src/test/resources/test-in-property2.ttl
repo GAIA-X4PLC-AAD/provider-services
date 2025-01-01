@@ -1,0 +1,10 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:FlowerShape
+	a sh:NodeShape ;
+	sh:targetClass ex:Flowers ;
+	sh:property [
+		sh:path ex:color ;
+		sh:in ( ex:Pink ex:Purple ) ;
+	] .

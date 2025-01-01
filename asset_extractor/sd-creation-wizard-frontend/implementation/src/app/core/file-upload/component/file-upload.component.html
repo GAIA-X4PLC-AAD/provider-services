@@ -1,0 +1,9 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <p>shape-file is being processed ... </p>
+  <p> optional json-file to prefill shape-file is being processed ... </p>
+  <mat-error *ngIf="f.fileSource.errors?.fileExtension">{{'file-upload.typeError'|translate}}</mat-error>
+  <mat-error *ngIf="requestError">
+    <span>{{'file-upload.processError'|translate}}</span><br>
+    <span>{{'file-upload.try'|translate}}</span>
+  </mat-error>
+</form>

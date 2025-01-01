@@ -1,0 +1,39 @@
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:telephone
+	a sh:NodeShape;
+	sh:targetClass ex:phone ;
+	sh:property [
+		sh:path ex:countryCode ;
+	];
+	sh:property [
+		sh:path ex:number ;
+	].
+
+ex:AddressShape
+    a sh:NodeShape ;
+    sh:targetClass schema:address ;
+    sh:property [
+		sh:path schema:streetAddress ;
+	] ;
+	sh:property [
+		sh:path ex:locality ;
+	];
+	sh:property [
+		sh:path schema:postalCode ;
+	] .
+	
+ex:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Person ;
+    sh:property [
+        sh:path schema:givenName ;
+    ] ;
+    sh:property [
+        sh:path schema:gender ;
+    ] ;
+    sh:property [
+        sh:path schema:birthDate ;
+    ] .

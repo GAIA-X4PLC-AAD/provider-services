@@ -1,0 +1,32 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ComplianceCriteriaCombinationShape a sh:NodeShape ;
+    sh:property [ skos:example "'Gaia-X Criteria Combination #1'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the Gaia-X criteria combination" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:hasName ],
+        [ skos:example "'Gaia-X'" ;
+            sh:datatype xsd:string ;
+            sh:description "A description in natural language" ;
+            sh:maxCount 1 ;
+            sh:name "has description" ;
+            sh:order 2 ;
+            sh:path dct:hasDescription ],
+        [ skos:example "'22/04 or 2022/04/12 or 1.5.34 or built 240344'" ;
+            sh:description "One or more required Criterias to be granted for the label or one or more granted Criterias by the compliance. All the Criteria have to be granted (logic AND)" ;
+            sh:minCount 1 ;
+            sh:name "required or granted criteria" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:requiredOrGrantedCriteria ] ;
+    sh:targetClass gax-trust-framework:ComplianceCriteriaCombination .
+

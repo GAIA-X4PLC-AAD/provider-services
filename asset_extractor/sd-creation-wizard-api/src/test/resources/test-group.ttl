@@ -1,0 +1,20 @@
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:AddressShape
+    a sh:NodeShape ;
+    sh:targetClass schema:address ;
+    sh:property [
+		sh:path schema:streetAddress ;
+		sh:group ex:AddressGroup ;
+	] ;
+	sh:property [
+		sh:path ex:locality ;
+		sh:group ex:AddressGroup ;
+	];
+	sh:property [
+		sh:path schema:postalCode ;
+		sh:group ex:AddressGroup ;
+	] .

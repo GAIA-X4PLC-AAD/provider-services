@@ -1,0 +1,23 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+@prefix schema: <http://schema.org/> .
+	
+ex:AddressShape
+    a sh:NodeShape ;
+    sh:targetClass schema:address ;
+    sh:property [
+		sh:path ex:streetAddress ;
+		sh:description "The street address including number"@de ;
+		sh:description "The street address including number"@en ;
+	] ;
+	sh:property [
+		sh:path ex:locality ;
+		sh:description "The suburb, city or town of the address."@de ;
+		sh:description "The suburb, city or town of the address."@en ;
+	];
+	sh:property [
+		sh:path ex:postalCode ;
+		sh:description "52004."@de;
+		sh:description "52004."@en
+	] .
+

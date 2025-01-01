@@ -1,0 +1,114 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:DataResourceShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a reference to gax-core:Participant object)'" ;
+            sh:description "A resolvable link to the participant self-description legally enabling the data usage." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "produced by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:producedBy ],
+        [ skos:example "'Example Resource'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of resource." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'Example Resource placed somewhere in Europe'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of resource." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path dct:description ],
+        [ skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+            sh:description "Resources related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "A resolvable link to the data exchange component that exposes the data resource." ;
+            sh:minCount 1 ;
+            sh:name "exposed through" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:exposedThrough ],
+        [ skos:example "'2022-10-26T21:32:52'" ;
+            sh:datatype xsd:dateTime ;
+            sh:description "Date time in ISO 8601 format after which data is obsolete." ;
+            sh:maxCount 1 ;
+            sh:name "obsolete date time" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:obsoleteDateTime ],
+        [ skos:example "'2022-10-26T21:32:52'" ;
+            sh:datatype xsd:dateTime ;
+            sh:description "Date time in ISO 8601 format after which data is expired and shall be deleted." ;
+            sh:maxCount 1 ;
+            sh:name "expiration date time" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:expirationDateTime ],
+        [ skos:example "'True'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Boolean determined by Participant owning the Data Resource." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "contains p i i" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:containsPII ],
+        [ skos:example "'https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN#d1e1888-1-1'" ;
+            sh:datatype xsd:string ;
+            sh:description "NOTE: Mandatory if containsPII is true. One of the reasons as detailed in the identified Personal Data Protection Regimes, such as [GDPR2018]. Potential Legal Bases can be [article 6], article 7, (https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:32016R0679&from=EN#d1e1888-1-1) or article 9. It shall be expressed as a string matching 6.1.[a-f], 6.1.4, 7 or 9.2.[a-j]. (Note: this list is not final, as GDPR and Member State Law may provide for additional legal basis. Those will be implemented as options in future iterations.)" ;
+            sh:maxCount 1 ;
+            sh:name "legal basis" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:legalBasis ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "The copyright owner(s), given as a Gaia-X Participant or as some other agent, possibly also a person outside of Gaia-X. A copyright owner is a person or organization, that has the right to exploit the resource. Copyright owner does not necessary refer to the author of the resource, who is a natural person and may differ from copyright owner. A simple name string can be referenced as a blank node whose foaf:name attribute has that string value." ;
+            sh:minCount 1 ;
+            sh:name "copyright owned by" ;
+            sh:node gax-validation:AgentShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:copyrightOwnedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more SPDX licenses identifiers or URL to license document" ;
+            sh:minCount 1 ;
+            sh:name "license" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:license ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more policies expressed using a DSL (e.g., Rego or ODRL) (access control, throttling, usage, retention, …)" ;
+            sh:minCount 1 ;
+            sh:name "policy" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:policy ] ;
+    sh:targetClass gax-trust-framework:DataResource .
+
+gax-validation:AgentShape a sh:NodeShape ;
+    sh:property [ skos:example "'example-name'" ;
+            sh:datatype xsd:string ;
+            sh:description "A name for some thing. Use vcard:Agent and its more comprehensive naming facilities when you need more expressiveness." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path foaf:name ] ;
+    sh:targetClass foaf:Agent .
+

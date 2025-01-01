@@ -1,0 +1,16 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ComplianceReferenceManagerShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://company-a.com/self-descriptions/comp-ref1.jsonld'" ;
+            sh:description "One or more Ids of ComplianceReferences (self-description) managed by this ComplianceReferenceManager" ;
+            sh:minCount 1 ;
+            sh:name "has compliance references" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:hasComplianceReferences ] ;
+    sh:targetClass gax-trust-framework:ComplianceReferenceManager .
+

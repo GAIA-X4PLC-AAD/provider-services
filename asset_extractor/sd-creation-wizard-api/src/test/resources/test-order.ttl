@@ -1,0 +1,23 @@
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:HospitalShape
+	a sh:NodeShape;
+	sh:targetClass ex:hospital;
+	sh:property [
+		sh:path schema:name ;
+		sh:order 1
+	];
+	sh:property [
+        sh:path schema:address ;
+        sh:order 2;
+    ] ;
+    sh:property [
+    	sh:path schema:telephone ;
+    	sh:order 3;
+    ];
+   sh:property [
+   		sh:path schema:Person ;
+   		sh:order 4 ;
+   	].

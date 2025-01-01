@@ -1,0 +1,18 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:PersonShape
+	a sh:NodeShape ;
+	sh:targetClass ex:Person ;
+	sh:property [
+		sh:or (
+			[
+				sh:path ex:firstName ;
+				sh:maxCount 2 ;
+			]
+			[
+				sh:path ex:givenName ;
+				sh:maxCount 3 ;
+			]
+		) 
+	] .

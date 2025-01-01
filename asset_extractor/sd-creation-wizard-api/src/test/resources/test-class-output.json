@@ -1,0 +1,31 @@
+{
+    "prefixList": [
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "AppleShape",
+            "targetClassPrefix": "ex",
+            "targetClassName": "Apple",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "apple"
+                    },
+                    "clazz": {
+                        "prefix": "ex",
+                        "value": "fruit"
+                    }
+                }
+            ]
+        }
+    ]
+}

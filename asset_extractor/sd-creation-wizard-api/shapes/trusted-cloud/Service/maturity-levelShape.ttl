@@ -1,0 +1,25 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:MaturityLevelShape a sh:NodeShape ;
+    sh:property [ skos:example "'5'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of customers who use the service." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of customers" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:numberOfCustomers ],
+        [ skos:example "'10'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of overall users who use the service." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of users" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:numberOfUsers ] ;
+    sh:targetClass trusted-cloud:MaturityLevel .
+

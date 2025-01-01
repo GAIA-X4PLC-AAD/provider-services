@@ -1,0 +1,42 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:NetworkOfferingShape a sh:NodeShape ;
+    sh:property [ skos:example "'virtual', 'bare-metal', 'mixed'" ;
+            sh:datatype xsd:string ;
+            sh:description "Type of Service Offering. Choose one of the following: virtual, bare-metal, mixed" ;
+            sh:in ( "virtual" "bare-metal" "mixed" ) ;
+            sh:maxCount 1 ;
+            sh:name "service type" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:serviceType ],
+        [ skos:example "'virtual', 'physical'" ;
+            sh:datatype xsd:string ;
+            sh:description "Default: virtual. How networks of different tenants are separated." ;
+            sh:in ( "virtual" "physical" ) ;
+            sh:maxCount 1 ;
+            sh:name "tenant separation" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:tenantSeparation ],
+        [ skos:example "'floating', 'fixed', 'provider-network'" ;
+            sh:datatype xsd:string ;
+            sh:description "Defines how public IP address are provided. Floating: floating ips are supported ." ;
+            sh:in ( "floating" "fixed" "provider-network" ) ;
+            sh:maxCount 1 ;
+            sh:name "public ip address provisioning" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:publicIpAddressProvisioning ],
+        [ skos:example "'IPV6', 'IPv4'" ;
+            sh:datatype xsd:string ;
+            sh:description "Version of IP address supported. IPv4: only ipV4 addresses are supported. IPv6: both version iIPV4 and IPv6 are supported." ;
+            sh:in ( "ipV6" "IPv4" ) ;
+            sh:maxCount 1 ;
+            sh:name "ip version" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:ipVersion ] ;
+    sh:targetClass gax-trust-framework:NetworkOffering .
+

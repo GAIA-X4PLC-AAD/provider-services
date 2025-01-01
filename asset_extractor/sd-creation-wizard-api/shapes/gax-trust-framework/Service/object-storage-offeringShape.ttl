@@ -1,0 +1,18 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ObjectStorageOfferingShape a sh:NodeShape ;
+    sh:property [ skos:example "'FAT32', 'FAT16', 'exFAT', 'HFS+', 'APFS', 'ext4', 'ext3', 'ext2', 'NTFS'" ;
+            sh:datatype xsd:string ;
+            sh:description "File system of storage services provides." ;
+            sh:in ( "FAT32" "FAT16" "exFAT" "HFS+" "APFS" "ext4" "ext3" "ext2" "NTFS" ) ;
+            sh:maxCount 1 ;
+            sh:name "file system" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:fileSystem ] ;
+    sh:targetClass gax-trust-framework:ObjectStorageOffering .
+

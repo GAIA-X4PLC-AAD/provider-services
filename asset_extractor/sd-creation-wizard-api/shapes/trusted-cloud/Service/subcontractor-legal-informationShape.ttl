@@ -1,0 +1,17 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:SubContractorLegalInformationShape a sh:NodeShape ;
+    sh:property [ skos:example "'yes', 'no'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is the data center company internal or his legally sovereign company? Yes = Legally sovereign company, no = company internal" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "independent sub company" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:independentSubCompany ] ;
+    sh:targetClass trusted-cloud:SubContractorLegalInformation .
+

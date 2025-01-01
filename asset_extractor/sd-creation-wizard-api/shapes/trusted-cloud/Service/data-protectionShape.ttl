@@ -1,0 +1,191 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:DataProtectionShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a structured object of type GpdrMeasures)'" ;
+            sh:description "Information about technical and organizational measures for GDPR." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "gdpr measures" ;
+            sh:node gax-validation:GdprMeasuresShape ;
+            sh:order 1 ;
+            sh:path trusted-cloud:gdprMeasures ],
+        [ skos:example "'(a structured object of type GdprCompliance)'" ;
+            sh:description "Information of compliance of European General Data Protection Regulation (GDPR)" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "gdpr compliance" ;
+            sh:node gax-validation:GdprComplianceShape ;
+            sh:order 2 ;
+            sh:path trusted-cloud:gdprCompliance ],
+        [ skos:example "'a structured object of type DataRetention)'" ;
+            sh:description "Information about limitation of customer data to specific regions" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "data retention" ;
+            sh:node gax-validation:DataRetentionShape ;
+            sh:order 3 ;
+            sh:path trusted-cloud:dataRetention ],
+        [ skos:example "'/a structured object of type DataSubjectRights)'" ;
+            sh:description "Details on the implementation of the data subject rigths in accordance with Art. 12-23 GDPR?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "data subject rights" ;
+            sh:node gax-validation:DataSubjectRightsShape ;
+            sh:order 4 ;
+            sh:path trusted-cloud:dataSubjectRights ],
+        [ skos:example "'yes', 'no'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is the obligation of all persons authorizied to process personal data to be subject to data secrecy according to Art. 28 (3) sentence 2 lit. b, 29, 32 para. 4 GDPR contractually defined??" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "employees commitment" ;
+            sh:order 5 ;
+            sh:path trusted-cloud:employeesCommitment ] ;
+    sh:targetClass trusted-cloud:DataProtection .
+
+gax-validation:DataRetentionShape a sh:NodeShape ;
+    sh:property [ skos:example "'No restriction', 'Restriction to a region', 'Restriction to the EU', 'Restriction to Germany'" ;
+            sh:datatype xsd:string ;
+            sh:description "Can the hosting of customer data be restricted to a specific location?" ;
+            sh:in ( "No restriction" "Restriction to a region" "Restriction to the EU" "Restriction to Germany" ) ;
+            sh:maxCount 1 ;
+            sh:name "custom data hosting restrictable" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:customDataHostingRestrictable ],
+        [ skos:example "'No restriction', 'Restriction to a region', 'Restriction to the EU', 'Restriction to Germany'" ;
+            sh:datatype xsd:string ;
+            sh:description "Can the administration of customer data be restricted to a specific location?" ;
+            sh:in ( "No restriction" "Restriction to a region" "Restriction to the EU" "Restriction to Germany" ) ;
+            sh:maxCount 1 ;
+            sh:name "custom data adminstration restrictable" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:customDataAdminstrationRestrictable ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Detailed information for options of GEO-regions." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "geo region options" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:geoRegionOptions ] ;
+    sh:targetClass trusted-cloud:DataRetention .
+
+gax-validation:DataSubjectRightsShape a sh:NodeShape ;
+    sh:property [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "How can the requirements of the GDPR according to data subject rights be fulfilled, e.g. the deletion of personal data?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "guarantee for implementation of data subject rights" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:guaranteeForImplementationOfDataSubjectRights ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "How can it be guaranteed, that also links get deleted, if the data is removed?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "guarantee to delete links to customer data" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:guaranteeToDeleteLinksToCustomerData ] ;
+    sh:targetClass trusted-cloud:DataSubjectRights .
+
+gax-validation:GdprComplianceShape a sh:NodeShape ;
+    sh:property [ skos:example "'No contract', 'Written contract', 'Written/electronic contract is offer on demand acc. to Art. 28 GDPR', 'Written/ electronic contract is offerd in accordance with Art. 28 GDPR.'" ;
+            sh:datatype xsd:string ;
+            sh:description "How is an office of data privacy contract or legal act agreed with the client based in the EU GDPR requirements?" ;
+            sh:in ( "No contract" "Written contract" "Written/electronic contract is offer on demand acc. to Art. 28 GDPR" "Written/ electronic contract is offerd in accordance with Art. 28 GDPR." ) ;
+            sh:maxCount 1 ;
+            sh:name "opd contracted" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:opdContracted ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is the support of the controller of data protection impact assessment (DPIA) contractually agreed, in case this is necessary for the client? (e.g. Date processing on a large scale', 'data transfer outside the EU', etc)." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "dpdia contracted" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:dpdiaContracted ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is there contracted pseudonymization or encryption of personal data?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "personal data encryption contracted" ;
+            sh:order 4 ;
+            sh:path trusted-cloud:personalDataEncryptionContracted ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is the application of data subject rights contractually guaranteed?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "application of data subject rights contracted" ;
+            sh:order 5 ;
+            sh:path trusted-cloud:applicationOfDataSubjectRightsContracted ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is the deletion of data including links to the relevant data and data copies in the cloud contractually assured?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "data deletion contracted" ;
+            sh:order 6 ;
+            sh:path trusted-cloud:dataDeletionContracted ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Does the office of data privacy contract require information from the client regarding the type of personal data as well as categories of the peronss concerns?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "client feedback required" ;
+            sh:order 7 ;
+            sh:path trusted-cloud:clientFeedbackRequired ],
+        [ skos:example "'Self-audit', 'Internal rules of conduct', 'Certificate', 'Approved rules of conduct acc. to Atr. 40 GDPR', 'Certificates acc. to Art. 42 GDPR', 'Others'" ;
+            sh:datatype xsd:string ;
+            sh:description "Which of the following proofs can be provided to the contractor for review by appropriate means in accordace with the office for data privacy contract?" ;
+            sh:in ( "Self-audit" "Internal rules of conduct" "Certificate" "Approved rules of conduct acc. to Atr. 40 GDPR" "Certificates acc. to Art. 42 GDPR" "Others (free text)" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "proofs" ;
+            sh:order 8 ;
+            sh:path trusted-cloud:proofs ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is a record of processing activities commissioned by the client based on Art. 30 GDPR?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "gdpr art40" ;
+            sh:order 9 ;
+            sh:path trusted-cloud:gdprArt40 ],
+        [ skos:example "'Requirements are fulfilled', 'Measurements for fullfillment are documented in the contract', 'Measurements for fullfillment are documented publicly', 'Measurements for fullfillment are evident by a certificate'" ;
+            sh:datatype xsd:string ;
+            sh:description "How are the formal requirements specified by GDPR fulfilled?" ;
+            sh:in ( "Requirements are fulfilled" "Measurements for fullfillment are documented in the contract" "Measurements for fullfillment are documented publicly" "Measurements for fullfillment are evident by a certificate" ) ;
+            sh:maxCount 1 ;
+            sh:name "gdpr fullfiled" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:gdprFullfiled ] ;
+    sh:targetClass trusted-cloud:GdprCompliance .
+
+gax-validation:GdprMeasuresShape a sh:NodeShape ;
+    sh:property [ skos:example "'Formally described', 'Contracted', 'Certified', 'Certified and reviewed regularly'" ;
+            sh:datatype xsd:string ;
+            sh:description "How adequately does the implementation of technical and organizational measures take place by European General Data Protection Regulation (GDPR)?" ;
+            sh:in ( "Formally described" "Contracted" "Certified" "Certified and reviewed regularly" ) ;
+            sh:maxCount 1 ;
+            sh:name "gdpr measures" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:gdprMeasures ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Details about the implemented technical and organizational measurements." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "details" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:details ] ;
+    sh:targetClass trusted-cloud:GdprMeasures .
+

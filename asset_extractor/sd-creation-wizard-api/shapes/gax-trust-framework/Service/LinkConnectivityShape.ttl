@@ -1,0 +1,116 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:LinkConnectivityShape a sh:NodeShape ;
+    sh:property [ skos:example "'FR:VLANID:56'" ;
+            sh:datatype xsd:string ;
+            sh:description "defined via interconnection point identifier of the source" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " source access point" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:SourceAccessPoint ],
+        [ skos:example "'23', '175'" ;
+            sh:description "Vlan Tag ID that range between 1 and 4094. In case qinq connection type is chosen tow vlan tag, namely outer and innter should be provided" ;
+            sh:maxCount 1 ;
+            sh:name " v l a n tag" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 10 ;
+            sh:path gax-trust-framework:VLANTag ],
+        [ skos:example "'0x8100', '0x88a8'" ;
+            sh:datatype xsd:string ;
+            sh:description "The ethertype of the vlan in hexadecimal notation." ;
+            sh:maxCount 1 ;
+            sh:name " v l a n ether type" ;
+            sh:order 11 ;
+            sh:path gax-trust-framework:VLANEtherType ],
+        [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "" ;
+            sh:maxCount 1 ;
+            sh:name " instantiation requirements" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:InstantiationRequirements ],
+        [ skos:example "'MUC:VLANID:24'" ;
+            sh:datatype xsd:string ;
+            sh:description "defined via interconnection point identifier of the destination" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " destination access point" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:DestinationAccessPoint ],
+        [ skos:example "'1 Gbit/s', '10 Gbit/s', '100 Gbit/s', '400 Gbit/s'" ;
+            sh:description "Contractual bandwidth defined in the service level agreement (SLA)" ;
+            sh:maxCount 1 ;
+            sh:name "bandwidth" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:bandwidth ],
+        [ skos:example "'1 ms', '10 ms', '1 s'" ;
+            sh:description "Contractual latency defined in the SLA." ;
+            sh:maxCount 1 ;
+            sh:name " round trip time r t t" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:RoundTripTimeRTT ],
+        [ skos:example "'99.9999 %', '99.9 %', '99.99 %'" ;
+            sh:description "Contractual availability of connection defined in the SLA agreement. Availability is measured in the pseudo-unit 'percent'." ;
+            sh:maxCount 1 ;
+            sh:name "availability" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:availability ],
+        [ skos:example "'0.00002 %'" ;
+            sh:description "Contractual packet loss of connection defined in the SLA agreement. If not specified, then best effort is assumed. PackageLoss s measured in the pseudo-unit 'percent'-" ;
+            sh:maxCount 1 ;
+            sh:name "packet loss" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:packetLoss ],
+        [ skos:example "'0.01 ms', '0.002 ms'" ;
+            sh:description "Contractual jitter defined in the SLA. If not specified, then best effort is assumed." ;
+            sh:maxCount 1 ;
+            sh:name "jitter" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:jitter ],
+        [ skos:example "'Ethrnet, ARP, PPP, VLAN'" ;
+            sh:datatype xsd:string ;
+            sh:description "Link protocol type" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " protocol type" ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:ProtocolType ],
+        [ skos:example "'qinq', 'dot1q'" ;
+            sh:datatype xsd:string ;
+            sh:description "the chosen types of vlan types" ;
+            sh:maxCount 1 ;
+            sh:name " v l a n type" ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:VLANType ] ;
+    sh:targetClass gax-trust-framework:LinkConnectivity .
+
+gax-validation:MeasureShape a sh:NodeShape ;
+    sh:property [ skos:example "'100'" ;
+            sh:datatype xsd:float ;
+            sh:description "The value of this measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:name "value" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:value ],
+        [ skos:example "'Gbps', 'Euro'" ;
+            sh:datatype xsd:string ;
+            sh:description "The unit of this measurement" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:unit ] ;
+    sh:targetClass gax-trust-framework:Measure .
+

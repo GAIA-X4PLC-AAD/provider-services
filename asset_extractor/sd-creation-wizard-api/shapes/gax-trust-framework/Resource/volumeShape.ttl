@@ -1,0 +1,43 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:VolumeShape a sh:NodeShape ;
+    sh:property [ skos:example "'a structure object of type measure, e.g. measure:value=24 and measure:unit=GB'" ;
+            sh:description "Size of this storage volume" ;
+            sh:maxCount 1 ;
+            sh:name "size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:size ],
+        [ skos:example "'localHD', 'localSSD', 'SAN', 'networked'" ;
+            sh:datatype xsd:string ;
+            sh:description "storage volume type" ;
+            sh:maxCount 1 ;
+            sh:name "type" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:type ] ;
+    sh:targetClass gax-trust-framework:Volume .
+
+gax-validation:MeasureShape a sh:NodeShape ;
+    sh:property [ skos:example "'100'" ;
+            sh:datatype xsd:float ;
+            sh:description "The value of this measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:name "value" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:value ],
+        [ skos:example "'Gbps', 'Euro'" ;
+            sh:datatype xsd:string ;
+            sh:description "The unit of this measurement" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:unit ] ;
+    sh:targetClass gax-trust-framework:Measure .
+

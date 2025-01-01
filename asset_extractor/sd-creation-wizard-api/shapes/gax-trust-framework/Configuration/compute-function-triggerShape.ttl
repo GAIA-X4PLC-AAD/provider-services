@@ -1,0 +1,54 @@
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ComputeFunctionTriggerShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://compute.function.endpoint'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "URI / URL used to trigger this compute function" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name " u r l" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:URL ],
+        [ skos:example "'false', 'true'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "indicates whether function is of confidential nature" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "is confidential" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:isConfidential ],
+        [ skos:example "'AMD SEV', 'AMD SEV-ES', 'AMD SEV-SNP', 'ARM TrustZone', 'ARM RME', 'Huawei Qingtian', 'Intel SGX1', 'Intel SGX2', 'Intel TDX'" ;
+            sh:datatype xsd:string ;
+            sh:description "one ore more particular CC technologies used by this flavor" ;
+            sh:maxCount 1 ;
+            sh:name "confidential computing technology" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:confidentialComputingTechnology ],
+        [ skos:example "'https://attestation.service.endpoint'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "indicates whether function has an associated attestation service" ;
+            sh:maxCount 1 ;
+            sh:name "attestation service u r i" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:attestationServiceURI ],
+        [ skos:example "'Configuration Example'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-core:name ],
+        [ skos:example "'Configuration Example for this European platform'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path gax-core:description ] ;
+    sh:targetClass gax-trust-framework:ComputeFunctionTrigger .
+

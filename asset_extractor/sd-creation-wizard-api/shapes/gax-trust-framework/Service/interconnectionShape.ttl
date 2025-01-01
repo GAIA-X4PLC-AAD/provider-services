@@ -1,0 +1,183 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:InterconnectionShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a reference to vcard:Address object)'" ;
+            sh:description "A vcard:Address Object containing the physical location in ISO 3166-1 alpha2, alpha-3 or numeric format with at least the both ends of the connection." ;
+            sh:name "location" ;
+            sh:node gax-validation:AddressShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:location ],
+        [ skos:example "'97.5%, 99%'" ;
+            sh:description "Contractual percentile in the SLA. Usually referred to the nubmer of frames the SLA metrics such as availability, latency and jitter can bbe guaranteed." ;
+            sh:name "target percentile" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 10 ;
+            sh:path gax-trust-framework:targetPercentile ],
+        [ skos:example "'ethernet unicast', 'multicast', 'broadcast support'" ;
+            sh:datatype xsd:string ;
+            sh:description "the supported types of connection, preferably specified as a controlled vocabulary entry" ;
+            sh:name "connection type" ;
+            sh:order 11 ;
+            sh:path gax-trust-framework:connectionType ],
+        [ skos:example "'qinq', 'dot1q'" ;
+            sh:datatype xsd:string ;
+            sh:description "the chosen types of vlan types" ;
+            sh:name "vlan type" ;
+            sh:order 12 ;
+            sh:path gax-trust-framework:vlanType ],
+        [ skos:example "'23', '175'" ;
+            sh:description "Vlan Tag ID that range between 1 and 4094. In case qinq connection type is chosen tow vlan tag, namely outer and innter should be provided" ;
+            sh:name "vlan tag" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 13 ;
+            sh:path gax-trust-framework:vlanTag ],
+        [ skos:example "'0x8100', '0x88a8'" ;
+            sh:datatype xsd:string ;
+            sh:description "The ethertype of the vlan in hexadecimal notation." ;
+            sh:name "vlan ether type" ;
+            sh:order 14 ;
+            sh:path gax-trust-framework:vlanEtherType ],
+        [ skos:example "'200', '714'" ;
+            sh:datatype xsd:decimal ;
+            sh:description "autonomous system (AS) number (ASN) of the side A" ;
+            sh:minInclusive 0.0 ;
+            sh:name "connected network_ a" ;
+            sh:order 15 ;
+            sh:path gax-trust-framework:connectedNetwork_A ],
+        [ skos:example "'200', '714'" ;
+            sh:datatype xsd:decimal ;
+            sh:description "autonomous system (AS) number (ASN) of the side Z" ;
+            sh:minInclusive 0.0 ;
+            sh:name "connected network_ z" ;
+            sh:order 16 ;
+            sh:path gax-trust-framework:connectedNetwork_Z ],
+        [ skos:example "'176.46.32.0/24'" ;
+            sh:datatype xsd:string ;
+            sh:description "CIDR Provider Identifier of network on the side A" ;
+            sh:name "prefix set_ a" ;
+            sh:order 17 ;
+            sh:path gax-trust-framework:prefixSet_A ],
+        [ skos:example "'192.46.52.0/24'" ;
+            sh:datatype xsd:string ;
+            sh:description "CIDR Provider Identifier of network on the side Z" ;
+            sh:name "prefix set_ z" ;
+            sh:order 18 ;
+            sh:path gax-trust-framework:prefixSet_Z ],
+        [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "placeholder for networking" ;
+            sh:maxCount 1 ;
+            sh:name "nic port req" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:nicPortReq ],
+        [ skos:example "'Copper cable', '5G'" ;
+            sh:datatype xsd:string ;
+            sh:description "a type of physical interface" ;
+            sh:name "interface.type" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:interface.type ],
+        [ skos:example "'a MAC address', 'IP address'" ;
+            sh:datatype xsd:string ;
+            sh:description "The ID of the source of the connection." ;
+            sh:name "connection point a" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:connectionPointA ],
+        [ skos:example "'a MAC address', 'IP address'" ;
+            sh:datatype xsd:string ;
+            sh:description "The ID of the destination of the connection." ;
+            sh:name "connection point z" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:connectionPointZ ],
+        [ skos:example "'500 Gbps'" ;
+            sh:description "Contractual bandwidth defined in the service level agreement (SLA). Bandwidth is usually measured in dimension of bits per second." ;
+            sh:name "bandwidth" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:bandwidth ],
+        [ skos:example "'10 seconds'" ;
+            sh:description "Contractual latency defined in the SLA. If not specified, then best effort is assumed. Latency is usually measured in dimension of time." ;
+            sh:name "latency" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:latency ],
+        [ skos:example "'99 percent'" ;
+            sh:description "Contractual availability of connection defined in the SLA agreement. If not specified, then best effort is assumed. Availability is measured in the pseudo-unit 'percent'." ;
+            sh:name "availability" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:availability ],
+        [ skos:example "'0.00002 %'" ;
+            sh:description "Contractual packet loss of connection defined in the SLA agreement. If not specified, then best effort is assumed. PackageLoss s measured in the pseudo-unit 'percent'-" ;
+            sh:name "packet loss" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:packetLoss ],
+        [ skos:example "'0.01 miliseconds'" ;
+            sh:description "Contractual jitterdefined in the SLA. If not specified, then best effort is assumed. Jitter is measured in dimension of time." ;
+            sh:name "jitter" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:jitter ] ;
+    sh:targetClass gax-trust-framework:Interconnection .
+
+gax-validation:AddressShape a sh:NodeShape ;
+    sh:property [ skos:example "'DE', 'DEU'" ;
+            sh:datatype xsd:string ;
+            sh:description "Physical location of head quarter in ISO 3166-1 alpha2, alpha-3 or numeric format." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "country-name" ;
+            sh:order 1 ;
+            sh:path vcard:country-name ],
+        [ skos:example "'50°45'0'N 7°13'0'E', '51°3'0'N 13°45'0'E'" ;
+            sh:datatype xsd:string ;
+            sh:description "GPS in ISO 6709:2008/Cor 1:2009 format." ;
+            sh:maxCount 1 ;
+            sh:name "gps" ;
+            sh:order 2 ;
+            sh:path vcard:gps ],
+        [ skos:example "'example-street'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:street-address property specifies the street address of a postal address." ;
+            sh:name "street-address" ;
+            sh:order 3 ;
+            sh:path vcard:street-address ],
+        [ skos:example "'example-postal-code'" ;
+            sh:datatype xsd:string ;
+            sh:description "String of a street-address" ;
+            sh:name "postal-code" ;
+            sh:order 4 ;
+            sh:path vcard:postal-code ],
+        [ skos:example "'example-locality'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:locality property specifies the locality (e.g., city) of a postal address." ;
+            sh:name "locality" ;
+            sh:order 5 ;
+            sh:path vcard:locality ] ;
+    sh:targetClass vcard:Address .
+
+gax-validation:MeasureShape a sh:NodeShape ;
+    sh:property [ skos:example "'100'" ;
+            sh:datatype xsd:float ;
+            sh:description "The value of this measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:name "value" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:value ],
+        [ skos:example "'Gbps', 'Euro'" ;
+            sh:datatype xsd:string ;
+            sh:description "The unit of this measurement" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:unit ] ;
+    sh:targetClass gax-trust-framework:Measure .
+

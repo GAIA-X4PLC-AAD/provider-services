@@ -1,0 +1,220 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:OperativeProcessesShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a structured object of type ServiceManagement)'" ;
+            sh:description "Information about efficient service management for ensuring the quality of service?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "service management" ;
+            sh:node gax-validation:ServiceManagementShape ;
+            sh:order 1 ;
+            sh:path trusted-cloud:serviceManagement ],
+        [ skos:example "'(a structured object of type ServiceAvailability)'" ;
+            sh:description "Information of ensured service availability in service level agreements." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "service availability" ;
+            sh:node gax-validation:ServiceAvailabilityShape ;
+            sh:order 2 ;
+            sh:path trusted-cloud:serviceAvailability ],
+        [ skos:example "'(a structured object of type Backups)'" ;
+            sh:description "Details on backup options and implementation of data protection concepts." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "backups" ;
+            sh:node gax-validation:BackupsShape ;
+            sh:order 3 ;
+            sh:path trusted-cloud:backups ],
+        [ skos:example "'Customer cannot provision', 'Customer can provision'" ;
+            sh:datatype xsd:string ;
+            sh:description "Can the customer provision the service himself?" ;
+            sh:in ( "Customer cannot provision" "Customer can provision" ) ;
+            sh:maxCount 1 ;
+            sh:name "provision possibility" ;
+            sh:order 4 ;
+            sh:path trusted-cloud:provisionPossibility ],
+        [ skos:example "'(a structured object of type Support)'" ;
+            sh:description "Information about support services and documentation." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "support" ;
+            sh:node gax-validation:SupportShape ;
+            sh:order 5 ;
+            sh:path trusted-cloud:support ] ;
+    sh:targetClass trusted-cloud:OperativeProcesses .
+
+gax-validation:BackupsShape a sh:NodeShape ;
+    sh:property [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Description of backup options" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "backup options" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:backupOptions ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Is it guaranteed, that data protection is also extended to the backup?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "confidentiality" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:confidentiality ] ;
+    sh:targetClass trusted-cloud:Backups .
+
+gax-validation:CertificateScopeShape a sh:NodeShape ;
+    sh:property [ skos:example "'(DID of certificate VC)'" ;
+            sh:description "Reference to certificate, which is reelvant for this scope." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "certificate" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path trusted-cloud:certificate ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Details about relevance of the certificate for this scope." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "scope" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:scope ] ;
+    sh:targetClass trusted-cloud:CertificateScope .
+
+gax-validation:ServiceAvailabilityShape a sh:NodeShape ;
+    sh:property [ skos:example "'99%', '99.9%', '99.99%', '99.999%', '99.999%'" ;
+            sh:datatype xsd:string ;
+            sh:description "Assured Service Availability in Percent / Year" ;
+            sh:in ( "99%" "99.9%" "99.99%" "99.999%" "99.999%" ) ;
+            sh:maxCount 1 ;
+            sh:name "availability" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:availability ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Maximum downtime of the service in hours" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "maximum down time" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:maximumDownTime ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "How is the quick recovery of availability of client data and access to it guarantieed in the event of a physical or technical incident?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "time to recover" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:timeToRecover ] ;
+    sh:targetClass trusted-cloud:ServiceAvailability .
+
+gax-validation:ServiceManagementShape a sh:NodeShape ;
+    sh:property [ skos:example "'Formally described', 'According to accepted procedure', 'Certified', 'Certified and checked regularly'" ;
+            sh:datatype xsd:string ;
+            sh:description "Is an efficient service management ensured e.g. as per ITIL?" ;
+            sh:in ( "Formally described" "According to accepted procedure" "Certified" "Certified and checked regularly" ) ;
+            sh:maxCount 1 ;
+            sh:name "service management" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:serviceManagement ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Details about the service management" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "details" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:details ],
+        [ skos:example "'(a structured object of type Certificate'" ;
+            sh:description "Details about certificates, which are relevant for this service." ;
+            sh:name "certificates" ;
+            sh:node gax-validation:CertificateScopeShape ;
+            sh:order 3 ;
+            sh:path trusted-cloud:certificates ] ;
+    sh:targetClass trusted-cloud:ServiceManagement .
+
+gax-validation:SupportShape a sh:NodeShape ;
+    sh:property [ skos:example "'4 hours', '1 work day', '<3 work days'" ;
+            sh:datatype xsd:string ;
+            sh:description "What is the guaranteed response time on critical requests?" ;
+            sh:in ( "4 hours" "1 work day" "<3 work days" ) ;
+            sh:maxCount 1 ;
+            sh:name "response time on critical requests" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:responseTimeOnCriticalRequests ],
+        [ skos:example "'<1 work day', '1 work day', '<4 work days'" ;
+            sh:datatype xsd:string ;
+            sh:description "Whats the average time until minor problems are resolved?" ;
+            sh:in ( "<1 work day" "1 work day" "<4 work days" ) ;
+            sh:maxCount 1 ;
+            sh:name "main resolve time of minor problems" ;
+            sh:order 4 ;
+            sh:path trusted-cloud:mainResolveTimeOfMinorProblems ],
+        [ skos:example "'<1 work day', '1 work day', '<4 work days'" ;
+            sh:datatype xsd:string ;
+            sh:description "What is the average time until major problems are resolved?" ;
+            sh:in ( "<1 work day" "1 work day" "<4 work days" ) ;
+            sh:maxCount 1 ;
+            sh:name "main resolve time major problems" ;
+            sh:order 5 ;
+            sh:path trusted-cloud:mainResolveTimeMajorProblems ],
+        [ skos:example "'5x8', '24/7'" ;
+            sh:datatype xsd:string ;
+            sh:description "What is the availability of the support?" ;
+            sh:in ( "5x8" "24/7" ) ;
+            sh:maxCount 1 ;
+            sh:name "availability of support" ;
+            sh:order 6 ;
+            sh:path trusted-cloud:availabilityOfSupport ],
+        [ skos:example "'Complete and updated', 'Regularly updated', 'Updated version online'" ;
+            sh:datatype xsd:string ;
+            sh:description "Is there a complete user documentation?" ;
+            sh:in ( "Complete and updated" "Regularly updated" "Updated version online" ) ;
+            sh:maxCount 1 ;
+            sh:name "user documentation completeness" ;
+            sh:order 7 ;
+            sh:path trusted-cloud:userDocumentationCompleteness ],
+        [ skos:example "'Complete and updated', 'On request'" ;
+            sh:datatype xsd:string ;
+            sh:description "Is there a complete system documentation?" ;
+            sh:in ( "Complete and updated" "On request" ) ;
+            sh:maxCount 1 ;
+            sh:name "system documentation completeness" ;
+            sh:order 8 ;
+            sh:path trusted-cloud:systemDocumentationCompleteness ],
+        [ skos:example "'Yes', 'No'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Are trainings offered?" ;
+            sh:maxCount 1 ;
+            sh:name "training offered" ;
+            sh:order 9 ;
+            sh:path trusted-cloud:trainingOffered ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Specification from training partners" ;
+            sh:name "training partners" ;
+            sh:order 10 ;
+            sh:path trusted-cloud:trainingPartners ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Description of the scope of support services" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "description" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:description ],
+        [ skos:example "'4 hours', '1 work day', '<3 work days'" ;
+            sh:datatype xsd:string ;
+            sh:description "What is the guaranteed response time on normal requests?" ;
+            sh:in ( "4 hours" "1 work day" "<3 work days" ) ;
+            sh:maxCount 1 ;
+            sh:name "response time on normal requests" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:responseTimeOnNormalRequests ] ;
+    sh:targetClass trusted-cloud:Support .
+

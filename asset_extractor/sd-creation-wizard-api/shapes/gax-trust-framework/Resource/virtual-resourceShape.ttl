@@ -1,0 +1,70 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:VirtualResourceShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "The copyright owner(s), given as a Gaia-X Participant or as some other agent, possibly also a person outside of Gaia-X. A copyright owner is a person or organization, that has the right to exploit the resource. Copyright owner does not necessary refer to the author of the resource, who is a natural person and may differ from copyright owner. A simple name string can be referenced as a blank node whose foaf:name attribute has that string value." ;
+            sh:minCount 1 ;
+            sh:name "copyright owned by" ;
+            sh:node gax-validation:AgentShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:copyrightOwnedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more SPDX licenses identifiers or URL to license document" ;
+            sh:minCount 1 ;
+            sh:name "license" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:license ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more policies expressed using a DSL (e.g., Rego or ODRL) (access control, throttling, usage, retention, …)" ;
+            sh:minCount 1 ;
+            sh:name "policy" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:policy ],
+        [ skos:example "'Example Resource'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of resource." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'Example Resource placed somewhere in Europe'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of resource." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path dct:description ],
+        [ skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+            sh:description "Resources related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ] ;
+    sh:targetClass gax-trust-framework:VirtualResource .
+
+gax-validation:AgentShape a sh:NodeShape ;
+    sh:property [ skos:example "'example-name'" ;
+            sh:datatype xsd:string ;
+            sh:description "A name for some thing. Use vcard:Agent and its more comprehensive naming facilities when you need more expressiveness." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path foaf:name ] ;
+    sh:targetClass foaf:Agent .
+

@@ -1,0 +1,18 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:OrchestrationShape a sh:NodeShape ;
+    sh:property [ skos:example "'Docker Swarm', 'Apache Mesos', 'Kubernetes'" ;
+            sh:datatype xsd:string ;
+            sh:description "Type of this Orchestration Service Offering, such as kubernetes." ;
+            sh:in ( "Docker Swarm" "Apache Mesos" "Kubernetes" ) ;
+            sh:maxCount 1 ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:type ] ;
+    sh:targetClass gax-trust-framework:Orchestration .
+

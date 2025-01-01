@@ -1,0 +1,118 @@
+<div *ngIf="orType == 'datatype'">
+  <form [formGroup]="form">
+    <div *ngIf="input.controlTypes.length > 1">
+      <small>Select a datatype for {{input.name}} </small> <br>
+      <mat-radio-group [name]="groupName">
+        <mat-radio-button (change)="onItemChangeDatatype(option, i)"
+                          *ngFor="let option of input.controlTypes; let i = index;" [checked]='i==0'
+                          [value]="option">
+          {{input.or[i]['datatype']['value']}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div *ngFor="let controlType of input.controlTypes">
+      <div [ngSwitch]="controlType">
+        <div *ngSwitchCase="'textbox'">
+          <mat-form-field *ngIf="radioButtonSelected == controlType" class="full-width-input">
+            <mat-label>{{input.name}} <span *ngIf="input.required" aria-required="true" class="required"></span>
+            </mat-label>
+            <input [formControlName]="input.id" [matTooltip]="input.name" [placeholder]="input.name" [type]="input.datatype" matInput>
+          </mat-form-field>
+          <mat-error>
+            <app-show-errors *ngIf="radioButtonSelected == controlType" [ctrl]="form.get(input.id)"
+                             [label]="input.name"></app-show-errors>
+          </mat-error>
+        </div>
+        <div *ngSwitchCase="'textbox_integer'">
+          <mat-form-field *ngIf="radioButtonSelected == controlType" class="full-width-input">
+            <mat-label>{{input.name}} <span *ngIf="input.required" aria-required="true" class="required"></span>
+            </mat-label>
+            <input [formControlName]="input.id" [matTooltip]="input.name" [placeholder]="input.name" appNumeric matInput type="number">
+          </mat-form-field>
+          <mat-error>
+            <app-show-errors *ngIf="radioButtonSelected == controlType" [ctrl]="form.get(input.id)"
+                             [label]="input.name"></app-show-errors>
+          </mat-error>
+        </div>
+        <div *ngSwitchCase="'textbox_decimal'">
+          <mat-form-field *ngIf="radioButtonSelected == controlType" class="full-width-input">
+            <mat-label>{{input.name}} <span *ngIf="input.required" aria-required="true" class="required"></span>
+            </mat-label>
+            <input [id]="input.id" [matTooltip]="input.name" [placeholder]="input.name" appNumeric decimals="2" matInput type="number">
+          </mat-form-field>
+          <mat-error>
+            <app-show-errors *ngIf="radioButtonSelected == controlType" [ctrl]="form.get(input.id)"
+                             [label]="input.name"></app-show-errors>
+          </mat-error>
+        </div>
+        <div *ngSwitchCase="'textbox_uri'">
+          <mat-form-field *ngIf="radioButtonSelected == controlType" class="full-width-input">
+            <mat-label>{{input.name}} <span *ngIf="input.required" aria-required="true" class="required"></span>
+            </mat-label>
+            <input [formControlName]="input.id" [matTooltip]="input.name" [placeholder]="input.name" matInput>
+          </mat-form-field>
+          <mat-error>
+            <app-show-errors *ngIf="radioButtonSelected == controlType" [ctrl]="form.get(input.id)"
+                             [label]="input.name"></app-show-errors>
+          </mat-error>
+        </div>
+        <div *ngSwitchCase="'datepicker'">
+          <mat-form-field *ngIf="radioButtonSelected == controlType" class="full-width-input">
+            <mat-label>{{input.name}} <span *ngIf="input.required" aria-required="true" class="required"></span>
+            </mat-label>
+            <input [formControlName]="input.id" [matDatepicker]="picker" matInput>
+            <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-error>
+            <app-show-errors [ctrl]="form.get(input.id)" [label]="input.name"></app-show-errors>
+          </mat-error>
+        </div>
+        <div *ngSwitchCase="'datetimepicker'">
+          <mat-form-field *ngIf="radioButtonSelected == controlType" class="full-width-input">
+            <mat-label>{{input.name}} <span *ngIf="input.required" aria-required="true" class="required"></span>
+            </mat-label>
+            <input [formControlName]="input.id" [ngxMatDatetimePicker]="picker" matInput>
+            <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+          </mat-form-field>
+          <mat-error>
+            <app-show-errors [ctrl]="form.get(input.id)" [label]="input.name"></app-show-errors>
+          </mat-error>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
+
+<div *ngIf="orType == 'class'">
+  <form [formGroup]="nestedFormGroup">
+    <small>Select a shape for {{input.name}} <span *ngIf="input.required" aria-required="true"
+                                                   class="required"></span></small> <br>
+    <mat-radio-group [name]="groupName">
+      <mat-radio-button (change)="onItemChangeObject(option, i)" *ngFor="let option of orObjects; let i = index;"
+                        [checked]='i==0'
+                        [disabled]=!orObjectsFound[i] [value]="option">
+        <span *ngIf=orObjectsFound[i]>
+          {{option}}
+        </span>
+        <span *ngIf=!orObjectsFound[i]>
+          {{option}} (no shape found)
+        </span>
+      </mat-radio-button>
+    </mat-radio-group>
+    <div *ngFor="let field of shapeFields">
+      <app-dynamic-form-input *ngIf="field.componentType == 'dynamicFormInput'" [form]="nestedFormGroup" [input]="field"
+                              [shapes]="shapes"></app-dynamic-form-input>
+      <app-dynamic-form-array *ngIf="field.componentType == 'dynamicFormArray'" [form]="nestedFormGroup" [input]="field"
+                              [shapes]="shapes"></app-dynamic-form-array>
+      <app-dynamic-form-or-array *ngIf="field.componentType == 'dynamicFormOrArray'" [form]="nestedFormGroup"
+                                 [input]="field" [shapes]="shapes"></app-dynamic-form-or-array>
+      <app-dynamic-form-or *ngIf="field.componentType == 'dynamicFormOr'" [form]="nestedFormGroup" [input]="field"
+                           [shapes]="shapes"></app-dynamic-form-or>
+      <app-expanded-fields *ngIf="field.componentType == 'dynamicExpanded'" [form]="nestedFormGroup" [input]="field"
+                           [shapes]="shapes"></app-expanded-fields>
+    </div>
+  </form>
+</div>

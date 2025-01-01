@@ -1,0 +1,70 @@
+variables:
+  SPRING_PROFILES_ACTIVE: gitlab-ci
+
+stages:
+  - test-and-compile
+  - build
+  - deploy
+
+maven-build:
+  image: maven:3-jdk-11
+  stage: test-and-compile
+  script: mvn clean install
+  artifacts:
+    paths:
+      - target/*.jar
+      - target/surefire-reports/*.xml
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
+
+build:
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  stage: build
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${HARBOR_HOST}\":{\"auth\":\"$(echo -n ${HARBOR_USERNAME}:${HARBOR_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
+    # Both main and staging build and push a Docker container, but only main overrides "latest"
+    - >
+      [ "$CI_COMMIT_REF_SLUG" == "main" ] &&
+      /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile ${CI_PROJECT_DIR}/Dockerfile
+      --destination "${HARBOR_HOST}/${HARBOR_PROJECT}/${CI_PROJECT_NAME}:$CI_COMMIT_SHORT_SHA"
+      --destination "${HARBOR_HOST}/${HARBOR_PROJECT}/${CI_PROJECT_NAME}:latest"
+    - >
+      [ "$CI_COMMIT_REF_SLUG" == "staging" ] &&
+      /kaniko/executor
+      --context ${CI_PROJECT_DIR}
+      --dockerfile ${CI_PROJECT_DIR}/Dockerfile
+      --destination "${HARBOR_HOST}/${HARBOR_PROJECT}/${CI_PROJECT_NAME}:${CI_COMMIT_SHORT_SHA}"
+    - echo CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+  only:
+    - main
+    - staging
+
+deploy:
+  stage: deploy
+  image: alpine:3.16
+  dependencies:
+    - build
+  before_script:
+    - apk add --no-cache git wget bash
+    - apk add yq --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community
+    - git config --global --add safe.directory /builds/xfsc/self-description-tooling/sd-creation-wizard/sd-creation-wizard-api
+    - git remote set-url origin https://${CI_USERNAME}:${CI_PUSH_TOKEN}@gitlab.eclipse.org/eclipse/xfsc/self-description-tooling/sd-creation-wizard-api.git
+    - git config --global user.email "gitlab@gitlab.com"
+    - git config --global user.name "GitLab CI/CD"
+  script:
+    - git checkout -B main
+    - cd manifests
+    - echo $CI_COMMIT_SHORT_SHA
+    - yq eval -i ".deployments.default.containers[0].tag = \"$CI_COMMIT_SHORT_SHA"\" values.yaml
+    - git commit -am '[skip ci] DEV image update'    
+    - git push origin main
+  only:
+    - main

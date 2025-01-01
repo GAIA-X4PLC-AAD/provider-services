@@ -1,0 +1,24 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ComplianceCertificateClaimShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://company-a.com/self-descriptions/compliance-cert-scheme-iso27001.jsonld'" ;
+            sh:description "ID of the Compliance Certification Scheme (self-description) involved in the certification" ;
+            sh:maxCount 1 ;
+            sh:name "has compliance certification scheme" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:hasComplianceCertificationScheme ],
+        [ skos:example "'https://company-a.com/self-descriptions/service-offering-iaas.jsonld'" ;
+            sh:description "ID of the Service Offering (self-description) certified for the compliance" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has service offering" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:hasServiceOffering ] ;
+    sh:targetClass gax-trust-framework:ComplianceCertificateClaim .
+

@@ -1,0 +1,25 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ComplianceCertificationSchemeShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://company-a.com/self-descriptions/compliance-ref-iso27001.jsonld'" ;
+            sh:description "ID of Compliance Reference (self-description) to be certified by any means defined in the Certification Scheme" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has compliance reference" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:hasComplianceReference ],
+        [ skos:example "'https://company-a.com/self-descriptions/compliance-ref-iso27001.jsonld'" ;
+            sh:description "ID of Compliance Criterion Combination granted by the scheme in case of certification" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "grants compliance criteria combination" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:grantsComplianceCriteriaCombination ] ;
+    sh:targetClass gax-trust-framework:ComplianceCertificationScheme .
+

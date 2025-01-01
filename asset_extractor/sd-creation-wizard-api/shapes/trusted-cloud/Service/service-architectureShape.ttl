@@ -1,0 +1,63 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ServiceArchitectureShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a structured object of type ClientIsolation)'" ;
+            sh:description "Description of measures for limiting client areas for dedicated technical infrastructures and data areas." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "client isolation" ;
+            sh:node gax-validation:ClientIsolationShape ;
+            sh:order 1 ;
+            sh:path trusted-cloud:clientIsolation ],
+        [ skos:example "'(a structured object of type ServiceScaling)'" ;
+            sh:description "Information about scaling possibilities of technical infrastructure of the service." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "scaling" ;
+            sh:node gax-validation:ServiceScalingShape ;
+            sh:order 2 ;
+            sh:path trusted-cloud:scaling ] ;
+    sh:targetClass trusted-cloud:ServiceArchitecture .
+
+gax-validation:ClientIsolationShape a sh:NodeShape ;
+    sh:property [ skos:example "'Not guaranteed', 'Guaranteed', 'Guaranteed and can be proven'" ;
+            sh:datatype xsd:string ;
+            sh:description "Is a continuous client separation guaranteed?" ;
+            sh:in ( "Not guaranteed" "Guaranteed" "Guaranteed and can be proven" ) ;
+            sh:maxCount 1 ;
+            sh:name "client separation" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:clientSeparation ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "How does the client separation work?" ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:description ] ;
+    sh:targetClass trusted-cloud:ClientIsolation .
+
+gax-validation:ServiceScalingShape a sh:NodeShape ;
+    sh:property [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Description of defined scaling types" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:description ],
+        [ skos:example "'Not defined', 'Scaling types are defined', 'Scaling types are defined and assured by contract'" ;
+            sh:datatype xsd:string ;
+            sh:description "Are the scales and factors of the technical infrastructure defined?" ;
+            sh:in ( "Not defined" "Scaling types are defined" "Scaling types are defined and assured by contract" ) ;
+            sh:maxCount 1 ;
+            sh:name "scaling types" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:scalingTypes ] ;
+    sh:targetClass trusted-cloud:ServiceScaling .
+

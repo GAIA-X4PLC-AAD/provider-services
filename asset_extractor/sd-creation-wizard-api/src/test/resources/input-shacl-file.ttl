@@ -1,0 +1,41 @@
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+
+ex:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Person ;
+    sh:property [
+        sh:path schema:givenName ;
+        sh:datatype xsd:string ;
+        sh:name "Peter Parker" ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:minLength 3;
+        sh:maxLength 8;
+        sh:order 1
+
+    ] ;
+    sh:property [
+        sh:path schema:gender ;
+        sh:in ( "female" "male" ) ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:order 2;
+    ] ;
+    sh:property [
+        sh:path schema:birthDate ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:order 3;
+    ] ;
+
+    sh:property [
+        sh:path ex:age ;
+        sh:minCount 1;
+        sh:maxCount 1;
+        sh:minInclusive 18 ;
+        sh:maxInclusive 65 ;
+    ] .

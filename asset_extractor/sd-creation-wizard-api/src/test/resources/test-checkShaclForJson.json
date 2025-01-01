@@ -1,0 +1,31 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "ex": "http://w3id.org/gaia-x/ex#",
+    "sh": "http://www.w3.org/ns/shacl#"
+  },
+  "@id": "did:example:1234",
+  "@type": "schema:Hospital",
+  "schema:name": {
+    "@value": "msg Systems hospital",
+    "@type": "xsd:string"
+  },
+  "schema:address": {
+    "@type": "schema:address",
+    "schema:streetAddress": {
+      "@value": "Robert-Bürkle-Straße 1",
+      "@type": "xsd:string"
+    },
+    "ex:locality": {
+      "@value": "Ismaning",
+      "@type": "xsd:string"
+    },
+    "schema:postalCode": 85737
+  },
+  "schema:telephone": {
+    "@type": "ex:phone",
+    "ex:number": 123456789,
+    "ex:countryCode": "DE"
+  }
+}

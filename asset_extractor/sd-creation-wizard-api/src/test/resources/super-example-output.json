@@ -1,0 +1,283 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "xsd",
+            "url": "http://www.w3.org/2001/XMLSchema#"
+        },
+        {
+            "alias": "ex",
+            "url": "http://example.com/ns#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "phoneNumber"
+                    },
+                    "minCount": 1,
+                    "order": 36,
+                    "children": "PhoneShape"
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "address"
+                    },
+                    "minCount": 1,
+                    "order": 35,
+                    "children": "AddressShape"
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "age"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "integer"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 34,
+                    "validations": [
+                        {
+                            "key": "maxInclusive",
+                            "value": 100
+                        },
+                        {
+                            "key": "minInclusive",
+                            "value": 18
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "birthDate"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "date"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 33
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "gender"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "in": [
+                        {
+                            "key": "female",
+                            "value": "female"
+                        },
+                        {
+                            "key": "male",
+                            "value": "male"
+                        }
+                    ],
+                    "order": 32
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "givenName"
+                    },
+                    "name": "given name",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 31,
+                    "validations": [
+                        {
+                            "key": "maxLength",
+                            "value": 8
+                        },
+                        {
+                            "key": "minLength",
+                            "value": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "schema": "HospitalShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "hospital",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "person"
+                    },
+                    "order": 4,
+                    "children": "PersonShape"
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "phoneNumber"
+                    },
+                    "minCount": 1,
+                    "order": 3,
+                    "children": "PhoneShape"
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "address"
+                    },
+                    "minCount": 1,
+                    "order": 2,
+                    "children": "AddressShape"
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "name"
+                    },
+                    "name": "name",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 1,
+                    "description": "Name of the hospital",
+                    "order": 1
+                }
+            ]
+        },
+        {
+            "schema": "AddressShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Address",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "postalCode"
+                    },
+                    "name": "postal code",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "integer"
+                    },
+                    "description": "The postal code of the locality",
+                    "order": 13,
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "AddressGroup"
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "locality"
+                    },
+                    "name": "locality",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "description": "The suburb, city or town of the address",
+                    "order": 12,
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "AddressGroup"
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "streetAddress"
+                    },
+                    "name": "street address",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "description": "The street address including number",
+                    "order": 11,
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "AddressGroup"
+                        },
+                        {
+                            "key": "minLength",
+                            "value": 3
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "schema": "PhoneShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "phone",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "number"
+                    },
+                    "name": "number",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "integer"
+                    },
+                    "minCount": 1,
+                    "description": "The phone number",
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "PhoneGroup"
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "countryCode"
+                    },
+                    "name": "country code",
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "description": "Country code",
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "PhoneGroup"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

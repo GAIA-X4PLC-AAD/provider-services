@@ -1,0 +1,34 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:IdentityAccessManagementOfferingShape a sh:NodeShape ;
+    sh:property [ skos:example "''" ;
+            sh:datatype xsd:integer ;
+            sh:description "Days of account inactivity before a user account is disabled." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "disable user account days inactive" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:disableUserAccountDaysInactive ],
+        [ skos:example "''" ;
+            sh:datatype xsd:integer ;
+            sh:description "Days until a user must renew their password. This attribute is only allowed with authKind=credentials." ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "password expires days" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:passwordExpiresDays ],
+        [ skos:example "'credentials', 'ssl-cert'" ;
+            sh:datatype xsd:string ;
+            sh:description "Indicate, which kind of authentication is used. 'credentials': Authentication with username and password. 'ssl-cert': Authentication with X.509 certificates." ;
+            sh:in ( "credentials" "ssl-cert" ) ;
+            sh:maxCount 1 ;
+            sh:name "auth kind" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:authKind ] ;
+    sh:targetClass gax-trust-framework:IdentityAccessManagementOffering .
+

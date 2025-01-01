@@ -1,0 +1,266 @@
+{
+    "prefixList": [
+        {
+            "alias": "xsd",
+            "url": "http://www.w3.org/2001/XMLSchema#"
+        },
+        {
+            "alias": "General",
+            "url": "https://example.org/general/"
+        },
+        {
+            "alias": "skos",
+            "url": "http://www.w3.org/2004/02/skos/core#"
+        },
+        {
+            "alias": "HD-Map",
+            "url": "https://example.org/hdmap/"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "OtherShape",
+            "targetClassPrefix": "General",
+            "targetClassName": "Other",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "yMax"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "xMax"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                }
+            ]
+        },
+        {
+            "schema": "LinkShape",
+            "targetClassPrefix": "General",
+            "targetClassName": "Link",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "yMax"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "other"
+                    },
+                    "datatype": {},
+                    "in": [],
+                    "validations": [],
+                    "children": "OtherShape"
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "xMax"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                }
+            ]
+        },
+        {
+            "schema": "BoundingBoxShape",
+            "targetClassPrefix": "General",
+            "targetClassName": "BoundingBox",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "yMax"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "licence_link"
+                    },
+                    "datatype": {},
+                    "in": [],
+                    "validations": [],
+                    "children": "LinkShape"
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "xMax"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "yMin"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "xMin"
+                    },
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "in": [],
+                    "validations": []
+                }
+            ]
+        },
+        {
+            "schema": "BasicAttributesShape",
+            "targetClassPrefix": "General",
+            "targetClassName": "BasicAttributes",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "General_position_bounding"
+                    },
+                    "name": "bounding",
+                    "datatype": {},
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "description": {
+                        "en": "Bounding box with lat/lon values in WGS84"
+                    },
+                    "in": [],
+                    "validations": [],
+                    "children": "BoundingBoxShape"
+                },
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "General_format_format_version"
+                    },
+                    "name": "format_version",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "description": {
+                        "en": "nan"
+                    },
+                    "example": "1.5",
+                    "in": [],
+                    "validations": []
+                }
+            ]
+        },
+        {
+            "schema": "HDMapShape",
+            "targetClassPrefix": "HD-Map",
+            "targetClassName": "HDMap",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "General",
+                        "value": "BasicAttributes"
+                    },
+                    "name": "Basic Description",
+                    "datatype": {},
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "description": {
+                        "en": "Reference to a Basic Description Shape"
+                    },
+                    "in": [],
+                    "validations": [],
+                    "children": "BasicAttributesShape"
+                },
+                {
+                    "path": {
+                        "prefix": "HD-Map",
+                        "value": "HD-Map_quality_accuracy_lane_model_height"
+                    },
+                    "name": "accuracy_lane_model_height",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "minCount": 0,
+                    "maxCount": 1,
+                    "description": {
+                        "en": "accuracy lane modell height"
+                    },
+                    "example": "0.1",
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "HD-Map",
+                        "value": "HD-Map_quality_accuracy_lane_model_2d"
+                    },
+                    "name": "accuracy_lane_model_2d",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "float"
+                    },
+                    "minCount": 0,
+                    "maxCount": 1,
+                    "description": {
+                        "en": "accuracy of lane modell 2d"
+                    },
+                    "example": "0.1",
+                    "in": [],
+                    "validations": []
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,71 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:CertificateShape a sh:NodeShape ;
+    sh:property [ skos:example "'ISO XYZ'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of certificate" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:name ],
+        [ skos:example "'TÜV Süd'" ;
+            sh:description "Certificate authority for this service or its certificate" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "certificate authority" ;
+            sh:node gax-validation:CertificationBodyShape ;
+            sh:order 3 ;
+            sh:path trusted-cloud:certificateAuthority ],
+        [ skos:example "'2122-12-21'" ;
+            sh:datatype xsd:date ;
+            sh:description "Date on which the certificate expires" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "expiration date" ;
+            sh:order 4 ;
+            sh:path trusted-cloud:expirationDate ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is the certificate regularly audited?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "regular audited" ;
+            sh:order 5 ;
+            sh:path trusted-cloud:regularAudited ],
+        [ skos:example "'BSI IT-Grundschutz', 'ISO 27001', 'Trust in Cloud'" ;
+            sh:datatype xsd:string ;
+            sh:description "Type of the certificates" ;
+            sh:in ( "BSI IT-Grundschutz" "CSA Star" "EuroCloud Star Audit" "EuroPrise" "FedRAMP" "ISAE 3402/SSAE 16 Typ II" "ISO 27001" "ISO 27018" "Trust in Cloud" "Trusted Cloud - TÜV" "TRUSTed Cloud Privacy" "TÜV Cloud Security" "TCDP" "others" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "type" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:type ] ;
+    sh:targetClass trusted-cloud:Certificate .
+
+gax-validation:CertificationBodyShape a sh:NodeShape ;
+    sh:property [ skos:example "'TÜV Süd'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the company." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:name ],
+        [ skos:example "'(ACME street 1, 12345 city, Germany)'" ;
+            sh:datatype xsd:address ;
+            sh:description "Address of the certification body." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "address" ;
+            sh:order 2 ;
+            sh:path vcard:address ] ;
+    sh:targetClass trusted-cloud:CertificationBody .
+

@@ -1,0 +1,66 @@
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:VmAutoscalingGroupSpecShape a sh:NodeShape ;
+    sh:property [ skos:example "'2', '8'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Minimim number of VM instances in the ASG" ;
+            sh:maxCount 1 ;
+            sh:name "min instantiated v m" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:minInstantiatedVM ],
+        [ skos:example "'cpu load', 'memory load', 'IO load', 'cost'" ;
+            sh:datatype xsd:string ;
+            sh:description "Load Metric type - can be of various types" ;
+            sh:maxCount 1 ;
+            sh:name "load metric" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:loadMetric ],
+        [ skos:example "'2', '8'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Per VM instance Load Metric Target value. Must be defined if asgLoadMetric is defined. Must be between Min and Max" ;
+            sh:maxCount 1 ;
+            sh:name "load metric target" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:loadMetricTarget ],
+        [ skos:example "'2', '8'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Per VM Load Metric Target value. Must be defined if asgLoadMetric is defined. Must be < Max" ;
+            sh:maxCount 1 ;
+            sh:name "load metric target min" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:loadMetricTargetMin ],
+        [ skos:example "'2', '8'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Per VM Load Metric Target value. Must be defined if asgLoadMetric is defined. Must be > Min" ;
+            sh:maxCount 1 ;
+            sh:name "load metric target max" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:loadMetricTargetMax ],
+        [ skos:example "'scale by one instance', 'scale by two instances', 'My Custom Scaling Plan'" ;
+            sh:datatype xsd:string ;
+            sh:description "Autoscaling Policy" ;
+            sh:maxCount 1 ;
+            sh:name "asg scaling plan" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:asgScalingPlan ],
+        [ skos:example "'Configuration Example'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-core:name ],
+        [ skos:example "'Configuration Example for this European platform'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path gax-core:description ] ;
+    sh:targetClass gax-trust-framework:VmAutoscalingGroupSpec .
+

@@ -1,0 +1,188 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:NetworkingDeviceShape a sh:NodeShape ;
+    sh:property [ skos:example "'no', 'yes'" ;
+            sh:datatype xsd:string ;
+            sh:description "A dedicated port for management tasks." ;
+            sh:name "management port" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:managementPort ],
+        [ skos:example "'192.168.24.2/32'" ;
+            sh:datatype xsd:float ;
+            sh:description "IP address of the netowrking device" ;
+            sh:name "network adress" ;
+            sh:order 10 ;
+            sh:path gax-trust-framework:networkAdress ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "Participant maintaining the resource in operational condition and thus have physical access to it." ;
+            sh:minCount 1 ;
+            sh:name "maintained by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:maintainedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "Participant owning the resource." ;
+            sh:name "owned by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:ownedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "Participant manufacturing the resource." ;
+            sh:name "manufactured by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:manufacturedBy ],
+        [ skos:example "''" ;
+            sh:description "A vcard:Address object that contains the physical location in ISO 3166-1 alpha2, alpha-3 or numeric format." ;
+            sh:minCount 1 ;
+            sh:name "location address" ;
+            sh:node gax-validation:AddressShape ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:locationAddress ],
+        [ skos:example "'Atlantic Ocean +00-025/'" ;
+            sh:datatype xsd:string ;
+            sh:description "A list of physical GPS in ISO 6709:2008/Cor 1:2009 format." ;
+            sh:name "location g p s" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:locationGPS ],
+        [ skos:example "'Example Resource'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of resource." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'Example Resource placed somewhere in Europe'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of resource." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path dct:description ],
+        [ skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+            sh:description "Resources related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ],
+        [ skos:example "'no', 'yes'" ;
+            sh:datatype xsd:string ;
+            sh:description "A dedicated port for console tasks." ;
+            sh:name "console port" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:consolePort ],
+        [ skos:example "'10GE', '100GE'" ;
+            sh:datatype xsd:float ;
+            sh:description "The assigned capacity of ports." ;
+            sh:minInclusive 0.0 ;
+            sh:name "port capacity_ a" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:portCapacity_A ],
+        [ skos:example "'10', '1'" ;
+            sh:datatype xsd:integer ;
+            sh:description "The assigned number of ports." ;
+            sh:minInclusive 1.0 ;
+            sh:name "port capacity_ a_ count" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:portCapacity_A_Count ],
+        [ skos:example "'yes', 'no'" ;
+            sh:datatype xsd:string ;
+            sh:description "Availability of redundant power supply for the cases of emergency." ;
+            sh:name "redundant power supply" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:redundantPowerSupply ],
+        [ skos:example "'2Gb'" ;
+            sh:description "Ram size of the networking device" ;
+            sh:name "ram size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:ramSize ],
+        [ skos:example "'1'" ;
+            sh:description "Number of available CPUs." ;
+            sh:name "cpu count" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:cpuCount ],
+        [ skos:example "'switch, router, repeater'" ;
+            sh:datatype xsd:string ;
+            sh:description "Type of networking device" ;
+            sh:name "type" ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:type ],
+        [ skos:example "'IP', 'IRP'" ;
+            sh:datatype xsd:string ;
+            sh:description "List of  supported protocols among used layers should be specified." ;
+            sh:name "supported protocols" ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:supportedProtocols ] ;
+    sh:targetClass gax-trust-framework:NetworkingDevice .
+
+gax-validation:AddressShape a sh:NodeShape ;
+    sh:property [ skos:example "'DE', 'DEU'" ;
+            sh:datatype xsd:string ;
+            sh:description "Physical location of head quarter in ISO 3166-1 alpha2, alpha-3 or numeric format." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "country-name" ;
+            sh:order 1 ;
+            sh:path vcard:country-name ],
+        [ skos:example "'50°45'0'N 7°13'0'E', '51°3'0'N 13°45'0'E'" ;
+            sh:datatype xsd:string ;
+            sh:description "GPS in ISO 6709:2008/Cor 1:2009 format." ;
+            sh:maxCount 1 ;
+            sh:name "gps" ;
+            sh:order 2 ;
+            sh:path vcard:gps ],
+        [ skos:example "'example-street'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:street-address property specifies the street address of a postal address." ;
+            sh:name "street-address" ;
+            sh:order 3 ;
+            sh:path vcard:street-address ],
+        [ skos:example "'example-postal-code'" ;
+            sh:datatype xsd:string ;
+            sh:description "String of a street-address" ;
+            sh:name "postal-code" ;
+            sh:order 4 ;
+            sh:path vcard:postal-code ],
+        [ skos:example "'example-locality'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:locality property specifies the locality (e.g., city) of a postal address." ;
+            sh:name "locality" ;
+            sh:order 5 ;
+            sh:path vcard:locality ] ;
+    sh:targetClass vcard:Address .
+
+gax-validation:MeasureShape a sh:NodeShape ;
+    sh:property [ skos:example "'100'" ;
+            sh:datatype xsd:float ;
+            sh:description "The value of this measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:name "value" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:value ],
+        [ skos:example "'Gbps', 'Euro'" ;
+            sh:datatype xsd:string ;
+            sh:description "The unit of this measurement" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:unit ] ;
+    sh:targetClass gax-trust-framework:Measure .
+

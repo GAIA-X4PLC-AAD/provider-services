@@ -1,0 +1,24 @@
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:InstantiationRequirementsShape a sh:NodeShape ;
+    sh:property [ skos:example "'Configuration Example'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-core:name ],
+        [ skos:example "'Configuration Example for this European platform'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of the configuration artifact." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path gax-core:description ] ;
+    sh:targetClass gax-trust-framework:InstantiationRequirements .
+

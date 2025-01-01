@@ -1,0 +1,87 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "birthDate"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "gender"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "givenName"
+                    }
+                }
+            ]
+        },
+        {
+            "schema": "AddressShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "address",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "postalCode"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "locality"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "streetAddress"
+                    }
+                }
+            ]
+        },
+        {
+            "schema": "telephone",
+            "targetClassPrefix": "ex",
+            "targetClassName": "phone",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "number"
+                    }
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "countryCode"
+                    }
+                }
+            ]
+        }
+    ]
+}

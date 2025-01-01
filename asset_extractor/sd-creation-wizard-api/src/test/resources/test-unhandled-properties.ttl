@@ -1,0 +1,11 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:TestShape
+    a sh:NodeShape ;
+    sh:targetClass ex:Test ;
+    sh:property [
+    	sh:path ex:TestPath ;
+		sh:message "This is a test message" ;
+		sh:focusNode ex:Alice ;
+	] .

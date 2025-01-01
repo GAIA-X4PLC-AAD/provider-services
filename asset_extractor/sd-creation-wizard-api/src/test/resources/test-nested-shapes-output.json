@@ -1,0 +1,179 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "xsd",
+            "url": "http://www.w3.org/2001/XMLSchema#"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "telephone"
+                    },
+                    "datatype": {},
+                    "minCount": 1,
+                    "in": [],
+                    "order": 36,
+                    "validations": [],
+                    "children": "TelephoneShape"
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "address"
+                    },
+                    "datatype": {},
+                    "minCount": 1,
+                    "in": [],
+                    "order": 35,
+                    "validations": [],
+                    "children": "AddressShape"
+                }
+            ]
+        },
+        {
+            "schema": "TelephoneShape",
+            "targetClassPrefix": "ex",
+            "targetClassName": "phone",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "number"
+                    },
+                    "name": "number",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "integer"
+                    },
+                    "minCount": 1,
+                    "description": {
+                        "en": "The phone number"
+                    },
+                    "in": [],
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "PhoneGroup"
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "countryCode"
+                    },
+                    "name": "country code",
+                    "datatype": {},
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "description": {
+                        "en": "Country code"
+                    },
+                    "in": [],
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "PhoneGroup"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "schema": "AddressShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "address",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "postalCode"
+                    },
+                    "name": "zip code",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "integer"
+                    },
+                    "description": {
+                        "en": "The postal code of the locality"
+                    },
+                    "in": [],
+                    "order": 13,
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "AddressGroup"
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "locality"
+                    },
+                    "name": "locality",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "description": {
+                        "en": "The suburb, city or town of the address"
+                    },
+                    "in": [],
+                    "order": 12,
+                    "validations": [
+                        {
+                            "key": "group",
+                            "value": "AddressGroup"
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "streetAddress"
+                    },
+                    "name": "street address",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "description": {
+                        "en": "The street address including number"
+                    },
+                    "in": [],
+                    "order": 11,
+                    "validations": [
+                        {
+                            "key": "minLength",
+                            "value": 3
+                        },
+                        {
+                            "key": "group",
+                            "value": "AddressGroup"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

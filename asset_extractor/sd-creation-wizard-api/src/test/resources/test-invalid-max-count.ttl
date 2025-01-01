@@ -1,0 +1,11 @@
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <http://schema.org/> .
+
+ex:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Person ;   
+     sh:property [
+     	sh:path ex:age ;
+        sh:maxCount "apple";
+    ] .

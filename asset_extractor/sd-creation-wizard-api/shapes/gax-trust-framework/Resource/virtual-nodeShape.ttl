@@ -1,0 +1,421 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:VirtualNodeShape a sh:NodeShape ;
+    sh:property [ skos:example "'virtual machine', 'container'" ;
+            sh:datatype xsd:string ;
+            sh:description "Type of virtual node" ;
+            sh:in ( "virtual machine" "container" ) ;
+            sh:name "type" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:type ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "a resource where the instance of this virtual resource is being executed on." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "hosted on" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:hostedOn ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "A virtual resource (normally a software resource) this process is an instance of." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "instance of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:instanceOf ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "One or more participants with contractual relation with the resource." ;
+            sh:minCount 1 ;
+            sh:name "tenant owned by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:tenantOwnedBy ],
+        [ skos:example "'PD-SAP', 'PLME-SAP'" ;
+            sh:description "One or more Service Access Points which can be an endpoint as a mean to access and interact with the resource" ;
+            sh:in ( "PD-SAP" "PLME-SAP" ) ;
+            sh:minCount 1 ;
+            sh:name "service access point" ;
+            sh:node gax-validation:ServiceAccessPointShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:serviceAccessPoint ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "The copyright owner(s), given as a Gaia-X Participant or as some other agent, possibly also a person outside of Gaia-X. A copyright owner is a person or organization, that has the right to exploit the resource. Copyright owner does not necessary refer to the author of the resource, who is a natural person and may differ from copyright owner. A simple name string can be referenced as a blank node whose foaf:name attribute has that string value." ;
+            sh:minCount 1 ;
+            sh:name "copyright owned by" ;
+            sh:node gax-validation:AgentShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:copyrightOwnedBy ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more SPDX licenses identifiers or URL to license document" ;
+            sh:minCount 1 ;
+            sh:name "license" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:license ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:datatype xsd:string ;
+            sh:description "one or more policies expressed using a DSL (e.g., Rego or ODRL) (access control, throttling, usage, retention, …)" ;
+            sh:minCount 1 ;
+            sh:name "policy" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:policy ],
+        [ skos:example "'Example Resource'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of resource." ;
+            sh:maxCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "'Example Resource placed somewhere in Europe'" ;
+            sh:datatype xsd:string ;
+            sh:description "A more detailed description of resource." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 2 ;
+            sh:path dct:description ],
+        [ skos:example "'(a reference to gax-trust-framework:Resource object)'" ;
+            sh:description "Resources related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:aggregationOf ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ],
+        [ skos:example "'a structured object of type cpu, e.g. CPU:numberOfCores=4, CPU:frequency:value=3.0 and CPU:frequency:measure:unit=GHz'" ;
+            sh:description "Description of CPU(s) of this node" ;
+            sh:name "cpu" ;
+            sh:node gax-validation:CPUShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:cpu ],
+        [ skos:example "'a structured object of type gpu, e.g. GPU:memoryType=DDR6, GPU:memorySize:value=24 and GPU:memorySize:value:unit=GB'" ;
+            sh:description "Description of GPU(s) of this node." ;
+            sh:name "gpu" ;
+            sh:node gax-validation:GPUShape ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:gpu ],
+        [ skos:example "'a structured object of type measure, e.g. measure:value=950 and measure:unit=GB'" ;
+            sh:description "Size of RAM of this node" ;
+            sh:name "ramsize" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:ramsize ],
+        [ skos:example "'a structured object of type harddrive, e.g. harddrive:productid=6CX68AV, and harddrive:name=Xeon Platinum 8280,and harddrive:manufacture=NVIDA; harddrive:size:value=1000, harddrive:size:unit=GB, and harddrive:type=SSD'" ;
+            sh:description "Description of disk(s) of this nodes" ;
+            sh:name "disk" ;
+            sh:node gax-validation:DiskShape ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:disk ],
+        [ skos:example "'a structured object of type measure, e.g. measure:value=10 and measure:unit=GBase-T'" ;
+            sh:description "Description of network interface card(s) of this node" ;
+            sh:name "nic" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:nic ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "One or more participants maintaining the resource in operational condition." ;
+            sh:minCount 1 ;
+            sh:name "maintained by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:maintainedBy ] ;
+    sh:targetClass gax-trust-framework:VirtualNode .
+
+gax-validation:AgentShape a sh:NodeShape ;
+    sh:property [ skos:example "'example-name'" ;
+            sh:datatype xsd:string ;
+            sh:description "A name for some thing. Use vcard:Agent and its more comprehensive naming facilities when you need more expressiveness." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path foaf:name ] ;
+    sh:targetClass foaf:Agent .
+
+gax-validation:CPUShape a sh:NodeShape ;
+    sh:property [ skos:example "'x86', 'x86-64', 'RISC-V', 'Generic'" ;
+            sh:datatype xsd:string ;
+            sh:description "Basic CPU architecture." ;
+            sh:in ( "x86" "x86-64" "RISC-V" "Generic" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "cpu architecture" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:cpuArchitecture ],
+        [ skos:example "'Skylake-Server-v4', 'Icelake-Server-v4', 'Cascadelake-Server-v4', 'EPYC-Milan-v1', 'EPYC-Rome-v2'" ;
+            sh:datatype xsd:string ;
+            sh:description "CPU instruction set generation. Determines basic feature set and migration compatibility." ;
+            sh:in ( "Skylake-Server-v4" "Icelake-Server-v4" "Cascadelake-Server-v4" "EPYC-Milan-v1" "EPYC-Rome-v2" ) ;
+            sh:maxCount 1 ;
+            sh:name "cpu generation" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:cpuGeneration ],
+        [ skos:example "'fpu', 'vme', 'de', 'pse', 'sse', 'sse2', 'ht', 'vmx', 'smx', 'sse4_1', 'sse4_2', 'avx', '3dnowprefetch', 'ibrs_enhanced', 'ept_ad', 'sgx', 'sgx_lc', 'md_clear', 'arch_capabilities', '...'" ;
+            sh:datatype xsd:string ;
+            sh:description "CPU flags as documented by lscpu and defined in https://github.com/torvalds/linux/blob/master/tools/arch/x86/include/asm/cpufeatures.h ." ;
+            sh:name "cpu flag" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:cpuFlag ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is simultaneous multithreading (SMT) or hyper threading (HT) active in this CPU? Default False." ;
+            sh:maxCount 1 ;
+            sh:name "smt is enabled" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:smtIsEnabled ],
+        [ skos:example "'1', '2', '4'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of CPU Sockets" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of sockets" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:numberOfSockets ],
+        [ skos:example "'4', '6', '8', '12', '24'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of Cores of the CPU" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of cores" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:numberOfCores ],
+        [ skos:example "'8', '12', '24'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Number of Threads of the CPU" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of threads" ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:numberOfThreads ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=3.0 and measure:unit=GHz'" ;
+            sh:description "Frequency of the CPU" ;
+            sh:maxCount 1 ;
+            sh:name "base frequency" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:baseFrequency ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=4.0 and measure:unit=GHz'" ;
+            sh:description "Boost frequency of the CPU" ;
+            sh:maxCount 1 ;
+            sh:name "boost frequency" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:boostFrequency ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=38 and measure:unit=MB'" ;
+            sh:description "Last Level Cache size of the CPU" ;
+            sh:maxCount 1 ;
+            sh:name "last level cache size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 10 ;
+            sh:path gax-trust-framework:lastLevelCacheSize ],
+        [ skos:example "'FCLGA3647'" ;
+            sh:datatype xsd:string ;
+            sh:description "Socket the CPU fits into." ;
+            sh:maxCount 1 ;
+            sh:name "socket" ;
+            sh:order 11 ;
+            sh:path gax-trust-framework:socket ],
+        [ skos:example "'A structure object of type measure, e.g. measure:value=100 and measure:unit=W'" ;
+            sh:description "CPU Thermal Design Power - ref : https://en.wikipedia.org/wiki/Thermal_design_power" ;
+            sh:maxCount 1 ;
+            sh:name "tdp" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 12 ;
+            sh:path gax-trust-framework:tdp ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "a dimensionless value larger or equal to 1.0 describing the default maximum number of workloads scheduled on this CPU simultaneously" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "default overbooking ratio" ;
+            sh:order 13 ;
+            sh:path gax-trust-framework:defaultOverbookingRatio ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "several dimensionless values larger or equal to 1.0 describing the available scheduler settings for the numer of simultaneously scheduled workloads on this CPU" ;
+            sh:minInclusive 1.0 ;
+            sh:name "supported overbooking ratio" ;
+            sh:order 14 ;
+            sh:path gax-trust-framework:supportedOverbookingRatio ] ;
+    sh:targetClass gax-trust-framework:CPU .
+
+gax-validation:DiskShape a sh:NodeShape ;
+    sh:property [ skos:example "'1600 GB'" ;
+            sh:description "The size of that hard drive." ;
+            sh:maxCount 1 ;
+            sh:name "size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:size ],
+        [ skos:example "'local SSD', 'local HDD', 'shared network storage', 'high-perf NVMe'" ;
+            sh:datatype xsd:string ;
+            sh:description "The type of that hard drive." ;
+            sh:in ( "local SSD" "local HDD" "shared network storage" "high-perf NVM" ) ;
+            sh:maxCount 1 ;
+            sh:name "type" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:type ],
+        [ skos:example "'(a strucctured object of type gax-trust-framework:Encryption)'" ;
+            sh:description "Details of disk ecryption." ;
+            sh:maxCount 1 ;
+            sh:name "encryption" ;
+            sh:node gax-validation:EncryptionShape ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:encryption ] ;
+    sh:targetClass gax-trust-framework:Disk .
+
+gax-validation:EncryptionShape a sh:NodeShape ;
+    sh:property [ skos:example "'none', 'rsa'" ;
+            sh:datatype xsd:string ;
+            sh:description "Supported algorithm used to encrypt." ;
+            sh:in ( "none" "rsa" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "encryption algorithm" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:encryptionAlgorithm ],
+        [ skos:example "'managed', 'byok', 'hyok'" ;
+            sh:datatype xsd:string ;
+            sh:description "Define key management method. 'managed': Keys are created by and stored in key manager of cloud. 'byok': bring-your-own-key: Keys created by user and stored in key manager of cloud. 'hyok' hold-your-own-key Key created by user and kept by user" ;
+            sh:in ( "managed" "byok" "hyok" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "key management" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:keyManagement ] ;
+    sh:targetClass gax-trust-framework:Encryption .
+
+gax-validation:GPUShape a sh:NodeShape ;
+    sh:property [ skos:example "'Fermi', 'Kepler', 'Gen9'" ;
+            sh:datatype xsd:string ;
+            sh:description "GPU generation." ;
+            sh:maxCount 1 ;
+            sh:name "gpu generation" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:gpuGeneration ],
+        [ skos:example "'a structure object of type Memory'" ;
+            sh:description "Memory of the GPU" ;
+            sh:maxCount 1 ;
+            sh:name "memory" ;
+            sh:node gax-validation:MemoryShape ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:memory ],
+        [ skos:example "'PCIe Gen4: 64GB/s'" ;
+            sh:datatype xsd:string ;
+            sh:description "Interconnection of the GPU" ;
+            sh:maxCount 1 ;
+            sh:name "connection" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:connection ] ;
+    sh:targetClass gax-trust-framework:GPU .
+
+gax-validation:MemoryShape a sh:NodeShape ;
+    sh:property [ skos:example "'a structure object of type measure, e.g. measure:value=24 and measure:unit=GB'" ;
+            sh:description "Memory of the GPU" ;
+            sh:maxCount 1 ;
+            sh:name "size" ;
+            sh:node gax-validation:MeasureShape ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:size ],
+        [ skos:example "'DDR4', 'DDR5', 'GDDR5', 'GDDR6'" ;
+            sh:datatype xsd:string ;
+            sh:description "Memory class" ;
+            sh:maxCount 1 ;
+            sh:name "memclass" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:memclass ],
+        [ skos:example "'1R RDIMM', '2R RDIMM', '4R LRDIMM', '8R LRDIMM'" ;
+            sh:datatype xsd:string ;
+            sh:description "DIMM Type" ;
+            sh:maxCount 1 ;
+            sh:name "rank" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:rank ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "a dimensionless value larger or equal to 1.0 describing the default overbooking ratio on this memory" ;
+            sh:maxCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "default overbooking ratio" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:defaultOverbookingRatio ],
+        [ skos:example "'1.0'" ;
+            sh:datatype xsd:float ;
+            sh:description "several dimensionless values larger or equal to 1.0 describing the available overbooking ratios on this memory" ;
+            sh:minInclusive 1.0 ;
+            sh:name "supported overbooking ratio" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:supportedOverbookingRatio ] ;
+    sh:targetClass gax-trust-framework:Memory .
+
+gax-validation:ServiceAccessPointShape a sh:NodeShape ;
+    sh:property [ skos:example "'accesspointABC'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the access point" ;
+            sh:name "name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:name ],
+        [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "Host of the access point" ;
+            sh:name "host" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:host ],
+        [ skos:example "'TCP', 'UDP'" ;
+            sh:datatype xsd:string ;
+            sh:description "Protocol of the access point" ;
+            sh:name "protocol" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:protocol ],
+        [ skos:example "'1.2'" ;
+            sh:datatype xsd:string ;
+            sh:description "Version of the access point" ;
+            sh:name "version" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:version ],
+        [ skos:example "'8888'" ;
+            sh:datatype xsd:string ;
+            sh:description "Port of the access point" ;
+            sh:name "port" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:port ],
+        [ skos:example "'https://gaia-x.eu/openAPIdoc'" ;
+            sh:datatype xsd:string ;
+            sh:description "URL of the OpenAPI documentation" ;
+            sh:name "open a p i" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:openAPI ] ;
+    sh:targetClass gax-trust-framework:ServiceAccessPoint .
+
+gax-validation:MeasureShape a sh:NodeShape ;
+    sh:property [ skos:example "'100'" ;
+            sh:datatype xsd:float ;
+            sh:description "The value of this measurement." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 0.0 ;
+            sh:name "value" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:value ],
+        [ skos:example "'Gbps', 'Euro'" ;
+            sh:datatype xsd:string ;
+            sh:description "The unit of this measurement" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "unit" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:unit ] ;
+    sh:targetClass gax-trust-framework:Measure .
+

@@ -1,0 +1,11 @@
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:AddressShape
+    a sh:NodeShape ;
+    sh:targetClass schema:address ;
+    sh:property [
+		sh:path schema:streetAddress ;
+		sh:minLength -3;
+	] .

@@ -1,0 +1,16 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ConnectivityShape a sh:NodeShape ;
+    sh:property [ skos:example "''" ;
+            sh:datatype xsd:string ;
+            sh:description "" ;
+            sh:maxCount 1 ;
+            sh:name " instantiation requirements" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:InstantiationRequirements ] ;
+    sh:targetClass gax-trust-framework:Connectivity .
+

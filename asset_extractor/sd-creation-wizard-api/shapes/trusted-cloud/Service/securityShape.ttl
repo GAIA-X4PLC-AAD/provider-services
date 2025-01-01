@@ -1,0 +1,85 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:SecurityShape a sh:NodeShape ;
+    sh:property [ skos:example "'According to accepted procedure', 'Certified', 'Certified and checked regularly'" ;
+            sh:datatype xsd:string ;
+            sh:description "Proof of efficient management of information security for example by certificates as per ISO 27001 or BSI?" ;
+            sh:in ( "According to accepted procedure" "Certified" "Certified and checked regularly" ) ;
+            sh:maxCount 1 ;
+            sh:name "security management" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:securityManagement ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Description of the process to report data leaks to the customer." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "report data leaks" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:reportDataLeaks ],
+        [ skos:example "'(a structured object of type Certificate'" ;
+            sh:description "Details about certificates, which are relevant for security." ;
+            sh:name "certificates" ;
+            sh:node gax-validation:CertificateScopeShape ;
+            sh:order 3 ;
+            sh:path trusted-cloud:certificates ],
+        [ skos:example "'(a structured object of type Encryption)'" ;
+            sh:description "Information about used encryption techniques for encryption data transmission and storage." ;
+            sh:minCount 1 ;
+            sh:name "encryption" ;
+            sh:node gax-validation:EncryptionShape ;
+            sh:order 4 ;
+            sh:path trusted-cloud:encryption ],
+        [ skos:example "'company-wide right- and role-concept', 'Others'" ;
+            sh:datatype xsd:string ;
+            sh:description "Which rights- and role-concept are used?" ;
+            sh:in ( "company-wide right- and role-concept" "Others" ) ;
+            sh:maxCount 1 ;
+            sh:name "rights and role concept" ;
+            sh:order 5 ;
+            sh:path trusted-cloud:rightsAndRoleConcept ] ;
+    sh:targetClass trusted-cloud:Security .
+
+gax-validation:CertificateScopeShape a sh:NodeShape ;
+    sh:property [ skos:example "'(DID of certificate VC)'" ;
+            sh:description "Reference to certificate, which is reelvant for this scope." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "certificate" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path trusted-cloud:certificate ],
+        [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Details about relevance of the certificate for this scope." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "scope" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:scope ] ;
+    sh:targetClass trusted-cloud:CertificateScope .
+
+gax-validation:EncryptionShape a sh:NodeShape ;
+    sh:property [ skos:example "'Freetext'" ;
+            sh:datatype xsd:string ;
+            sh:description "Encryption types that can be used to encrypt data for transmission and storage?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "encryption types for data transmission and storage" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:encryptionTypesForDataTransmissionAndStorage ],
+        [ skos:example "'Keys are set by the provider', 'Keys are set by the customer', 'Keys can be set by external services'" ;
+            sh:datatype xsd:string ;
+            sh:description "Key management options" ;
+            sh:in ( "Keys are set by the provider" "Keys are set by the customer" "Keys can be set by external services" ) ;
+            sh:maxCount 1 ;
+            sh:name "key management options" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:keyManagementOptions ] ;
+    sh:targetClass trusted-cloud:Encryption .
+

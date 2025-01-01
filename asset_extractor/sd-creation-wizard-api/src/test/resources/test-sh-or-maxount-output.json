@@ -1,0 +1,39 @@
+{
+    "prefixList": [
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "ex",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "or": [
+                        {
+                            "path": {
+                                "prefix": "ex",
+                                "value": "firstName"
+                            },
+                            "maxCount": 2
+                        },
+                        {
+                            "path": {
+                                "prefix": "ex",
+                                "value": "givenName"
+                            },
+                            "maxCount": 3
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

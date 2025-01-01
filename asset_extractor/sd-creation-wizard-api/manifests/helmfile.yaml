@@ -1,0 +1,22 @@
+helmDefaults:
+  wait: true
+  timeout: 600
+  recreatePods: true
+  force: false
+
+repositories:
+  - name: syself
+    url: https://charts.syself.com
+
+releases:
+  - name: sd-creation-wizard-api # name of this release
+    namespace: sd-tooling
+    createNamespace: true
+    labels:
+      app: sd-creation-wizard-api
+    chart: syself/monochart
+    version: v0.3.0
+    values:
+      - values.yaml
+    installed: true
+    atomic: true

@@ -1,0 +1,51 @@
+@prefix gax-core: <http://w3id.org/gaia-x/core#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:DataCentreShape a sh:NodeShape ;
+    sh:property [ skos:example "''" ;
+            sh:description "DID of datacenter subcontractor." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "operated by" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path trusted-cloud:operatedBy ],
+        [ skos:example "''" ;
+            sh:description "Geographical location of dat centre." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "geo location" ;
+            sh:node gax-validation:LocationShape ;
+            sh:order 2 ;
+            sh:path trusted-cloud:geoLocation ],
+        [ skos:example "''" ;
+            sh:description "DID of resources self-description related to the resource and that can exist independently of it." ;
+            sh:name "aggregation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-core:aggregationOf ] ;
+    sh:targetClass trusted-cloud:DataCentre .
+
+gax-validation:LocationShape a sh:NodeShape ;
+    sh:property [ skos:example "'DE', 'DEU'" ;
+            sh:datatype xsd:string ;
+            sh:description "Country data centre is located in." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "country-name" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:country-name ],
+        [ skos:example "'Saxony'" ;
+            sh:datatype xsd:string ;
+            sh:description "State data centre is located in." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "state" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:state ] ;
+    sh:targetClass trusted-cloud:Location .
+

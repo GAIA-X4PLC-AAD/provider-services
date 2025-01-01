@@ -1,0 +1,70 @@
+@prefix schema: <http://schema.org/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ex: <http://w3id.org/gaia-x/ex#> .
+
+ex:PersonShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Person ;
+    sh:property [
+        sh:path schema:address ;
+        sh:node ex:AddressShape ;
+        sh:minCount 1;
+        sh:order 35;
+    ] ;
+    sh:property [
+    	sh:path schema:telephone ;
+    	sh:node ex:TelephoneShape ;
+    	sh:minCount 1;
+    	sh:order 36;
+    ].
+    
+ex:AddressShape
+    a sh:NodeShape ;
+    sh:targetClass schema:address ;
+    sh:property [
+		sh:path schema:streetAddress ;
+		sh:name "street address" ;
+		sh:datatype xsd:string ;
+		sh:order 11 ;
+		sh:minLength 3;
+		sh:description "The street address including number"@en ;
+		sh:group ex:AddressGroup ;
+	] ;
+	sh:property [
+		sh:path ex:locality ;
+		sh:name "locality" ;
+		sh:datatype xsd:string ;
+		sh:order 12 ;
+		sh:description "The suburb, city or town of the address"@en ;
+		sh:group ex:AddressGroup ;
+	];
+	sh:property [
+		sh:path ex:postalCode ;
+		sh:name "postal code" ;
+		sh:name "zip code"@en-US ;
+		sh:datatype xsd:integer ;
+		sh:order 13 ;
+		sh:description "The postal code of the locality"@en ;
+		sh:group ex:AddressGroup ;
+	] .
+	
+ex:TelephoneShape
+	a sh:NodeShape;
+	sh:targetClass ex:phone ;
+	sh:property [
+		sh:path ex:countryCode ;
+		sh:name "country code" ;
+		sh:minCount 1;
+		sh:maxCount 1;
+		sh:description "Country code"@en ;
+		sh:group ex:PhoneGroup;
+	];
+	sh:property [
+		sh:path ex:number ;
+		sh:name "number" ;
+		sh:datatype xsd:integer ;
+		sh:minCount 1;
+		sh:description "The phone number"@en ;
+		sh:group ex:PhoneGroup;
+	].

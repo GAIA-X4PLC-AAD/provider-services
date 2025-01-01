@@ -1,0 +1,72 @@
+variables:
+  CLI_VERSION: 14.2.3
+  PROJECT_DIR: implementation
+
+cache:
+  key: ${CI_COMMIT_SHA}
+  paths: ["${PROJECT_DIR}/node_modules"]
+
+before_script:
+  - cd ${PROJECT_DIR}
+  - "[ -d node_modules ] || npm ci; node node_modules/.bin/webdriver-manager update --versions.chrome=102.0.5005.61"
+
+stages:
+  - build
+  - image_build
+  - deploy
+
+build:
+  stage: build
+  image: trion/ng-cli:${CLI_VERSION}
+  script:
+    - ng build --configuration production
+  artifacts:
+    expire_in: "1 day"
+    paths:
+      - ${PROJECT_DIR}/dist/
+  only:
+    - main
+
+image_build:
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  stage: image_build
+  before_script: []
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${HARBOR_HOST}\":{\"auth\":\"$(echo -n ${HARBOR_USERNAME}:${HARBOR_PASSWORD} | base64)\"}}}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context $CI_PROJECT_DIR
+      --dockerfile $CI_PROJECT_DIR/Dockerfile
+      --destination "${HARBOR_HOST}/${HARBOR_PROJECT}/${CI_PROJECT_NAME}:$CI_COMMIT_SHORT_SHA"
+      --destination "${HARBOR_HOST}/${HARBOR_PROJECT}/${CI_PROJECT_NAME}:latest"
+    - echo CI_COMMIT_SHORT_SHA=$CI_COMMIT_SHORT_SHA >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  image: alpine:3.16
+  dependencies:
+    - image_build
+  before_script:
+    - apk add --no-cache git wget bash
+    - apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community yq
+    - git config --global --add safe.directory /builds/gaia-x/data-infrastructure-federation-services/self-description-tooling/sd-creation-wizard/sd-creation-wizard-frontend
+    - git remote set-url origin https://${CI_USERNAME}:${CI_PUSH_TOKEN}@gitlab.eclipse.org/eclipse/xfsc/self-description-tooling/sd-creation-wizard-frontend.git
+    - git config --global user.email "gitlab@gitlab.com"
+    - git config --global user.name "GitLab CI/CD"
+  script:
+    - git checkout -B main
+    - cd manifests
+    - echo $CI_COMMIT_SHORT_SHA
+    - yq eval -i ".deployments.default.containers[0].tag = \"$CI_COMMIT_SHORT_SHA"\" values.yaml
+    - git commit -am '[skip ci] DEV image update'
+    - git push origin main
+  only:
+    - main

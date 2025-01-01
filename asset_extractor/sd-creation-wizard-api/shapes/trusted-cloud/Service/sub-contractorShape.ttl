@@ -1,0 +1,35 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:SubContractorShape a sh:NodeShape ;
+    sh:property [ skos:example "''" ;
+            sh:description "Legal information of sub contractor." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "legal information" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path trusted-cloud:legalInformation ],
+        [ skos:example "'(a structure object of type SubcontractorCompanyProfile'" ;
+            sh:description "Details on experience / knowledge of the organization in the cloud service business." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "organization profile" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path trusted-cloud:organizationProfile ],
+        [ skos:example "'Company internal', 'Company legally sovereign'" ;
+            sh:datatype xsd:string ;
+            sh:description "Is the sub contractor internal or his legally sovereign company?" ;
+            sh:in ( "Company internal" "Company legally sovereign" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "independent sub company" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:independentSubCompany ] ;
+    sh:targetClass trusted-cloud:SubContractor .
+

@@ -1,0 +1,77 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ComplianceReferenceShape a sh:NodeShape ;
+    sh:property [ skos:example "'https://www.iso.org/iso-27001.pdf'" ;
+            sh:datatype xsd:anyURI ;
+            sh:description "URI to reference the content of the compliance reference in a single PDF file" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has reference url" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:hasReferenceUrl ],
+        [ skos:example "'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'" ;
+            sh:datatype xsd:string ;
+            sh:description "SHA256 of PDF document referenced by hasReferenceUrl." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has sha256" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:hasSha256 ],
+        [ skos:example "'ISO 27001'" ;
+            sh:datatype xsd:string ;
+            sh:description "Name of the Compliance Reference" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has compliance reference title" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:hasComplianceReferenceTitle ],
+        [ skos:example "'Information security management system standards.'" ;
+            sh:datatype xsd:string ;
+            sh:description "A description in natural language" ;
+            sh:maxCount 1 ;
+            sh:name "has description" ;
+            sh:order 4 ;
+            sh:path dct:hasDescription ],
+        [ skos:example "'https://company-a.com/self-descriptions/compliance-ref-manager.jsonld'" ;
+            sh:description "ID of Participant (self-description) in charge of managing this Compliance Reference" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "has compliance reference manager" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:hasComplianceReferenceManager ],
+        [ skos:example "'22/04 or 2022/04/12 or 1.5.34 or built 240344'" ;
+            sh:datatype xsd:string ;
+            sh:description "versioning according to [semver](https://semver.org/)." ;
+            sh:maxCount 1 ;
+            sh:name "has version" ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:hasVersion ],
+        [ skos:example "'22/04 or 2022/04/12 or 1.5.34 or built 240344'" ;
+            sh:datatype xsd:dateTime ;
+            sh:description "Indicates the first date when the compliance reference goes into effect" ;
+            sh:maxCount 1 ;
+            sh:name "c r valid from" ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:cRValidFrom ],
+        [ skos:example "'22/04 or 2022/04/12 or 1.5.34 or built 240344'" ;
+            sh:datatype xsd:dateTime ;
+            sh:description "Indicates the last date when the compliance reference is no more into effect" ;
+            sh:maxCount 1 ;
+            sh:name "c r valid until" ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:cRValidUntil ],
+        [ skos:example "'did:web:compliance.cispe.org/coc/gdpr/thirdparty#1'" ;
+            sh:description "One or more schemes that grants certification. This list is managed by a reference manager." ;
+            sh:minCount 1 ;
+            sh:name "has compliance certification schemes" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:hasComplianceCertificationSchemes ] ;
+    sh:targetClass gax-trust-framework:ComplianceReference .
+

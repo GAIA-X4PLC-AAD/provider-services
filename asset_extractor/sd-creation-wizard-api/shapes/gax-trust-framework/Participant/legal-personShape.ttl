@@ -1,0 +1,150 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:LegalPersonShape a sh:NodeShape ;
+    sh:property [ skos:example "'ACME L.L.C'" ;
+            sh:datatype xsd:string ;
+            sh:description "Legally binding name" ;
+            sh:maxCount 1 ;
+            sh:name "legal name" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:legalName ],
+        [ skos:example "'L.L.C, GmbH'" ;
+            sh:datatype xsd:string ;
+            sh:description "Legal form" ;
+            sh:in ( "LLC" "Corporation" "Limited partnership (LP)" "Nonprofit corporation" "Gesellschaft mit beschraenkter Haftung (GmbH)" "Aktiengesellschaft (AG)" "Einzelunternehmen" "Gesellschaft buergerlichen Rechts (GbR)" "Offene Handelsgesellschaft (OHG)" "Kommanditgesellschaft (KG)" "Unternehmergesellschaft (haftungsbeschraenkt)" "Sole Trader" "Unincorporated Association" "Partnership" "Limited Partnership" "Trust" "Limited Company" "Limited Liability Partnership (LLP)" "Community Interest Company (CIC)" "Charitable Incorporated Organisation (CIO)" "Co-operative Society (Co-op)" "Community Benefit Society (BenCom)" "other" ) ;
+            sh:maxCount 1 ;
+            sh:name "legal form" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:legalForm ],
+        [ skos:example "'A company making everything'" ;
+            sh:datatype xsd:string ;
+            sh:description "Textual description of this organization." ;
+            sh:maxCount 1 ;
+            sh:name "description" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:description ],
+        [ skos:example "'(a structured object which contains the registration number in at least one valid format))'" ;
+            sh:description "Country’s registration number which identifies one specific entity. Valid formats are local, EUID, EORI, vatID, leiCode." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "registration number" ;
+            sh:node gax-validation:RegistrationNumberShape ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:registrationNumber ],
+        [ skos:example "'(a structured object which has the attribute country as mandatory attribute and some other optional attributes e.g., the attributes vcard:street-address,vcard:locality and vcard:country-name)'" ;
+            sh:description "The full legal address of the organization." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "legal address" ;
+            sh:node gax-validation:AddressShape ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:legalAddress ],
+        [ skos:example "'(a structured object which has the attribute country as mandatory attribute and some other optional attributes e.g., the attributes vcard:street-address,vcard:locality and vcard:country-name)'" ;
+            sh:description "The full legal address of the organization." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "headquarter address" ;
+            sh:node gax-validation:AddressShape ;
+            sh:order 6 ;
+            sh:path gax-trust-framework:headquarterAddress ],
+        [ skos:example "'M07J9MTYHFCSVRBV2631'" ;
+            sh:datatype xsd:string ;
+            sh:description "Unique LEI number as defined by https://www.gleif.org." ;
+            sh:maxCount 1 ;
+            sh:name "lei code" ;
+            sh:order 7 ;
+            sh:path gax-trust-framework:leiCode ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "One ore more direct participants that this entity is a subOrganization of, if any." ;
+            sh:name "parent organization" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 8 ;
+            sh:path gax-trust-framework:parentOrganization ],
+        [ skos:example "'https://gaia-x.eu'" ;
+            sh:description "One ore more direct participants with an legal mandate on this entity, e.g., as a subsidiary." ;
+            sh:name "sub organization" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 9 ;
+            sh:path gax-trust-framework:subOrganization ] ;
+    sh:targetClass gax-trust-framework:LegalPerson .
+
+gax-validation:RegistrationNumberShape a sh:NodeShape ;
+    sh:property [ skos:example "'HRA 12345', '123456789'" ;
+            sh:datatype xsd:string ;
+            sh:description "The state issued company number." ;
+            sh:maxCount 1 ;
+            sh:name "local" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:local ],
+        [ skos:example "'DEB1234.HRB123123', 'FR1234.123456789'" ;
+            sh:datatype xsd:string ;
+            sh:description "The European Unique Identifier (EUID) for business located in the European Economic Area, Iceland, Liechtenstein or Norway and registered in the Business Registers Interconnection System (BRIS). This number can be found via the EU Business registers portal." ;
+            sh:maxCount 1 ;
+            sh:name " e u i d" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:EUID ],
+        [ skos:example "'DE123456789101112', 'FR123456789101112'" ;
+            sh:datatype xsd:string ;
+            sh:description "The Economic Operators Registration and Identification number (EORI)." ;
+            sh:maxCount 1 ;
+            sh:name " e o r i" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:EORI ],
+        [ skos:example "'5133081508159', '3201012312340'" ;
+            sh:datatype xsd:string ;
+            sh:description "The VAT identification number." ;
+            sh:maxCount 1 ;
+            sh:name "vat i d" ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:vatID ],
+        [ skos:example "'39120001LYGX6JEVCV44', '5299009D9BIL4D4UHT93'" ;
+            sh:datatype xsd:string ;
+            sh:description "Unique LEI number as defined by https://www.gleif.org." ;
+            sh:maxCount 1 ;
+            sh:name "lei code" ;
+            sh:order 5 ;
+            sh:path gax-trust-framework:leiCode ] ;
+    sh:targetClass gax-trust-framework:RegistrationNumber .
+
+gax-validation:AddressShape a sh:NodeShape ;
+    sh:property [ skos:example "'DE', 'DEU'" ;
+            sh:datatype xsd:string ;
+            sh:description "Physical location of head quarter in ISO 3166-1 alpha2, alpha-3 or numeric format." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "country-name" ;
+            sh:order 1 ;
+            sh:path vcard:country-name ],
+        [ skos:example "'50°45'0'N 7°13'0'E', '51°3'0'N 13°45'0'E'" ;
+            sh:datatype xsd:string ;
+            sh:description "GPS in ISO 6709:2008/Cor 1:2009 format." ;
+            sh:maxCount 1 ;
+            sh:name "gps" ;
+            sh:order 2 ;
+            sh:path vcard:gps ],
+        [ skos:example "'example-street'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:street-address property specifies the street address of a postal address." ;
+            sh:name "street-address" ;
+            sh:order 3 ;
+            sh:path vcard:street-address ],
+        [ skos:example "'example-postal-code'" ;
+            sh:datatype xsd:string ;
+            sh:description "String of a street-address" ;
+            sh:name "postal-code" ;
+            sh:order 4 ;
+            sh:path vcard:postal-code ],
+        [ skos:example "'example-locality'" ;
+            sh:datatype xsd:string ;
+            sh:description "The v:locality property specifies the locality (e.g., city) of a postal address." ;
+            sh:name "locality" ;
+            sh:order 5 ;
+            sh:path vcard:locality ] ;
+    sh:targetClass vcard:Address .
+

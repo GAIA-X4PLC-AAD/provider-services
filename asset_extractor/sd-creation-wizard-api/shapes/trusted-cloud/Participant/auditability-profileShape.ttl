@@ -1,0 +1,33 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:AuditabilityProfileShape a sh:NodeShape ;
+    sh:property [ skos:example "'yes', 'no'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Is it possible for the user to request an audit?" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "auditability" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:auditability ],
+        [ skos:example "'data protection audits'" ;
+            sh:datatype xsd:string ;
+            sh:description "Description of audits which were already performed." ;
+            sh:minCount 1 ;
+            sh:name "audits" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:audits ],
+        [ skos:example "'by the user', 'by a mandated auditor'" ;
+            sh:datatype xsd:string ;
+            sh:description "Can audits on processes and organizational procedures related to data protection and security be conducted?" ;
+            sh:in ( "by the user" "by a mandated auditor" ) ;
+            sh:maxCount 1 ;
+            sh:name "auditor" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:auditor ] ;
+    sh:targetClass trusted-cloud:AuditabilityProfile .
+

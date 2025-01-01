@@ -1,0 +1,37 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:LocatedServiceOfferingShape a sh:NodeShape ;
+    sh:property [ skos:example "'did:web:example.com/serviceOffering/sha256'" ;
+            sh:description "Id of the Service Offering referenced by this located service" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "is implementation of" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:isImplementationOf ],
+        [ skos:example "'did:web:example.com/location/sha256'" ;
+            sh:description "Id of the Location where this located service is hosted on" ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "is hosted on" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:isHostedOn ],
+        [ skos:example "'did:web:example.com/location/sha256'" ;
+            sh:description "Ids of the compliance reference claims claimed by the provider for the located service" ;
+            sh:name "has compliance certificate claim" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:hasComplianceCertificateClaim ],
+        [ skos:example "'did:web:example.com/location/sha256'" ;
+            sh:description "Ids of the compliance reference claim claimed by the provider for the located service" ;
+            sh:name "has compliance certificate credential" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 4 ;
+            sh:path gax-trust-framework:hasComplianceCertificateCredential ] ;
+    sh:targetClass gax-trust-framework:LocatedServiceOffering .
+

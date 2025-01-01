@@ -1,0 +1,63 @@
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix trusted-cloud: <http://w3id.org/gaia-x/trusted-cloud#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ProviderCompanyProfileShape a sh:NodeShape ;
+    sh:property [ skos:example "'50'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Employee count of the organization." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "employee count" ;
+            sh:order 1 ;
+            sh:path trusted-cloud:employeeCount ],
+        [ skos:example "'<1 year', '1-5 year', '>5 year'" ;
+            sh:datatype xsd:string ;
+            sh:description "Experience / knowledge of the organization in the cloud service business." ;
+            sh:in ( "<1 year" "1-5 year" ">5 year" ) ;
+            sh:maxCount 1 ;
+            sh:name "experience cloud services" ;
+            sh:order 6 ;
+            sh:path trusted-cloud:experienceCloudServices ],
+        [ skos:example "'50'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Employee count of the organization in the cloud service area." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "employee count for cloud services" ;
+            sh:order 2 ;
+            sh:path trusted-cloud:employeeCountForCloudServices ],
+        [ skos:example "'50.000.000'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Sales volume of the organization." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "sales volume" ;
+            sh:order 3 ;
+            sh:path trusted-cloud:salesVolume ],
+        [ skos:example "'Reseller', 'Internet Service Provider', 'Cloud Service Provider', 'Others'" ;
+            sh:datatype xsd:string ;
+            sh:description "Specific category of the organization." ;
+            sh:in ( "Reseller" "Internet Service Provider" "Cloud Service Provider" "Others" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "category" ;
+            sh:order 4 ;
+            sh:path trusted-cloud:category ],
+        [ skos:example "'5', '10'" ;
+            sh:datatype xsd:integer ;
+            sh:description "Publicly offered cloud services." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:minInclusive 1.0 ;
+            sh:name "number of public cloud services" ;
+            sh:order 5 ;
+            sh:path trusted-cloud:numberOfPublicCloudServices ] ;
+    sh:targetClass trusted-cloud:ProviderCompanyProfile .
+

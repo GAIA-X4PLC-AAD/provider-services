@@ -1,0 +1,52 @@
+@prefix gax-trust-framework: <http://w3id.org/gaia-x/gax-trust-framework#> .
+@prefix gax-validation: <http://w3id.org/gaia-x/validation#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+gax-validation:ImageRegistryOfferingShape a sh:NodeShape ;
+    sh:property [ skos:example "'(a structured object of type gax-resource:Software)'" ;
+            sh:description "Images available in this image registry." ;
+            sh:maxCount 1 ;
+            sh:name "image" ;
+            sh:nodeKind sh:IRI ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:image ],
+        [ skos:example "'(a structured object of type gax-core:Encryption)'" ;
+            sh:description "Details on encryption capabilities of this image registry." ;
+            sh:maxCount 1 ;
+            sh:name "encryption" ;
+            sh:node gax-validation:EncryptionShape ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:encryption ],
+        [ skos:example "'true', 'false'" ;
+            sh:datatype xsd:boolean ;
+            sh:description "Default: 'true'. 'true' means that the image registry supports upload of private user images." ;
+            sh:maxCount 1 ;
+            sh:name "private images allowed" ;
+            sh:order 3 ;
+            sh:path gax-trust-framework:privateImagesAllowed ] ;
+    sh:targetClass gax-trust-framework:ImageRegistryOffering .
+
+gax-validation:EncryptionShape a sh:NodeShape ;
+    sh:property [ skos:example "'none', 'rsa'" ;
+            sh:datatype xsd:string ;
+            sh:description "Supported algorithm used to encrypt." ;
+            sh:in ( "none" "rsa" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "encryption algorithm" ;
+            sh:order 1 ;
+            sh:path gax-trust-framework:encryptionAlgorithm ],
+        [ skos:example "'managed', 'byok', 'hyok'" ;
+            sh:datatype xsd:string ;
+            sh:description "Define key management method. 'managed': Keys are created by and stored in key manager of cloud. 'byok': bring-your-own-key: Keys created by user and stored in key manager of cloud. 'hyok' hold-your-own-key Key created by user and kept by user" ;
+            sh:in ( "managed" "byok" "hyok" ) ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:name "key management" ;
+            sh:order 2 ;
+            sh:path gax-trust-framework:keyManagement ] ;
+    sh:targetClass gax-trust-framework:Encryption .
+

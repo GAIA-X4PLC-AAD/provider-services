@@ -1,0 +1,97 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "xsd",
+            "url": "http://www.w3.org/2001/XMLSchema#"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "PersonShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "Person",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "age"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "validations": [
+                        {
+                            "key": "minInclusive",
+                            "value": 18
+                        },
+                        {
+                            "key": "maxInclusive",
+                            "value": 65
+                        }
+                    ]
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "birthDate"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 3
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "gender"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "in": [
+                        {
+                            "value": "female"
+                        },
+                        {
+                            "value": "male"
+                        }
+                    ],
+                    "order": 2
+                },
+                {
+                    "path": {
+                        "prefix": "schema",
+                        "value": "givenName"
+                    },
+                    "name": "Peter Parker",
+                    "datatype": {
+                        "prefix": "xsd",
+                        "value": "string"
+                    },
+                    "minCount": 1,
+                    "maxCount": 1,
+                    "order": 1,
+                    "validations": [
+                        {
+                            "key": "minLength",
+                            "value": 3
+                        },
+                        {
+                            "key": "maxLength",
+                            "value": 8
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

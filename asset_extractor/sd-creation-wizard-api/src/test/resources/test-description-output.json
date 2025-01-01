@@ -1,0 +1,64 @@
+{
+    "prefixList": [
+        {
+            "alias": "schema",
+            "url": "http://schema.org/"
+        },
+        {
+            "alias": "ex",
+            "url": "http://w3id.org/gaia-x/ex#"
+        },
+        {
+            "alias": "sh",
+            "url": "http://www.w3.org/ns/shacl#"
+        }
+    ],
+    "shapes": [
+        {
+            "schema": "AddressShape",
+            "targetClassPrefix": "schema",
+            "targetClassName": "address",
+            "constraints": [
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "postalCode"
+                    },
+                    "datatype": {},
+                    "description": {
+                        "de": "52004.",
+                        "en": "52004."
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "locality"
+                    },
+                    "datatype": {},
+                    "description": {
+                        "de": "The suburb, city or town of the address.",
+                        "en": "The suburb, city or town of the address."
+                    },
+                    "in": [],
+                    "validations": []
+                },
+                {
+                    "path": {
+                        "prefix": "ex",
+                        "value": "streetAddress"
+                    },
+                    "datatype": {},
+                    "description": {
+                        "de": "The street address including number",
+                        "en": "The street address including number"
+                    },
+                    "in": [],
+                    "validations": []
+                }
+            ]
+        }
+    ]
+}
