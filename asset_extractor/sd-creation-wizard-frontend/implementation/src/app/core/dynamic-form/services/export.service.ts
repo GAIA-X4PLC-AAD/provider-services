@@ -231,8 +231,6 @@ export class ExportService {
 
   convertTurtleToJsonLd(ttl: string) {
     const ttl2jsonld = require('@frogcat/ttl2jsonld').parse;
-    //const jsonld = JSON.stringify(ttl2jsonld(ttl), null, 2);
-    //return jsonld;
     return ttl2jsonld(ttl) //return the json object instad of the json string so that it is posted as json object directly to the server
   }
 }

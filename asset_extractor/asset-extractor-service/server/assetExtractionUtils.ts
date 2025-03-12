@@ -24,11 +24,25 @@ export function createFolder(dirPath: string){
     }
 }
 
+const typeToCategoryMap: Record<string, string> = {
+  "Asset": "assetData",
+  "Document": "documentation",
+  "Image": "visualization",
+  "Video": "visualization",
+  "3DPreview": "visualization",
+  "Routing": "visualization",
+  "MetaData": "metadata",
+  "Validation": "validation",
+  "License": "license",
+  "Service": "other"
+};
+
 export const processFile = (file: Express.Multer.File, did? : string) => {
+  const typeCategory = typeToCategoryMap[file.fieldname] || 'unknown';
   if(typeof did !== 'undefined')
-    return {filename: file.originalname, type: file.fieldname, did : did};
+    return {filename: file.originalname, type: file.fieldname, category: typeCategory , did : did};
   else
-    return {filename: file.originalname, type: file.fieldname};
+    return {filename: file.originalname, type: file.fieldname, category: typeCategory};
 };
 
 export function openJsonFile(filePath : string) : any

@@ -96,8 +96,8 @@ export async function callPythonScript(res: any): Promise<void> {
     //run the main.py that runs whole py pipeline
     const uploadedAssetDir = '/app/uploads/';
     const files: string[] = fs.readdirSync(uploadedAssetDir);
-    const xodrFiles = files.filter(file => path.extname(file) === '.xodr' || path.extname(file) === '.xosc');
-    const uploadedAssetFile = path.join(uploadedAssetDir, xodrFiles[0]);
+    const assetFiles = files.filter(file => path.extname(file) === '.xodr' || path.extname(file) === '.xosc'|| path.extname(file) === '.zip'|| path.extname(file) === '.crg');
+    const uploadedAssetFile = path.join(uploadedAssetDir, assetFiles[0]);
     
     const configPath = '/app/python/tools/configs';
     const outputPath = '/app/output';

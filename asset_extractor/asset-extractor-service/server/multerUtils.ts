@@ -12,19 +12,19 @@ export const uploadDir = '/app/uploads'
 
 // File filter for multer
 const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
-    const fieldName = file.fieldname; // E.g., 'AssetData', 'Image', etc.
+    const fieldName = file.fieldname; // E.g., 'Asset', 'Image', etc.
     const fileExtension = extname(file.originalname).toLowerCase();
     const allowedFileExtensions: Record<string, string[]> = {
-      'AssetData'   : ['.xodr', '.xosc'],
-      'Document': ['.txt', '.pdf'],
-      'License': [''], // extension-less
+      'Asset'   : ['.xodr', '.xosc', '.zip', '.crg'],
+      'Document': ['.txt', '.pdf','.md'],
+      'License': ['','.txt','.md'],
       'Metadata'    : ['.json'],
       'Service'     : ['.bjson'],
-      'Validation'  : ['.xqar','.xml','.json'],
+      'Validation'  : ['.xqar','.txt'],
       'Image'   : ['.png', '.jpg'],
       'Routing' : ['.geojson'],
       'Video'   : ['.mp4'],
-      '3DPreview'   : ['.geojson']
+      '3DPreview'   : ['.json']
     };
   
     // Check if the uploaded file's extension matches the allowed extensions
@@ -56,7 +56,7 @@ export const upload = multer({
     //limits: { fileSize: 2000000 }, // 2 MB file size limit
     fileFilter
 }).fields([
-    { name: 'AssetData' },
+    { name: 'Asset' },
     { name: 'Document' },
     { name: 'License' },
     { name: 'Metadata' },
@@ -67,4 +67,6 @@ export const upload = multer({
     { name: 'Video' },
     { name: '3DPreview' }
   ]);
+
+  
   

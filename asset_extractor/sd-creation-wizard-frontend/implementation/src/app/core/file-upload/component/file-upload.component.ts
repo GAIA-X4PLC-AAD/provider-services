@@ -90,11 +90,7 @@ export class FileUploadComponent implements OnInit {
        // fetch the files from the server using HTTP requests
        this.subscription = forkJoin([
         this.httpClient.get(`${extractorUrl}/processShaclFile`, { responseType: 'blob' }), //this.httpClient.get(`${extractorUrl}/sendFiles/shaclFile`, { responseType: 'blob' }), 
-        //this.httpClient.get('http://127.0.0.1:3000/sendFiles', { responseType: 'json', ...httpOptions})
         this.httpClient.get(`${extractorUrl}/processJsonLDFile`, { responseType: 'json' })//this.httpClient.get(`${extractorUrl}/sendFiles/jsonFile`, { responseType: 'json' })
-  
-        //this.httpClient.get('/storage/domainMetadata.ttl', { responseType: 'blob' }),
-        //this.httpClient.get('/storage/domainMetadata.json', { responseType: 'json' })
       ]).subscribe(
         ([shaclFileBlob, jsonData]) => {
           // convert the Blob and JSON data to File objects
@@ -114,14 +110,8 @@ export class FileUploadComponent implements OnInit {
           // Automatically call the API with the files
           this.apiService.uploadShaclAndJson(shaclFile, jsonFile).subscribe(
             res => {
-              console.log("res.shaclModel: ", res.shaclModel);
-              console.log("res.matchedSubjects: ", res.matchedSubjects);
-    
               this.jsonFileContent = this.formfieldService.readJsonFile(res.matchedSubjects);
               this.shaclFileContent = this.formfieldService.readShaclFile(res.shaclModel, this.jsonFileContent);
-    
-              console.log("shaclFile: ", this.shaclFileContent);
-              console.log("jsonFile: ", this.jsonFileContent);
     
               this.filteredShapes = this.formfieldService.updateFilteredShapes(this.shaclFileContent);
               if (this.filteredShapes.length > 1) {

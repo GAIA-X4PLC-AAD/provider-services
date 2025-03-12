@@ -34,18 +34,30 @@ function creatMediaTypeSelect (mediaTypeDiv : HTMLElement, mediaTypes : MediaTyp
 }
 async function createGUI() {
     try {      
+        /*
         const mediaTypes: MediaType[] = [
-            { value: 'Document', text: 'Document', type: '.txt,.pdf' },
-            { value: 'License', text: 'License', type: '' }, // LICENSE is extension-less
+            { value: 'documentation', text: 'Document', type: '.txt,.pdf,.md' },
+            { value: 'license', text: 'License', type: ',.txt,.md' },
+            { value: 'visualization', text: 'Image', type: '.png,.jpg' },
+            { value: 'visualization', text: 'Video', type: '.mp4' },
+            { value: 'visualization', text: 'Routing', type: '.geojson' },
+            { value: 'visualization', text: '3DPreview', type: '.json' },
+            { value: 'metadata', text: 'Metadata', type: '.json' },
+            { value: 'validation', text: 'Validation', type: '.xqar,.txt,' },
+            { value: 'other', text: 'Service', type: '.bjson' }
+        ];
+        */
+        const mediaTypes: MediaType[] = [
+            { value: 'Document', text: 'Document', type: '.txt,.pdf,.md' },
+            { value: 'License', text: 'License', type: ',.txt,.md' },
             { value: 'Metadata', text: 'Metadata', type: '.json' },
             { value: 'Service', text: 'Service', type: '.bjson' },
-            { value: 'Validation', text: 'Validation', type: '.xqar,.xml,.json' },
+            { value: 'Validation', text: 'Validation', type: '.xqar,.txt' },
             { value: 'Image', text: 'Image', type: '.png,.jpg' },
             { value: 'Routing', text: 'Routing', type: '.geojson' },
             { value: 'Video', text: 'Video', type: '.mp4' },
-            { value: '3DPreview', text: '3DPreview', type: '.geojson' }
+            { value: '3DPreview', text: '3DPreview', type: '.json' }
         ];
-        
         //just create result container inside the output division for the results to be listed there (need a parent div for result container to implement css fronnt end properly)
         const outputDiv = document.getElementById('outputDiv');
         const resultContainer = document.createElement('div');

@@ -12,7 +12,23 @@ import { uploadDir, upload } from './multerUtils';
 const app: Express = express();
 //const uploadDir = '/app/uploads'
 
-app.use(helmet());
+//app.use(helmet());
+// Modify CSP settings
+const cspConfig = {
+  directives: {
+    defaultSrc: ["'self'"], // Allow same-origin content
+    scriptSrc: ["'self'", "http://192.168.178.124:3000"], // Allow scripts from the server
+    styleSrc: ["'self'", "'unsafe-inline'", "http://192.168.178.124:3000", "https://fonts.googleapis.com"], // Allow styles from server and Google Fonts
+    imgSrc: ["'self'", "data:"], // Allow images from same origin and inline images
+    fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"], // Allow fonts from self and Google Fonts
+    connectSrc: ["'self'"], // Allow connections to the same origin
+    upgradeInsecureRequests: [] // Disable the `upgrade-insecure-requests` directive
+  }
+};
+//app.use(helmet({
+//  contentSecurityPolicy: cspConfig // Apply the custom CSP policy
+//}));
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
@@ -50,11 +66,11 @@ app.post('/submit', async (req:Request, res:Response) => {
   }
   const files = req.files as  {[fieldname: string]: Express.Multer.File[]};
   //an array to store file metadata
-  const filesData: Array<{ filename: string, type: string , did? : string}> = [];
+  const filesData: Array<{ filename: string, type: string , category: string, did? : string}> = [];
   // Loop through all the file fields
   for (const fieldName in files) {
     files[fieldName].forEach((file, index) => {
-      if(fieldName != 'AssetData'){
+      if(fieldName != 'Asset'){
         filesData.push(assetExtractionUtils.processFile(file));  
       }
       else{
@@ -69,7 +85,7 @@ app.post('/submit', async (req:Request, res:Response) => {
   const success = assetExtractionUtils.updateJsonFile(jsonFilePath, filesData, res);
 
   if (success) {
-    res.status(200).json({ result: 'Files successfully uploaded and metadata saved' });
+    res.status(200).json({ result: 'Files successfully uploaded and metadata saved. Further processing ...' });
   }
 
   });
@@ -192,10 +208,13 @@ app.get('/pythonCall', async (req:Request, res:Response) => {
 });
 
 let sdWizardUrl: string | null = null; // Stores the URL for the wizard when triggered
+// Get from environment variable
+const WIZARD_HOST = process.env.WIZARD_HOST || 'localhost';
 app.route('/openSdWizard')
   .post((req : Request, res : Response) => {
       // Python triggers this with a POST request
-      sdWizardUrl = 'http://localhost:80/upload'; // Set the wizard URL
+      //sdWizardUrl = 'http://localhost:80/upload'; // Set the wizard URL
+      sdWizardUrl = `http://${WIZARD_HOST}:80/upload`; // Use the host to build the URL
       res.status(200).send('SD Wizard trigger received');
   })
   .get((req : Request, res : Response) => {

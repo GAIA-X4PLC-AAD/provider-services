@@ -19,10 +19,10 @@ RUN npm install
 
 COPY . .
 
-# install Python 3 & git (for quality checker dependencies) & java for OpenDRIVE to GeoJSON Converter
+# install Python 3 & git, libxerces-c3.2 and libqt5xml5 (for quality checker dependencies) & java for OpenDRIVE to GeoJSON Converter
 RUN apt-get  update && \
     apt-get -y upgrade &&\
-    apt-get install -y python3 python3-venv git openjdk-17-jre-headless  && \
+    apt-get install -y python3 python3-venv git libxerces-c3.2 libqt5xml5 openjdk-17-jre-headless  && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
