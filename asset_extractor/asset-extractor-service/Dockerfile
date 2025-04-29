@@ -33,6 +33,8 @@ RUN apt-get  update && \
 ENV VIRTUAL_ENV=/app/python/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="/app/python/venv/bin:$PATH"
+# (optional) set project root path for Node.js to pick up
+ENV PYTHON_PROJECT_ROOT=/app/python
 
 # gitcloner python dependencies:
 COPY /python/requirements.txt /app/python/requirements.txt

@@ -16,14 +16,29 @@
     <form id="dataForm" action="/submit" method="post" enctype="multipart/form-data">
       <div id = "AssetDiv">
         <p>Asset</p>
-
-        <label for="did">DID</label>
-        <input class="DID_input" type="text" name="did" placeholder="Enter your DID" required/>
-
         <label for="Asset">Add Asset file</label>
         <input type="file" id="Asset" name="Asset" accept=".xodr,.xosc,.zip,.crg" placeholder="Select an Asset file" required/>
-
       </div>
+
+      <div id = "LicenseDiv">
+        <p>License</p>
+        <!-- Dropdown for license types-->
+        <label for="licenseType">Type</label>
+        <div id="licenseType"></div> <!--license type dropdown added dynamically with ts-->
+        <input type="hidden" name="selectedLicenseType" id="selectedLicenseTypeInput">
+        
+        <label for="License">File</label>
+        <div id="LicenseFileInput">  
+        <input type="file" id="License", name="License" accept=".txt,.md" placeholder="Select an Asset file"/>
+        <button type="button" id="resetLicenseFile">Reset</button>
+        </div>
+        
+        <p class="or-label">OR</p>
+
+        <label for="LicenseURL">URL</label>
+        <input type="url" id="LicenseURL" name="LicenseURL" placeholder="https://example.com/license.txt" />
+      </div>
+
       <div id = "MediaDiv">
         <p>Media / Data</p>
         <!-- Dropdown for media types (Spanning the first column) -->

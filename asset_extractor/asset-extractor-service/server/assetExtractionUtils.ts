@@ -1,5 +1,6 @@
 import {join} from 'path';
 import * as fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 //Multer Configuration
 import { Express } from 'express'
@@ -25,24 +26,45 @@ export function createFolder(dirPath: string){
 }
 
 const typeToCategoryMap: Record<string, string> = {
-  "Asset": "assetData",
-  "Document": "documentation",
-  "Image": "visualization",
-  "Video": "visualization",
-  "3DPreview": "visualization",
-  "Routing": "visualization",
-  "MetaData": "metadata",
-  "Validation": "validation",
-  "License": "license",
-  "Service": "other"
+  "Asset": "isSimulationData",
+  "Document": "isDocumentation",
+  "Image": "isVisualization",
+  "Video": "isVisualization",
+  "3DPreview": "isVisualization",
+  "Routing": "isVisualization",
+  "MetaData": "isMetadata",
+  "Validation": "isValidation",
+  "License": "isLicense",
+  "Service": "isOther"
 };
 
-export const processFile = (file: Express.Multer.File, did? : string) => {
+/**
+ * Creates a did:web identifier using your domain and a generated UUID.
+ * @param domain - Your domain name (e.g., "myapp.com")
+ * @returns A did:web identifier (e.g., "did:web:myapp.com:uuid")
+ */
+function createDidWeb(domain: string): string {
+  const cleanedDomain = domain.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  const uuid = uuidv4();
+
+  return `did:web:${cleanedDomain}:${uuid}`;
+}
+
+
+export const processFile = (file: Express.Multer.File, withDid: boolean, licenseType? : string) => {
   const typeCategory = typeToCategoryMap[file.fieldname] || 'unknown';
-  if(typeof did !== 'undefined')
+  console.log(licenseType);
+  if(withDid) //asset
+  {
+    const did = createDidWeb("trianGraphicsAssetExtractor.de");
     return {filename: file.originalname, type: file.fieldname, category: typeCategory , did : did};
+  }
+  else{
+  if(typeof licenseType !== 'undefined') //license
+    return {filename: file.originalname, type: file.fieldname, category: typeCategory, license_type: licenseType};
   else
     return {filename: file.originalname, type: file.fieldname, category: typeCategory};
+  }
 };
 
 export function openJsonFile(filePath : string) : any

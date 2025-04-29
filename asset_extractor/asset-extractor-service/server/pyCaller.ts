@@ -5,13 +5,14 @@ import dotenv from 'dotenv';
 
 import {checkFileExists, createFolder, sendMsgEvent} from './assetExtractionUtils'; 
 
-export const pythonPath = '/app/python/venv/bin/python3';
+const pythonProjectRoot = process.env.PYTHON_PROJECT_ROOT || '/app/python';
+const toolsDir = path.join(pythonProjectRoot, 'tools');
+
 
 // Run a Python command synchronously
-export function runPython(pythonPath: string, args: string[]): void {
-  dotenv.config({path: path.resolve(__dirname+'../.env')});
-  const py = spawnSync(pythonPath, args, { stdio: 'inherit' });
-
+export function runPython(args: string[]): void {
+  //dotenv.config({path: path.resolve(__dirname+'../.env')});
+  const py = spawnSync('python', args, { stdio: 'inherit' });
   if (py.error) {
     throw py.error;
   }
@@ -20,10 +21,17 @@ export function runPython(pythonPath: string, args: string[]): void {
   }
 }
 
-export function runPythonAsync(pythonPath: string, args: string[],  res: any): Promise<void> {
+export function runPythonAsync(args: string[],  res: any): Promise<void> {
   return new Promise((resolve, reject) => {
-    const py = spawn(pythonPath, args, { stdio: 'pipe' });
-
+    //const py = spawn(pythonPath, args, { stdio: 'pipe' });
+    console.log(args);
+    const py = spawn('python', args, {
+      stdio: 'pipe',
+      cwd: toolsDir, // Set working directory to /app/python/tools
+    /*  env: {
+        ...process.env, // inherit existing env vars
+      },
+    */});
     if (py.stdout) {
       py.stdout.on('data', (data: any) => {
         sendMsgEvent(res, data, true);
@@ -50,13 +58,13 @@ export function runPythonAsync(pythonPath: string, args: string[],  res: any): P
 export function cloneGitTools(res: any, gitToolsCloner: string): void {
   // Send the initial message
   sendMsgEvent(res, `Cloning tools from GitHub...`);
-  runPython(pythonPath, [gitToolsCloner]);
+  runPython([gitToolsCloner]);
   // Send a message after cloning
   sendMsgEvent(res, `Tools successfully cloned.`);
 }
 
 // Install Python requirements from each folder
-export function installRequirements( res: any, pythonPath: string, baseDir: string): void {
+export function installRequirements( res: any, baseDir: string): void {
   sendMsgEvent(res, `Installing Python requirements...`);
   const folders = fs.readdirSync(baseDir);
   
@@ -66,7 +74,7 @@ export function installRequirements( res: any, pythonPath: string, baseDir: stri
       sendMsgEvent(res, `Installing dependencies from ${reqPath}...`);
       
       //install
-      runPython(pythonPath, ['-m', 'pip', 'install', '-r', reqPath]);
+      runPython(['-m', 'pip', 'install', '-r', reqPath]);
       //runPythonAsync(pythonPath, ['-m', 'pip', 'install', '-r', reqPath],res);
       sendMsgEvent(res, `Dependencies from ${reqPath} were successfully installed.`);
     }
@@ -75,22 +83,20 @@ export function installRequirements( res: any, pythonPath: string, baseDir: stri
 
 export async function callPythonScript(res: any): Promise<void> {
   try {
-    const mainScriptPath = '/app/python/tools/asset_extraction/main.py';
-    const toolsDir = '/app/python/tools';
-
     //clone git tools and install requiremens only if not already done!
     if (fs.existsSync(toolsDir) && fs.readdirSync(toolsDir).length > 0) {
       sendMsgEvent(res, `Tools already exist in ${toolsDir}. Skipping Git pull.`);
     } else {
       // Run the gitRepoPuller.py to clone the repo synchronously
-      const gitToolsCloner = '/app/python/git_tools_cloner.py';
+      const gitToolsCloner = path.join(pythonProjectRoot, 'git_tools_cloner.py');
       cloneGitTools(res, gitToolsCloner);
 
+      const mainScriptPath = path.join(pythonProjectRoot, 'tools', 'asset_extraction','main.py');
       if (!checkFileExists(mainScriptPath)) {
         throw new Error('main.py script not found after cloning.');
       }
       // Install Python requirements
-      installRequirements(res, pythonPath, toolsDir);
+      installRequirements(res, toolsDir);
     }
 
     //run the main.py that runs whole py pipeline
@@ -102,10 +108,15 @@ export async function callPythonScript(res: any): Promise<void> {
     const configPath = '/app/python/tools/configs';
     const outputPath = '/app/output';
     createFolder(outputPath);
-    const mainArgs = [uploadedAssetFile, '-config', configPath, '-out', outputPath];
-    mainArgs.unshift(mainScriptPath);
+    //add to run the asset extractor module
+    const mainArgs = [
+      '-m', 'asset_extraction.main',
+      uploadedAssetFile,
+      '-config', configPath,
+      '-out', outputPath
+    ];
     sendMsgEvent(res, `Running main.py...`);
-    await runPythonAsync(pythonPath, mainArgs, res); 
+    await runPythonAsync(mainArgs, res); 
     sendMsgEvent(res, `main.py executed successfully.`);
  } catch (error) {
     console.error('Error:', error);

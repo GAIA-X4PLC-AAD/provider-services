@@ -16,8 +16,8 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallb
     const fileExtension = extname(file.originalname).toLowerCase();
     const allowedFileExtensions: Record<string, string[]> = {
       'Asset'   : ['.xodr', '.xosc', '.zip', '.crg'],
+      'License'   : ['.txt', '.pdf'],
       'Document': ['.txt', '.pdf','.md'],
-      'License': ['','.txt','.md'],
       'Metadata'    : ['.json'],
       'Service'     : ['.bjson'],
       'Validation'  : ['.xqar','.txt'],
@@ -57,8 +57,8 @@ export const upload = multer({
     fileFilter
 }).fields([
     { name: 'Asset' },
-    { name: 'Document' },
     { name: 'License' },
+    { name: 'Document' },
     { name: 'Metadata' },
     { name: 'Service' },
     { name: 'Validation' },

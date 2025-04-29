@@ -64,19 +64,38 @@ app.post('/submit', async (req:Request, res:Response) => {
   if (!req.files || !req.body) {
       return res.status(400).send('No files uploaded or invalid form data');
   }
+
+  console.log(req.body);
   const files = req.files as  {[fieldname: string]: Express.Multer.File[]};
+  const licenseURL = req.body['LicenseURL']?.trim() != '';
+  const licenseType = req.body['selectedLicenseType'];
+  // reject if both file and URL are provided
+  if (files['License'] && licenseURL) {
+    return res.status(400).send('Please provide either a license file OR a license URL, not both.');
+  }
   //an array to store file metadata
-  const filesData: Array<{ filename: string, type: string , category: string, did? : string}> = [];
+  const filesData: Array<{ filename: string, type: string , category: string, license_type? : string}> = [];
   // Loop through all the file fields
   for (const fieldName in files) {
     files[fieldName].forEach((file, index) => {
-      if(fieldName != 'Asset'){
-        filesData.push(assetExtractionUtils.processFile(file));  
+      if(fieldName == 'Asset') {
+        filesData.push(assetExtractionUtils.processFile(file,true));  //is Asset file
+      } else if(fieldName == 'License') {
+        filesData.push(assetExtractionUtils.processFile(file, false, licenseType));  //is license file
+      } else {
+        filesData.push(assetExtractionUtils.processFile(file,false));  
       }
-      else{
-        const did = req.body.did;
-        filesData.push(assetExtractionUtils.processFile(file, did));   //Asset file has did
-      }
+    });
+  }
+
+  // Handle license URL if no file was uploaded and URL is present
+  if (!files['License'] && licenseURL) {
+    console.log("here!!")
+    filesData.push({
+      filename: req.body['LicenseURL'].trim(),
+      type: 'License',
+      category: 'isLicense',
+      license_type: licenseType
     });
   }
 
@@ -213,7 +232,7 @@ const WIZARD_HOST = process.env.WIZARD_HOST || 'localhost';
 app.route('/openSdWizard')
   .post((req : Request, res : Response) => {
       // Python triggers this with a POST request
-      //sdWizardUrl = 'http://localhost:80/upload'; // Set the wizard URL
+      //sdWizardUrl = 'http://localhost:80/upload'; // Set the wizard URL 
       sdWizardUrl = `http://${WIZARD_HOST}:80/upload`; // Use the host to build the URL
       res.status(200).send('SD Wizard trigger received');
   })

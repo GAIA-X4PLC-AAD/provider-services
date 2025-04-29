@@ -44,13 +44,28 @@ const form = document.getElementById('dataForm');
 
 if (form) {
     form.onsubmit = async (event) => {
+
         // User clicked submit again; disable the download button
         const downloadButton = document.getElementById('downloadButton') as HTMLButtonElement;
         if (downloadButton) {
             downloadButton.disabled = true;
         }
         event.preventDefault();
-    
+
+        // Get the license file and license URL inputs
+        const licenseFileInput = document.getElementById('License') as HTMLInputElement;
+        const licenseURLInput = document.getElementById('LicenseURL') as HTMLInputElement;
+
+        const fileSelected = licenseFileInput.files && licenseFileInput.files.length > 0;
+        const urlEntered = licenseURLInput.value.trim() !== '';
+
+        // Enforce mutual requirement: either file OR URL (not both)
+        if ( (!fileSelected && !urlEntered) || (fileSelected && urlEntered) ) {
+            alert('Please either upload a license file or enter a license URL.');
+            return;  // Stop the form submission
+        }
+
+         
         // Clear previous polling interval if it exists
         if (pollingInterval) {
             clearInterval(pollingInterval);
