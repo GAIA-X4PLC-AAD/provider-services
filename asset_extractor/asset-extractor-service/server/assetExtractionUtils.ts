@@ -28,14 +28,14 @@ export function createFolder(dirPath: string){
 const typeToCategoryMap: Record<string, string> = {
   "Asset": "isSimulationData",
   "Document": "isDocumentation",
-  "Image": "isVisualization",
-  "Video": "isVisualization",
-  "3DPreview": "isVisualization",
-  "Routing": "isVisualization",
+  "Image": "isMedia",
+  "Video": "isMedia",
+  "3DPreview": "isMedia",
+  "Routing": "isMedia",
   "MetaData": "isMetadata",
-  "Validation": "isValidation",
+  "Validation": "isValidationReport",
   "License": "isLicense",
-  "Service": "isOther"
+  "Service": "isMiscellaneous"
 };
 
 /**
